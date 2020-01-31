@@ -1,0 +1,16 @@
+{
+  "name": "/var/www/html/hello2",
+  "authors": [
+    {
+      "name": "Keller Flint",
+      "email": "kflint0068@gmail.com"
+    },
+    {
+      "name": "Laxmi Kandel",
+      "email": "laxmikandel97@gmail.com"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
