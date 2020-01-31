@@ -10,12 +10,12 @@ services:
     volumes:
       - ..\storage\docker\coding-projects-mysql-data:/var/lib/mysql
     ports:
-      - 3310:3306
+      - 3308:3306
   app:
     build: .
     volumes:
       - .:/var/www/html
     ports:
-      - 5003:80
+      - 5001:80
     depends_on:
       - database
