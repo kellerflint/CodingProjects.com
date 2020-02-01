@@ -1,4 +1,4 @@
-# CodingProjects.com
+# coding-projects
 
 Running development environment on local with Docker
 * Install docker desktop and make sure it is running on your computer
