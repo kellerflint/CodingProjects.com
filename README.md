@@ -9,4 +9,4 @@ Running development environment on local with Docker
 To enable routing for the docker container
 * Make sure the .htaccess file is in the project root
 * Run the command ```docker exec -it web_app_container_name bash``` to open a terminal inside the running docker app container
-* Run the command ````a2enmod rewrite``` and then ```service apache2 restart```. This will terminate the web_app container so you'll need to restart it with ```docker-compose up```
+* Run the command ```a2enmod rewrite``` and then ```service apache2 restart```. This will terminate the web_app container so you'll need to restart it with ```docker-compose up```
