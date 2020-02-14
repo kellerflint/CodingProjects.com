@@ -22,50 +22,14 @@ catch(PDOException $e)
 {
     echo $e-> getMessage();
 }
-//(project_id,project_title,project_image,project_description,project_category)
-//$sql = "INSERT INTO Project
-//VALUES(:project_id, :project_title, :project_image, :project_description, :project_category)";
-////prepare the statement
-//$statement = $db->prepare($sql);
-//
-//$id = 4;
-//$title = 'test1';
-//$image = 'img.png';
-//$des = 'descioesfoieiosjfoisej';
-//$cat = 'cateogy 1';
-//
-////bind the parameter
-//$statement->bindParam(':project_id', $id, PDO::PARAM_INT);
-//$statement->bindParam(':project_title', $title, PDO::PARAM_STR);
-//$statement->bindParam(':project_image', $image, PDO::PARAM_STR);
-//$statement->bindParam(':project_description', $des, PDO::PARAM_STR);
-//$statement->bindParam(':project_category', $cat, PDO::PARAM_STR);
-//
-//
-////execute
-//$statement->execute();
-//var_dump($db->errorCode());
-// var_dump();
 
-
-$sql = "SELECT * FROM Project WHERE project_id = :id";
-
-$statement= $db->prepare($sql);
-
-$id =3;
-$statement->bindParam(':id',$id,PDO::PARAM_INT);
-
-$statement->execute();
-
-
-$row= $statement -> fetch(PDO::FETCH_ASSOC);
-echo $row['project_title'];
-
+require_once "model/query_functions.php";
 
 //create an instance of the base class
 $f3 = Base::instance();
 //Define a default route
-$f3->route('GET /', function () {
+$f3->route('GET /', function ($f3) {
+    $f3->set("projects", getProjects());
     $view = new Template();
     echo $view->render('views/home.html');
 });

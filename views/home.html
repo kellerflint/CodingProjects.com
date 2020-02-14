@@ -35,36 +35,16 @@
             <button class="btn bg-light" type="button" href="#">Login</button>
         </div>
     </nav>
-    <div class="row">
-        <div class="col-4">
-            <p> Project title</p>
+    <repeat group="{{ @projects }}"
+            value="{{ @value }}">
+        <div class="item">
+            <p>{{ @value["project_title"] }}</p>
             <a href="#">
                 <img class="card-img img-fluid img-thumbnail image"
-                     src="images/picone.jpeg" alt="image"></a>
-            <div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
-                <p>Some description of the video goes here.</p>
-            </div>
+                     src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
+            <p>{{ @value["project_description"] }}</p>
         </div>
-
-        <div class="col-4">
-                <p> Project title</p>
-            <a href="#">
-                <img class="card-img img-fluid img-thumbnail image"
-                     src="images/picone.jpeg" alt="image"></a>
-                <div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
-                    <p>Some description of the video goes here.</p>
-                </div>
-        </div>
-        <div class="col-4">
-            <p> Project title</p>
-            <a href="#">
-                <img class="card-img img-fluid img-thumbnail image"
-                     src="images/picone.jpeg" alt="image"></a>
-            <div class="card-img-overlay text-white d-flex justify-content-center align-items-end">
-                <p>Some description of the video goes here.</p>
-            </div>
-        </div>
-    </div>
+    </repeat>
 </div>
 
 <!-- Optional JavaScript -->
