@@ -72,3 +72,7 @@ CREATE TABLE User_Project
 INSERT INTO Project VALUES (1, "Project 1", "test.png", "Project 1 Description", "Category 1");
 INSERT INTO Project VALUES (2, "Project 2", "test2.png", "Project 2 Description", "Category 1");
 INSERT INTO Project VALUES (3, "Project 3", "test3.png", "Project 3 Description", "Category 1");
+
+INSERT INTO Video VALUE (1, 1, "Video 1", "youtube.com", 1);
+INSERT INTO Video VALUE (2, 2, "Video 1", "youtube.com", 1);
+INSERT INTO Video VALUE (3, 3, "Video 1", "youtube.com", 1);
