@@ -8,7 +8,7 @@ session_start();
 //session_start();
 //require the autoload file
 require_once('vendor/autoload.php');
-
+//setting the connection to the database
 try{
     $db = new PDO('mysql:host=database;
          dbname=coding-projects',
@@ -28,11 +28,13 @@ require_once "model/query_functions.php";
 //create an instance of the base class
 $f3 = Base::instance();
 //Define a default route
+//call a function which gets the projects form database
 $f3->route('GET /', function ($f3) {
     $f3->set("projects", getProjects());
     $view = new Template();
     echo $view->render('views/home.html');
 });
+
 
 $f3->route('GET /player/@item', function ($f3, $param) {
 
