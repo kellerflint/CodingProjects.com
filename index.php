@@ -34,7 +34,22 @@ $f3->route('GET /', function ($f3) {
     echo $view->render('views/home.html');
 });
 
-$f3->route('GET /player', function () {
+$f3->route('GET /player/@item', function ($f3, $param) {
+
+    $f3-> set('project_id', $param['item']);
+
+   $videoArray = getVideos($param['item']);
+   foreach($videoArray as $video)
+   {
+       if($video["video_order"]==1)
+       {
+           $f3-> set('video', $video);
+            break;
+       }
+   }
+
+
+
     $view = new Template();
     echo $view->render('views/player.html');
 });

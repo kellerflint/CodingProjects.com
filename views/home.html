@@ -39,7 +39,7 @@
             value="{{ @value }}">
         <div class="item">
             <p>{{ @value["project_title"] }}</p>
-            <a href="#">
+            <a href="/player/{{ @value['project_id'] }}">
                 <img class="card-img img-fluid img-thumbnail image"
                      src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
             <p>{{ @value["project_description"] }}</p>

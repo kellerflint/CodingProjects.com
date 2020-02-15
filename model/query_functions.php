@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Gets all the projects
+ * @return array projects associate array
+ */
 function getProjects() {
     global $db;
 
@@ -13,6 +16,28 @@ function getProjects() {
     $result = $statement -> fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+/**
+ * Get the videos at the given project id
+ * @param $project_id int id of the project
+ * @return array videos associate array for the given project id
+ */
+function getVideos($project_id) {
+    global $db;
+
+    $sql = "SELECT * FROM Video WHERE project_id = :project_id ";
+
+    $statement= $db->prepare($sql);
+
+    $statement->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+
+    $statement->execute();
+
+    $result = $statement -> fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
 
 
 
