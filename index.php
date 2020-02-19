@@ -8,24 +8,13 @@ session_start();
 //session_start();
 //require the autoload file
 require_once('vendor/autoload.php');
-//setting the connection to the database
-try {
-    $db = new PDO('mysql:host=database;
-         dbname=coding-projects',
-        'root',
-        'password');
-
-    echo "connected to database";
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
-
-require_once "model/query_functions.php";
 
 //create an instance of the base class
 $f3 = Base::instance();
 
+$db = new Database();
 $controller = new PlayerProjectController($f3);
+
 //Define a default route
 //call a function which gets the projects form database
 $f3->route('GET /', function ($f3) {

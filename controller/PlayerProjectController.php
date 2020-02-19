@@ -9,21 +9,23 @@ class PlayerProjectController
         $this->_f3 = $f3;
     }
 
-    function projectsPage() {
-        $this->_f3->set("projects", getProjects());
+    function projectsPage()
+    {
+        global $db;
+        $this->_f3->set("projects", $db->getProjects());
         $view = new Template();
         echo $view->render('views/home.html');
     }
 
-    function videoPlayer($param) {
-        $this->_f3-> set('project_id', $param['item']);
+    function videoPlayer($param)
+    {
+        global $db;
+        $this->_f3->set('project_id', $param['item']);
 
-        $videoArray = getVideos($param['item']);
-        foreach($videoArray as $video)
-        {
-            if($video["video_order"]==1)
-            {
-                $this->_f3-> set('video', $video);
+        $videoArray = $db->getVideos($param['item']);
+        foreach ($videoArray as $video) {
+            if ($video["video_order"] == 1) {
+                $this->_f3->set('video', $video);
                 break;
             }
         }
@@ -31,8 +33,10 @@ class PlayerProjectController
         echo $view->render('views/player.html');
     }
 
-    function sessionsPage() {
-        $this->_f3->set("session", getSession());
+    function sessionsPage()
+    {
+        global $db;
+        $this->_f3->set("session", $db->getSession());
         $view = new Template();
         echo $view->render('views/sessions.html');
     }
