@@ -19,8 +19,8 @@
 <repeat group="{{ @session }}"
         value="{{ @value }}">
     <div class="item border border-primary col-4">
-        <p>{{ @value["user_id"] }}</p>
-        <p>{{ @value["session_id"] }}</p>
+        <p>{{ @value['session_title'] }}</p>
+        <p>{{ @value['session_description'] }}</p>
 
     </div>
 </repeat>
