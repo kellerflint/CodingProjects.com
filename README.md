@@ -6,6 +6,9 @@ Running development environment on local with Docker
 * The default url is localhost:5001/
 * To run composer for the first time on your docker server, use ```docker exec -it app_name bash``` and run ```composer install```
 
+To update composer
+* ```docker exec -it codingprojectscom_app_1 bash``` and then run ```composer update```
+
 To enable routing for the docker container
 * Make sure the .htaccess file is in the project root
 * Run the command ```docker exec -it app_name bash``` to open a terminal inside the running docker app container
