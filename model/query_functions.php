@@ -1,4 +1,16 @@
 <?php
+
+// example add project function to show how to insert things
+function addProject() {
+    global $db;
+
+    $sql = "INSERT INTO Project VALUES (DEFAULT, \"Project Another\", \"project.png\", \"descript\", \"Category 1\")";
+
+    $statement = $db->prepare($sql);
+
+    return $statement->execute();
+}
+
 /**
  * Gets all the projects
  * @return array projects associate array
