@@ -49,11 +49,20 @@ $f3->route('GET /player/@item', function ($f3, $param) {
             break;
        }
    }
+    $view = new Template();
+    echo $view->render('views/player.html');
+});
 
+//setting route for sessions page
+$f3->route('GET /sessions', function ($f3) {
+    $f3->set("sessions", getSessions());
+    $f3->set("session",getSession());
+
+   $session_array =  getSession();
 
 
     $view = new Template();
-    echo $view->render('views/player.html');
+    echo $view->render('views/sessions.html');
 });
 
 //run fat free

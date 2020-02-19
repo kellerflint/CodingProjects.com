@@ -37,6 +37,66 @@ function getVideos($project_id) {
     return $result;
 }
 
+function getSessions()
+{
+    global $db;
+
+    $sql = "SELECT * FROM Session";
+
+    $statement= $db->prepare($sql);
+
+    $statement->execute();
+
+
+    $result = $statement -> fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+function getSession()
+{
+    global $db;
+    $sql = "SELECT * FROM User_Session 
+        WHERE user_id = 1";
+
+
+//
+//    SELECT s.session_id, s.session_title,s.session_description, us.user_id
+//FROM Session s,User_Session us
+//WHERE us.user_id = 1;
+
+
+//    SELECT session_id, session_title,session_description,user_id FROM Session, User
+//WHERE user_id=2;
+//
+    $statement = $db->prepare($sql);
+
+    $statement->execute();
+
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+//
+//    foreach ($result as $session) {
+////         var_dump($session);
+//        $session_id = $session['session_id'] . " ";
+////        echo $session_id;
+//
+//        /*$sql = "SELECT * FROM Session
+//                WHERE session_id = $session_id";*/
+//
+//
+//        $sql = "SELECT s.session_id, s.session_title,s.session_description, us.user_id
+//FROM Session s,User_Session us
+//WHERE us.user_id = $session_id";
+//
+//        $statement = $db->prepare($sql);
+//        $statement->execute();
+//        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+//    }
+//    return $result;
+//}
+
 
 
 
