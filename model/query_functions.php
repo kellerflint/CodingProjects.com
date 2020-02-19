@@ -1,12 +1,15 @@
 <?php
 
 // example add project function to show how to insert things
-function addProject() {
+function addProject($name) {
     global $db;
 
-    $sql = "INSERT INTO Project VALUES (DEFAULT, \"Project Another\", \"project.png\", \"descript\", \"Category 1\")";
+    $sql = "INSERT INTO Project VALUES (DEFAULT, :projectName, \"project.png\", \"descript\", \"Category 1\")";
 
     $statement = $db->prepare($sql);
+
+    $statement->bindParam(":projectName", $name);
+
 
     return $statement->execute();
 }
