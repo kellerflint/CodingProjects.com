@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Player</title>
-    <link rel="stylesheet" type="text/css" href="styles/player.css">
-</head>
-<body>
+{{ require_once "views/header.html" }}
+
 <h1>Project Title </h1>
 <p>{{ @video['video_title'] }}</p>
 <div>
@@ -15,5 +9,5 @@
 <button id="last" class="inline">Last</button>
 <p id="progress" class="inline">{{ @video['video_order'] }}</p>
 <button id="next" class="inline">Next</button>
-</body>
-</html>
+
+{{ require_once "views/footer.html" }}
