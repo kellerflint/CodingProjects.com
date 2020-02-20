@@ -4,6 +4,7 @@ CREATE TABLE User
     user_name varchar(255) NOT NULL,
     user_nickname varchar(255) NOT NULL,
     user_password varchar(255) NOT NULL,
+    user_hashed_password varchar(255) NULL,
     user_is_admin tinyint NOT NULL,
 
     PRIMARY KEY (user_id)
@@ -13,7 +14,7 @@ CREATE TABLE Session
 (
     session_id int NOT NULL AUTO_INCREMENT,
     session_title varchar(255) NOT NULL,
-    session_description varchar(5000),
+    session_description varchar(5000) NOT NULL,
 
     PRIMARY KEY (session_id)
 );
@@ -21,10 +22,10 @@ CREATE TABLE Session
 CREATE TABLE Project
 (
     project_id int NOT NULL AUTO_INCREMENT,
-    project_title varchar(255),
-    project_image varchar(255),
-    project_description varchar(5000),
-    project_category varchar(255),
+    project_title varchar(255) NOT NULL,
+    project_image varchar(255) NULL,
+    project_description varchar(5000) NOT NULL,
+    project_category varchar(255) NOT NULL,
 
     PRIMARY KEY (project_id)
 );
@@ -77,8 +78,8 @@ INSERT INTO Video VALUE (1, 1, "Project 1 Video", "youtube.com", 1);
 INSERT INTO Video VALUE (2, 2, "Project 2 Video", "youtube.com", 1);
 INSERT INTO Video VALUE (3, 3, "Project 3 Video", "youtube.com", 1);
 
-INSERT INTO User VALUES (1, "User 1", "user1", "1234", 0);
-INSERT INTO User VALUES (2, "User 2", "user2", "1234", 0);
+INSERT INTO User VALUES (1, "User 1", "user1", "1234", NULL, 0);
+INSERT INTO User VALUES (2, "User 2", "user2", "1234", NULL, 0);
 
 INSERT INTO Session VALUES (1, "Session 1", "Session 1 description");
 INSERT INTO Session VALUES (2, "Session 2", "Session 2 description");
