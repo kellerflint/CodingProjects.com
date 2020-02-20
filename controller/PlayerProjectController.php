@@ -23,6 +23,7 @@ class PlayerProjectController
         $this->_f3->set('project_id', $param['item']);
 
         $videoArray = $db->getVideos($param['item']);
+
         foreach ($videoArray as $video) {
             if ($video["video_order"] == 1) {
                 $this->_f3->set('video', $video);

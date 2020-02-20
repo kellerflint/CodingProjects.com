@@ -53,29 +53,15 @@ class Database
      */
     function getVideos($project_id)
     {
-        $sql = "SELECT * FROM Video WHERE project_id = :project_id ";
+        $sql = "SELECT * FROM Video WHERE project_id = :project_id";
 
         $statement = $this->_db->prepare($sql);
 
-        $statement->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+        $statement->bindParam(':project_id', $project_id);
 
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    function getSessions()
-    {
-        $sql = "SELECT * FROM Session";
-
-        $statement = $this->_db->prepare($sql);
-
-        $statement->execute();
-
-
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
         return $result;
     }
 

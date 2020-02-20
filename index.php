@@ -17,7 +17,7 @@ $controller = new PlayerProjectController($f3);
 
 //Define a default route
 //call a function which gets the projects form database
-$f3->route('GET /', function ($f3) {
+$f3->route('GET /', function () {
     global $controller;
     $controller->projectsPage();
 });
@@ -29,7 +29,7 @@ $f3->route('GET /player/@item', function ($f3, $param) {
 });
 
 //setting route for sessions page
-$f3->route('GET /sessions', function ($f3) {
+$f3->route('GET /sessions', function () {
     global $controller;
     $controller->sessionsPage();
 });

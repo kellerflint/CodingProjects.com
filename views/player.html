@@ -7,13 +7,13 @@
 </head>
 <body>
 <h1>Project Title </h1>
-<p>{{@video['video_title']}}</p>
+<p>{{ @video['video_title'] }}</p>
 <div>
-    <iframe width="1344" height="756" src="{{@video['video_url']}}" frameborder="0"
+    <iframe width="1344" height="756" src="{{ @video['video_url'] }}" frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <button id="last" class="inline">Last</button>
-<p id="progress" class="inline">{{@video['video_order']}}</p>
+<p id="progress" class="inline">{{ @video['video_order'] }}</p>
 <button id="next" class="inline">Next</button>
 </body>
 </html>
