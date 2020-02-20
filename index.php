@@ -13,7 +13,7 @@ require_once('vendor/autoload.php');
 $f3 = Base::instance();
 
 $db = new Database();
-$controller = new PlayerProjectController($f3);
+$controller = new Controller($f3);
 
 //Define a default route
 //call a function which gets the projects form database
@@ -32,6 +32,11 @@ $f3->route('GET /player/@item', function ($f3, $param) {
 $f3->route('GET /sessions', function () {
     global $controller;
     $controller->sessionsPage();
+});
+
+$f3->route('GET /login', function() {
+    global $controller;
+    $controller->loginPage();
 });
 
 //run fat free

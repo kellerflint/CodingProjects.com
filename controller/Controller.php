@@ -1,6 +1,6 @@
 <?php
 
-class PlayerProjectController
+class Controller
 {
     private $_f3;
 
@@ -40,5 +40,10 @@ class PlayerProjectController
         $this->_f3->set("session", $db->getSession());
         $view = new Template();
         echo $view->render('views/sessions.html');
+    }
+
+    function loginPage() {
+        $view = new Template();
+        echo $view->render('views/login.html');
     }
 }
