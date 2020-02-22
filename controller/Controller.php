@@ -48,16 +48,19 @@ class Controller
         global $db;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->_f3->set("username", $_POST["username"]);
+
             $user = $db->getUser($_POST["username"], $_POST["password"]);
-            $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
-                $user["user_nickname"], $user["user_is_admin"]);
-            echo "<pre>";
-            var_dump($_SESSION['user']);
-        } else {
 
-
-            $view = new Template();
-            echo $view->render('views/login.html');
+            if (!empty($user)) {
+                $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
+                    $user["user_nickname"], $user["user_is_admin"]);
+                $this->_f3->reroute('/');
+            }
         }
+
+        $view = new Template();
+        echo $view->render('views/login.html');
+
     }
 }
