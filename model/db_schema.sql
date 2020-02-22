@@ -19,15 +19,26 @@ CREATE TABLE Session
     PRIMARY KEY (session_id)
 );
 
+CREATE TABLE Category
+(
+    category_id int NOT NULL AUTO_INCREMENT,
+    category_title varchar(255) NOT NULL,
+    category_description varchar(5000) NULL,
+    category_order int NOT NULL,
+
+    PRIMARY KEY (category_id)
+);
+
 CREATE TABLE Project
 (
     project_id int NOT NULL AUTO_INCREMENT,
     project_title varchar(255) NOT NULL,
     project_image varchar(255) NULL,
     project_description varchar(5000) NOT NULL,
-    project_category varchar(255) NOT NULL,
+    category_id int,
 
-    PRIMARY KEY (project_id)
+    PRIMARY KEY (project_id),
+    FOREIGN KEY (category_id) REFERENCES Category (category_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Video
@@ -70,9 +81,12 @@ CREATE TABLE User_Project
 
 /* Test Data */
 
-INSERT INTO Project VALUES (1, "Project 1", "test.png", "Project 1 Description", "Category 1");
-INSERT INTO Project VALUES (2, "Project 2", "test2.png", "Project 2 Description", "Category 1");
-INSERT INTO Project VALUES (3, "Project 3", "test3.png", "Project 3 Description", "Category 1");
+INSERT INTO Category VALUES (1, "Scratch", "Description of Scratch", 1);
+INSERT INTO Category VALUES (2, "Web Dev", "Description of Web Dev", 2);
+
+INSERT INTO Project VALUES (1, "Project 1", "test.png", "Project 1 Description", 1);
+INSERT INTO Project VALUES (2, "Project 2", "test2.png", "Project 2 Description", 1);
+INSERT INTO Project VALUES (3, "Project 3", "test3.png", "Project 3 Description", 2);
 
 INSERT INTO Video VALUE (1, 1, "Project 1 Video", "youtube.com", 1);
 INSERT INTO Video VALUE (2, 2, "Project 2 Video", "youtube.com", 1);
