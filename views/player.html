@@ -4,7 +4,9 @@
 <p>{{ @video['video_title'] }}</p>
 <div>
     <iframe width="1344" height="756" src="{{ @video['video_url'] }}" frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+    </iframe>
 </div>
 <button id="last" class="inline">Last</button>
 <p id="progress" class="inline">{{ @video['video_order'] }}</p>
