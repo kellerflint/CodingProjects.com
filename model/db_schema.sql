@@ -78,8 +78,8 @@ INSERT INTO Video VALUE (1, 1, "Project 1 Video", "youtube.com", 1);
 INSERT INTO Video VALUE (2, 2, "Project 2 Video", "youtube.com", 1);
 INSERT INTO Video VALUE (3, 3, "Project 3 Video", "youtube.com", 1);
 
-INSERT INTO User VALUES (1, "User 1", "user1", "1234", NULL, 0);
-INSERT INTO User VALUES (2, "User 2", "user2", "1234", NULL, 0);
+INSERT INTO User VALUES (1, "user1", "User 1", "1234", NULL, 0);
+INSERT INTO User VALUES (2, "user2", "User 2", "1234", NULL, 0);
 
 INSERT INTO Session VALUES (1, "Session 1", "Session 1 description");
 INSERT INTO Session VALUES (2, "Session 2", "Session 2 description");
