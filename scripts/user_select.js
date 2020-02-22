@@ -3,6 +3,4 @@ $('#userSelect').on("change", function () {
 
     $('#userForm').submit();
     console.log("changed");
-
-
 });

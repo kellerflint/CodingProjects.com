@@ -117,4 +117,12 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    function updateUser($id, $name, $nickName,$password)
+    {
+        $sql = "UPDATE User 
+                SET user_name = ?, user_nickname = ?, user_password=?
+                WHERE user_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$name, $nickName, $password,$id]);
+    }
 }

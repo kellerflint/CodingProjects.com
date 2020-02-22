@@ -84,9 +84,16 @@ class Controller
                     $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
                 }
             }
+            if(isset($_POST['userUpdate'])){
+                //TODO check for user id less than 0
+                if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])){
+                    $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"],$_POST['password']);
+                }
+            }
+            // MUST BE LAST
             if(isset($_POST['userId']))
             {
-               $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
+                $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
             }
         }
         $this->_f3->set("session", $db->getSessionById($param['id']));

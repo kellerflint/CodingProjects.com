@@ -21,22 +21,22 @@
             </div>
             <div class="form-group">
                 <label for="userName">Username</label>
-                <input type="text" class="form-control" id="userName" name="title"
+                <input type="text" class="form-control" id="userName" name="name"
                        value="{{ @selectedUser['user_name'] }}">
             </div>
             <div class="form-group">
                 <label for="nickName">Nick Name</label>
-                <input type="text" class="form-control" id="nickName" name="title"
+                <input type="text" class="form-control" id="nickName" name="nickName"
                        value="{{ @selectedUser['user_nickname']}}">
             </div>
             <div class="form-group">
                 <label for="password">Password </label>
-                <input type="text" class="form-control" id="password" name="title"
+                <input type="text" class="form-control" id="password" name="password"
                        value="{{ @selectedUser['user_password'] }}">
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary" name="userUpdate" value="userUpdate">Update</button>
             <button type="submit" class="btn btn-primary">Copy</button>
-            <button type="submit" class="btn btn-primary">Delete</button>
+            <button type="submit" class="btn btn-primary" name="userDelete" value="userDelete">Delete</button>
         </form>
     </div>
 
