@@ -31,7 +31,26 @@
         </div>
     </div>
     <div class="float-lg-right">
-        <button class="btn bg-light" type="button" href="#">Login</button>
+        <check if="{{isset(@SESSION.user)}}">
+            <true>
+                <div class="dropdown">
+                    <button class="btn bg-light dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        {{@SESSION.user->getUserName()}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/logout"> Logout</a>
+                        <a class="dropdown-item" href="/sessions"> Sessions</a>
+                    </div>
+                </div>
+            </true>
+            <false>
+                <a href="/login">
+                    <button class="btn bg-light" type="button" >Login</button>
+                </a>
+            </false>
+        </check>
     </div>
 </nav>
 <div class="container">

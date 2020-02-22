@@ -41,5 +41,11 @@ $f3->route('GET|POST /login', function() {
     $controller->loginPage();
 });
 
+$f3->route('GET|POST /logout', function() {
+    global $controller;
+    $controller->logout();
+
+});
+
 //run fat free
 $f3->run();

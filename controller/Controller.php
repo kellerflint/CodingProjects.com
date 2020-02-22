@@ -44,6 +44,9 @@ class Controller
 
     function loginPage()
     {
+        if(isset($_SESSION['user'])){
+            $this->_f3->reroute('/');
+        }
 
         global $db;
 
@@ -58,9 +61,14 @@ class Controller
                 $this->_f3->reroute('/');
             }
         }
-
         $view = new Template();
         echo $view->render('views/login.html');
 
+    }
+
+    function logout()
+    {
+        session_destroy();
+        $this->_f3->reroute('/login');
     }
 }
