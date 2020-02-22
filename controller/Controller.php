@@ -74,10 +74,15 @@ class Controller
 
     function editSessionPage($param)
     {
+        // TODO: check user permission level before update
         global $db;
 
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
+                $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
+            }
+        }
         $this->_f3->set("session", $db->getSessionById($param['id']));
-
 
         $view = new Template();
         echo $view->render("/views/session_edit.html");

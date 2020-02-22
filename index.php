@@ -2,6 +2,7 @@
 //session_start();
 //require the autoload file
 require_once('vendor/autoload.php');
+require_once('model/validation.php');
 
 //THIS IS OUR CONTROLLER
 //Turn on error reporting

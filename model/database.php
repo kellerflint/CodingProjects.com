@@ -88,7 +88,8 @@ class Database
         return $resultSession;
     }
 
-    function getSessionById($id) {
+    function getSessionById($id)
+    {
         $sql = "SELECT * FROM Session WHERE session_id = :session_id";
 
         $statement = $this->_db->prepare($sql);
@@ -101,7 +102,6 @@ class Database
     }
 
 
-
     function getUser($userName, $password)
     {
         $sql = "SELECT * FROM User WHERE user_name = :userName AND user_password = :password";
@@ -110,5 +110,16 @@ class Database
         $statement->bindParam(':password', $password);
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function updateSession($id, $title, $description)
+    {
+        $sql = "UPDATE Session 
+                SET session_title = ?, session_description = ? 
+                WHERE session_id = ?";
+
+        $statement = $this->_db->prepare($sql);
+
+        $statement->execute([$title, $description, $id]);
     }
 }
