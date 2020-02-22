@@ -85,4 +85,15 @@ class Database
         }
         return $resultSession;
     }
+
+
+    function getUser($userName, $password)
+    {
+        $sql = "SELECT * FROM User WHERE user_name = :userName AND user_password = :password";
+        $statement = $this->_db->prepare($sql);
+        $statement->bindParam(':userName', $userName);
+        $statement->bindParam(':password', $password);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }

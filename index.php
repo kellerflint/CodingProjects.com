@@ -34,7 +34,7 @@ $f3->route('GET /sessions', function () {
     $controller->sessionsPage();
 });
 
-$f3->route('GET /login', function() {
+$f3->route('GET|POST /login', function() {
     global $controller;
     $controller->loginPage();
 });

@@ -43,7 +43,19 @@ class Controller
     }
 
     function loginPage() {
-        $view = new Template();
-        echo $view->render('views/login.html');
+
+        global $db;
+
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+//            getUser("user1","1234");
+            echo "<pre>";
+            var_dump($db->getUser("user2","1234"));
+        }
+        else {
+
+
+            $view = new Template();
+            echo $view->render('views/login.html');
+        }
     }
 }
