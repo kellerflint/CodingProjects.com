@@ -94,11 +94,20 @@ INSERT INTO Video VALUE (3, 3, "Project 3 Video", "https://www.youtube.com/embed
 
 INSERT INTO User VALUES (1, "user1", "User 1", "1234", NULL, 0);
 INSERT INTO User VALUES (2, "user2", "User 2", "1234", NULL, 0);
+INSERT INTO User VALUES (3, "user3", "User 3", "1234", NULL, 0);
+INSERT INTO User VALUES (4, "user4", "User 4", "1234", NULL, 0);
+INSERT INTO User VALUES (5, "user5", "User 5", "1234", NULL, 0);
 
 INSERT INTO Session VALUES (1, "Session 1", "Session 1 description");
 INSERT INTO Session VALUES (2, "Session 2", "Session 2 description");
 INSERT INTO Session VALUES (3, "Session 3", "Session 3 description");
 
 INSERT INTO User_Session VALUES (1, 1, NOW(), NULL, "admin");
+INSERT INTO User_Session VALUES (2, 1, NOW(), NULL, "user");
+INSERT INTO User_Session VALUES (3, 1, NOW(), NULL, "user");
+INSERT INTO User_Session VALUES (4, 1, NOW(), NULL, "user");
+INSERT INTO User_Session VALUES (5, 1, NOW(), NULL, "user");
+
+
 INSERT INTO User_Session VALUES (1, 2, NOW(), NULL, "user");
 INSERT INTO User_Session VALUES (2, 3, NOW(), NULL, "admin");
