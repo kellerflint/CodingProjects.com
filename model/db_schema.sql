@@ -1,7 +1,7 @@
 CREATE TABLE User
 (
     user_id int NOT NULL AUTO_INCREMENT,
-    user_name varchar(255) NOT NULL,
+    user_name varchar(255) UNIQUE NOT NULL,
     user_nickname varchar(255) NOT NULL,
     user_password varchar(255) NOT NULL,
     user_hashed_password varchar(255) NULL,
