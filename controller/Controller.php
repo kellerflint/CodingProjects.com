@@ -53,7 +53,7 @@ class Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->_f3->set("username", $_POST["username"]);
 
-            $user = $db->getUser($_POST["username"], $_POST["password"]);
+            $user = $db->userLogin($_POST["username"], $_POST["password"]);
 
             if (!empty($user)) {
                 $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
@@ -77,15 +77,26 @@ class Controller
         // TODO: check user permission level before update
         global $db;
 
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
-                $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
+            if (isset($_POST['update'])) {
+                if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
+                    $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
+                }
+            }
+            if(isset($_POST['userId']))
+            {
+               $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
             }
         }
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
+       $this->_f3->set("users",$db->getUsersBySession($param['id']));
+
         $view = new Template();
         echo $view->render("/views/session_edit.html");
+
+        var_dump($db->getUsersBySession($param['id']));
 
     }
 }

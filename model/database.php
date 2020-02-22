@@ -79,7 +79,7 @@ class Database
     }
 
 
-    function getUser($userName, $password)
+    function userLogin($userName, $password)
     {
         $sql = "SELECT * FROM User WHERE user_name = ? AND user_password = ?";
         $statement = $this->_db->prepare($sql);
@@ -99,4 +99,22 @@ class Database
 
         $statement->execute([$title, $description, $id]);
     }
+
+    function getUsersBySession($session_id)
+    {
+        $sql = "SELECT User.user_id, User.user_nickname FROM User 
+            INNER JOIN User_Session ON User.user_id = User_Session.user_id WHERE session_id=?";
+        $statement = $this->_db-> prepare($sql);
+        $statement->execute([$session_id]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getUserById($user_id)
+    {
+        $sql = "SELECT * FROM User WHERE user_id= ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$user_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
