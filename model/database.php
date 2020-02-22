@@ -16,19 +16,6 @@ class Database
         }
     }
 
-    // example add project function to show how to insert things
-    function addProject($name)
-    {
-        $sql = "INSERT INTO Project VALUES (DEFAULT, :projectName, \"project.png\", \"descript\", \"Category 1\")";
-
-        $statement = $this->_db->prepare($sql);
-
-        $statement->bindParam(":projectName", $name);
-
-
-        return $statement->execute();
-    }
-
     /**
      * Gets all the projects
      * @return array projects associate array
@@ -41,9 +28,7 @@ class Database
 
         $statement->execute();
 
-
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -53,36 +38,30 @@ class Database
      */
     function getVideos($project_id)
     {
-        $sql = "SELECT * FROM Video WHERE project_id = :project_id";
+        $sql = "SELECT * FROM Video WHERE project_id = ?";
 
         $statement = $this->_db->prepare($sql);
 
-        $statement->bindParam(':project_id', $project_id);
+        $statement->execute([$project_id]);
 
-        $statement->execute();
-
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getSession()
     {
-        $sql = "SELECT * FROM User_Session WHERE user_id =:user_id";
+        $sql = "SELECT * FROM User_Session WHERE user_id = ?";
 
         $statement = $this->_db->prepare($sql);
-        $statement->bindParam(':user_id', $_SESSION['user']->getUserId());
 
-
-        $statement->execute();
+        $statement->execute([$_SESSION['user']->getUserId()]);
 
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $resultSession = array();
         foreach ($result as $session) {
-            $sql = "SELECT * FROM Session WHERE session_id = :session_id";
+            $sql = "SELECT * FROM Session WHERE session_id = ?";
             $statementSession = $this->_db->prepare($sql);
-            $statementSession->bindParam(':session_id', $session['session_id']);
-            $statementSession->execute();
+            $statementSession->execute([$session['session_id']]);
             array_push($resultSession, $statementSession->fetch(PDO::FETCH_ASSOC));
         }
         return $resultSession;
@@ -90,13 +69,11 @@ class Database
 
     function getSessionById($id)
     {
-        $sql = "SELECT * FROM Session WHERE session_id = :session_id";
+        $sql = "SELECT * FROM Session WHERE session_id = ?";
 
         $statement = $this->_db->prepare($sql);
 
-        $statement->bindParam(':session_id', $id);
-
-        $statement->execute();
+        $statement->execute([$id]);
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
@@ -104,11 +81,11 @@ class Database
 
     function getUser($userName, $password)
     {
-        $sql = "SELECT * FROM User WHERE user_name = :userName AND user_password = :password";
+        $sql = "SELECT * FROM User WHERE user_name = ? AND user_password = ?";
         $statement = $this->_db->prepare($sql);
-        $statement->bindParam(':userName', $userName);
-        $statement->bindParam(':password', $password);
-        $statement->execute();
+
+        $statement->execute([$userName, $password]);
+
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
