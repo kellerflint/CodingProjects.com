@@ -67,9 +67,11 @@ class Database
 
     function getSession()
     {
-        $sql = "SELECT * FROM User_Session WHERE user_id = 2";
+        $sql = "SELECT * FROM User_Session WHERE user_id =:user_id";
 
         $statement = $this->_db->prepare($sql);
+        $statement->bindParam(':user_id', $_SESSION['user']->getUserId());
+
 
         $statement->execute();
 
