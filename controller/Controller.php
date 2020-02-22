@@ -42,16 +42,18 @@ class Controller
         echo $view->render('views/sessions.html');
     }
 
-    function loginPage() {
+    function loginPage()
+    {
 
         global $db;
 
-        if($_SERVER['REQUEST_METHOD']=='POST'){
-//            getUser("user1","1234");
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $user = $db->getUser($_POST["username"], $_POST["password"]);
+            $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
+                $user["user_nickname"], $user["user_is_admin"]);
             echo "<pre>";
-            var_dump($db->getUser("user2","1234"));
-        }
-        else {
+            var_dump($_SESSION['user']);
+        } else {
 
 
             $view = new Template();

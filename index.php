@@ -1,13 +1,15 @@
 <?php
+//session_start();
+//require the autoload file
+require_once('vendor/autoload.php');
+
 //THIS IS OUR CONTROLLER
 //Turn on error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start();
 
-//session_start();
-//require the autoload file
-require_once('vendor/autoload.php');
+// Start the session
+session_start();
 
 //create an instance of the base class
 $f3 = Base::instance();
