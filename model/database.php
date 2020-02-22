@@ -125,4 +125,18 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$name, $nickName, $password,$id]);
     }
+    function userDelete($id)
+    {
+        $sql= "DELETE FROM User_Session WHERE user_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$id]);
+
+        $sql= "DELETE FROM User_Project WHERE user_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$id]);
+
+        $sql= "DELETE FROM User WHERE user_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$id]);
+    }
 }

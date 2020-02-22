@@ -90,6 +90,10 @@ class Controller
                     $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"],$_POST['password']);
                 }
             }
+            if(isset($_POST['userDelete'])){
+                //TODO check for user id less than 0
+                $db->userDelete($_POST['userId']);
+            }
             // MUST BE LAST
             if(isset($_POST['userId']))
             {
