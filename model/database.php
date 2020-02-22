@@ -88,6 +88,19 @@ class Database
         return $resultSession;
     }
 
+    function getSessionById($id) {
+        $sql = "SELECT * FROM Session WHERE session_id = :session_id";
+
+        $statement = $this->_db->prepare($sql);
+
+        $statement->bindParam(':session_id', $id);
+
+        $statement->execute();
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+
 
     function getUser($userName, $password)
     {

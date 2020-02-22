@@ -44,7 +44,11 @@ $f3->route('GET|POST /login', function() {
 $f3->route('GET|POST /logout', function() {
     global $controller;
     $controller->logout();
+});
 
+$f3->route('GET|POST /session-edit/@id', function($f3, $param) {
+    global $controller;
+    $controller->editSessionPage($param);
 });
 
 //run fat free

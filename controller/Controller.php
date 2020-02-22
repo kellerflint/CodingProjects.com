@@ -44,7 +44,7 @@ class Controller
 
     function loginPage()
     {
-        if(isset($_SESSION['user'])){
+        if (isset($_SESSION['user'])) {
             $this->_f3->reroute('/');
         }
 
@@ -70,5 +70,15 @@ class Controller
     {
         session_destroy();
         $this->_f3->reroute('/login');
+    }
+
+    function editSessionPage($param)
+    {
+        global $db;
+
+        $this->_f3->set("session", $db->getSessionById($param['id']));
+
+        $view = new Template();
+        $view->render("/views/session_edit.html");
     }
 }

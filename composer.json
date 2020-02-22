@@ -11,7 +11,8 @@
     }
   ],
   "require": {
-    "bcosca/fatfree-core": "dev-master"
+    "bcosca/fatfree-core": "dev-master",
+    "ext-pdo": "*"
   },
 
   "autoload": {
