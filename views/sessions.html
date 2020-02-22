@@ -1,20 +1,10 @@
 <include href="views/header.html"/>
 
-<repeat group="{{ @sessions }}"
-        value="{{ @value }}">
-    <div class="item border border-primary col-4">
-        <p>{{ @value["session_title"] }}</p>
-
-        <p>{{ @value["session_description"] }}</p>
-    </div>
-</repeat>
-
 <repeat group="{{ @session }}"
         value="{{ @value }}">
     <div class="item border border-primary col-4">
-        <p>{{ @value['session_title'] }}</p>
+        <p> <a href="/session-edit/{{@value['session_id']}}" > {{ @value['session_title'] }}</a></p>
         <p>{{ @value['session_description'] }}</p>
-
     </div>
 </repeat>
 

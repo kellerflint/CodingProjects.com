@@ -78,7 +78,9 @@ class Controller
 
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
+
         $view = new Template();
-        $view->render("/views/session_edit.html");
+        echo $view->render("/views/session_edit.html");
+
     }
 }
