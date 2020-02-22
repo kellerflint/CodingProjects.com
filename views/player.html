@@ -1,4 +1,4 @@
-{{ require_once "views/header.html" }}
+<include href="views/header.html"/>
 
 <h1>Project Title </h1>
 <p>{{ @video['video_title'] }}</p>
@@ -10,4 +10,4 @@
 <p id="progress" class="inline">{{ @video['video_order'] }}</p>
 <button id="next" class="inline">Next</button>
 
-{{ require_once "views/footer.html" }}
+<include href="views/footer.html"/>

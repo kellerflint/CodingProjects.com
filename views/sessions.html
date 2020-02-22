@@ -1,4 +1,4 @@
-{{ require_once "views/header.html" }}
+<include href="views/header.html"/>
 
 <repeat group="{{ @sessions }}"
         value="{{ @value }}">
@@ -18,4 +18,4 @@
     </div>
 </repeat>
 
-{{ require_once "views/footer.html" }}
+<include href="views/footer.html"/>
