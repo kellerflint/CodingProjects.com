@@ -1,10 +1,16 @@
 <?php
 require_once "config.php";
 
+/**
+ * Class Database
+ */
 class Database
 {
     private $_db;
 
+    /**
+     * Database constructor.
+     */
     function __construct()
     {
         try {
@@ -117,6 +123,7 @@ class Database
     }
 
     /**
+     * get user by using session_id
      * @param $session_id
      * @return array
      */
@@ -130,6 +137,7 @@ class Database
     }
 
     /**
+     * Get user by user_id
      * @param $user_id
      * @return mixed
      */
@@ -142,6 +150,7 @@ class Database
     }
 
     /**
+     * Update user if exist in database
      * @param $id
      * @param $name
      * @param $nickName
@@ -157,6 +166,7 @@ class Database
     }
 
     /**
+     * Delete session
      * @param $id
      */
     function sessionDelete($id)
@@ -171,6 +181,7 @@ class Database
     }
 
     /**
+     * Delete user
      * @param $id
      */
     function userDelete($id)
@@ -189,6 +200,7 @@ class Database
     }
 
     /**
+     * create user if not exist
      * @param $sessionId
      * @param $name
      * @param $nickName

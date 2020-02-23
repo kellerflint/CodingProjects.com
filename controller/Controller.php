@@ -1,14 +1,25 @@
 <?php
 
+/**
+ * Class Controller
+ */
 class Controller
 {
     private $_f3;//router
 
+    /**
+     * Controller constructor.
+     * @param $f3
+     */
     function __construct($f3)
     {
         $this->_f3 = $f3;
     }
 
+    /**
+     * ProjectPage
+     * creating a view for project by getting projects form database
+     */
     function projectsPage()
     {
         global $db;
@@ -17,6 +28,11 @@ class Controller
         echo $view->render('views/home.html');
     }
 
+    /**
+     * Video player
+     * creating a view for video player by getting videos form database
+     * @param $param
+     */
     function videoPlayer($param)
     {
         global $db;
@@ -34,6 +50,10 @@ class Controller
         echo $view->render('views/player.html');
     }
 
+    /**
+     * Session page
+     * creating a view for session page by getting sessions form database
+     */
     function sessionsPage()
     {
         global $db;
@@ -42,12 +62,18 @@ class Controller
         echo $view->render('views/sessions.html');
     }
 
+    /**
+     * Login page
+     * if user is set reroute to home page
+     * if user is not empty create new a object of user class
+     */
     function loginPage()
     {
-        //if user is set
+        //if user is set reroute it to home page
         if (isset($_SESSION['user'])) {
             $this->_f3->reroute('/');
         }
+
         global $db;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->_f3->set("username", $_POST["username"]);
@@ -66,12 +92,23 @@ class Controller
 
     }
 
+    /**
+     * Logout
+     * destroy session and reroute to login
+     */
     function logout()
     {
         session_destroy();
         $this->_f3->reroute('/login');
     }
 
+    /**
+     * Edit Session page
+     * Edit user
+     * Edit session
+     * Delete session and user
+     * @param $param
+     */
     function editSessionPage($param)
     {
         $test = 0;
@@ -88,6 +125,7 @@ class Controller
             }
             //delete session
             if(isset($_POST['sessionDelete'])){
+                //TODO check for user id less than 0
                 $db->sessionDelete($param['id']);
 
             }
@@ -113,7 +151,7 @@ class Controller
         }
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
-        $this->_f3->set("users", $db->getUsersBySession($param['id']));
+        $this->_f3->set("users", $db->getUsersBySession($param['id']));//gets all the user_id and user_nickname
 
         $view = new Template();
         echo $view->render("/views/session_edit.html");
