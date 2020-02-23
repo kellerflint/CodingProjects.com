@@ -74,6 +74,7 @@ class Controller
 
     function editSessionPage($param)
     {
+        $test = 0;
         // TODO: check user permission level before update
         global $db;
 
@@ -84,29 +85,31 @@ class Controller
                     $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
                 }
             }
-            if(isset($_POST['userUpdate'])){
-                //TODO check for user id less than 0
-                if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])){
-                    $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"],$_POST['password']);
+            if (isset($_POST['userUpdate'])) {
+                if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])) {
+                    if ($_POST['userId'] == "0") {
+                        $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
+                    } else {
+                        $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"], $_POST['password']);
+                    }
                 }
             }
-            if(isset($_POST['userDelete'])){
+            if (isset($_POST['userDelete'])) {
                 //TODO check for user id less than 0
                 $db->userDelete($_POST['userId']);
             }
             // MUST BE LAST
-            if(isset($_POST['userId']))
-            {
+            if (isset($_POST['userId'])) {
                 $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
             }
         }
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
-       $this->_f3->set("users",$db->getUsersBySession($param['id']));
+        $this->_f3->set("users", $db->getUsersBySession($param['id']));
 
         $view = new Template();
         echo $view->render("/views/session_edit.html");
-
+        echo "<p>" . $test . "</p>";
         var_dump($db->getUsersBySession($param['id']));
 
     }

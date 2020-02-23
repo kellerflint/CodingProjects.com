@@ -139,4 +139,19 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement -> execute([$id]);
     }
+
+    function createUser($sessionId, $name, $nickName, $password)
+    {
+
+
+        $sql = "INSERT INTO User VALUES(DEFAULT, ?, ?, ?, NULL, 0)";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$name, $nickName, $password]);
+        $id =  $this->_db->lastInsertId();
+
+        $sql = "INSERT INTO User_Session VALUES(?, ?, NOW(), NULL, 'user')";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$id, $sessionId]);
+        return $id;
+    }
 }
