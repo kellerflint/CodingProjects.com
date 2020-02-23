@@ -159,6 +159,20 @@ class Database
     /**
      * @param $id
      */
+    function sessionDelete($id)
+    {
+        $sql= "DELETE FROM User_Session WHERE session_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$id]);
+
+        $sql= "DELETE FROM Session WHERE session_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$id]);
+    }
+
+    /**
+     * @param $id
+     */
     function userDelete($id)
     {
         $sql= "DELETE FROM User_Session WHERE user_id = ?";

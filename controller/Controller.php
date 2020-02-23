@@ -78,13 +78,20 @@ class Controller
         // TODO: check user permission level before update
         global $db;
 
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            //update session
             if (isset($_POST['sessionUpdate'])) {
                 if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
-                    $db->updateSession($param['id'], $_POST["title"], $_POST["description"]);
+                    $db->updateSession($param['id'],
+                        $_POST["title"], $_POST["description"]);//$pram[id] is session id
                 }
             }
+            //delete session
+            if(isset($_POST['sessionDelete'])){
+                $db->sessionDelete($param['id']);
+
+            }
+            //update user
             if (isset($_POST['userUpdate'])) {
                 if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])) {
                     if ($_POST['userId'] == "0") {
@@ -94,6 +101,7 @@ class Controller
                     }
                 }
             }
+            //delete user
             if (isset($_POST['userDelete'])) {
                 //TODO check for user id less than 0
                 $db->userDelete($_POST['userId']);
