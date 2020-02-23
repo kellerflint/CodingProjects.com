@@ -109,8 +109,5 @@ class Controller
 
         $view = new Template();
         echo $view->render("/views/session_edit.html");
-        echo "<p>" . $test . "</p>";
-        var_dump($db->getUsersBySession($param['id']));
-
     }
 }
