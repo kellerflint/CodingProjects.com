@@ -47,6 +47,9 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return array
+     */
     function getSession()
     {
         $sql = "SELECT * FROM User_Session WHERE user_id = ?";
@@ -54,7 +57,6 @@ class Database
         $statement = $this->_db->prepare($sql);
 
         $statement->execute([$_SESSION['user']->getUserId()]);
-
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $resultSession = array();
@@ -67,6 +69,10 @@ class Database
         return $resultSession;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     function getSessionById($id)
     {
         $sql = "SELECT * FROM Session WHERE session_id = ?";
@@ -78,7 +84,12 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    /**
+     * check to see if user name and password exist in database
+     * @param $userName
+     * @param $password
+     * @return mixed
+     */
     function userLogin($userName, $password)
     {
         $sql = "SELECT * FROM User WHERE user_name = ? AND user_password = ?";
@@ -89,6 +100,11 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param $id
+     * @param $title
+     * @param $description
+     */
     function updateSession($id, $title, $description)
     {
         $sql = "UPDATE Session 
@@ -100,6 +116,10 @@ class Database
         $statement->execute([$title, $description, $id]);
     }
 
+    /**
+     * @param $session_id
+     * @return array
+     */
     function getUsersBySession($session_id)
     {
         $sql = "SELECT User.user_id, User.user_nickname FROM User 
@@ -109,6 +129,10 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param $user_id
+     * @return mixed
+     */
     function getUserById($user_id)
     {
         $sql = "SELECT * FROM User WHERE user_id= ?";
@@ -117,6 +141,12 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param $id
+     * @param $name
+     * @param $nickName
+     * @param $password
+     */
     function updateUser($id, $name, $nickName,$password)
     {
         $sql = "UPDATE User 
@@ -125,6 +155,10 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$name, $nickName, $password,$id]);
     }
+
+    /**
+     * @param $id
+     */
     function userDelete($id)
     {
         $sql= "DELETE FROM User_Session WHERE user_id = ?";
@@ -140,10 +174,15 @@ class Database
         $statement -> execute([$id]);
     }
 
+    /**
+     * @param $sessionId
+     * @param $name
+     * @param $nickName
+     * @param $password
+     * @return string
+     */
     function createUser($sessionId, $name, $nickName, $password)
     {
-
-
         $sql = "INSERT INTO User VALUES(DEFAULT, ?, ?, ?, NULL, 0)";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$name, $nickName, $password]);
