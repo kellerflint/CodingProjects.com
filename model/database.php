@@ -169,7 +169,7 @@ class Database
      * Delete session
      * @param $id
      */
-    function sessionDelete($id)
+    function deleteSession($id)
     {
         $sql= "DELETE FROM User_Session WHERE session_id = ?";
         $statement = $this->_db->prepare($sql);
@@ -184,7 +184,7 @@ class Database
      * Delete user
      * @param $id
      */
-    function userDelete($id)
+    function deleteUser($id)
     {
         $sql= "DELETE FROM User_Session WHERE user_id = ?";
         $statement = $this->_db->prepare($sql);
@@ -218,5 +218,12 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$id, $sessionId]);
         return $id;
+    }
+
+    function getUserSessionPermission($user_id, $session_id) {
+        $sql = "SELECT user_session_permission FROM User_Session WHERE user_id = ? AND session_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$user_id, $session_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC)["user_session_permission"];
     }
 }

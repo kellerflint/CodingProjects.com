@@ -111,9 +111,12 @@ class Controller
      */
     function editSessionPage($param)
     {
-        $test = 0;
-        // TODO: check user permission level before update
         global $db;
+
+        // check user permission level before update
+        if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
+            $this->_f3->reroute("/sessions");
+        }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //update session
@@ -125,8 +128,7 @@ class Controller
             }
             //delete session
             if(isset($_POST['sessionDelete'])){
-                //TODO check for user id less than 0
-                $db->sessionDelete($param['id']);
+                $db->deleteSession($param['id']);
 
             }
             //update user
@@ -141,8 +143,7 @@ class Controller
             }
             //delete user
             if (isset($_POST['userDelete'])) {
-                //TODO check for user id less than 0
-                $db->userDelete($_POST['userId']);
+                $db->deleteUser($_POST['userId']);
             }
             // MUST BE LAST
             if (isset($_POST['userId'])) {
