@@ -2,7 +2,7 @@
 require_once "config.php";
 
 /**
- * Class Database
+ * Class Database containing functions to create, read, update and delete data from database.
  */
 class Database
 {
@@ -23,8 +23,9 @@ class Database
     }
 
     /**
-     * Gets all the projects
-     * @return array projects associate array
+     * Gets all the projects.
+     *
+     * @return array Projects associate arrays.
      */
     function getProjects()
     {
@@ -39,8 +40,9 @@ class Database
 
     /**
      * Get the videos at the given project id
-     * @param $project_id int id of the project
-     * @return array videos associate array for the given project id
+     *
+     * @param $project_id int Id of the project
+     * @return array Videos associate arrays for the given project id
      */
     function getVideos($project_id)
     {
@@ -54,7 +56,9 @@ class Database
     }
 
     /**
-     * @return array
+     * Get all of the sessions for a specific user.
+     *
+     * @return array The session associative arrays for the given user.
      */
     function getSession()
     {
@@ -76,8 +80,10 @@ class Database
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * Get session information for a specific session id.
+     *
+     * @param $id int The id of the session.
+     * @return array Associative array of session data.
      */
     function getSessionById($id)
     {
@@ -91,12 +97,13 @@ class Database
     }
 
     /**
-     * check to see if user name and password exist in database
-     * @param $userName
-     * @param $password
-     * @return mixed
+     * Get a user by their login info.
+     *
+     * @param $userName string The user name.
+     * @param $password string The user password.
+     * @return array The associative array of user data.
      */
-    function userLogin($userName, $password)
+    function getUserByLogin($userName, $password)
     {
         $sql = "SELECT * FROM User WHERE user_name = ? AND user_password = ?";
         $statement = $this->_db->prepare($sql);
@@ -107,9 +114,11 @@ class Database
     }
 
     /**
-     * @param $id
-     * @param $title
-     * @param $description
+     * Update session data.
+     *
+     * @param $id int The id of the session to update.
+     * @param $title string The new title for the session.
+     * @param $description string The new description for the session.
      */
     function updateSession($id, $title, $description)
     {
@@ -123,9 +132,10 @@ class Database
     }
 
     /**
-     * get user by using session_id
-     * @param $session_id
-     * @return array
+     * Get users by the session id
+     *
+     * @param $session_id int The id of the session.
+     * @return array The user associative arrays.
      */
     function getUsersBySession($session_id)
     {
@@ -137,9 +147,10 @@ class Database
     }
 
     /**
-     * Get user by user_id
-     * @param $user_id
-     * @return mixed
+     * Get user data by the user's id
+     *
+     * @param $user_id int THe user's id.
+     * @return array The associative array of user data.
      */
     function getUserById($user_id)
     {
@@ -150,11 +161,12 @@ class Database
     }
 
     /**
-     * Update user if exist in database
-     * @param $id
-     * @param $name
-     * @param $nickName
-     * @param $password
+     * Update a user's info by their id.
+     *
+     * @param $id int The user's id.
+     * @param $name string The new user name.
+     * @param $nickName string The new user nickname.
+     * @param $password string The new user password.
      */
     function updateUser($id, $name, $nickName,$password)
     {
@@ -166,8 +178,9 @@ class Database
     }
 
     /**
-     * Delete session
-     * @param $id
+     * Delete a session.
+     *
+     * @param $id int The session's id.
      */
     function deleteSession($id)
     {
@@ -181,8 +194,9 @@ class Database
     }
 
     /**
-     * Delete user
-     * @param $id
+     * Delete a user.
+     *
+     * @param $id int The user's id.
      */
     function deleteUser($id)
     {
@@ -200,12 +214,13 @@ class Database
     }
 
     /**
-     * create user if not exist
-     * @param $sessionId
-     * @param $name
-     * @param $nickName
-     * @param $password
-     * @return string
+     * Create a new user and add them to a session.
+     *
+     * @param $sessionId int The id of the session.
+     * @param $name string The user name of the user.
+     * @param $nickName string The nickname of the user.
+     * @param $password string The password of the user.
+     * @return string The newly created user's id.
      */
     function createUser($sessionId, $name, $nickName, $password)
     {
@@ -220,6 +235,13 @@ class Database
         return $id;
     }
 
+    /**
+     * Get a user's permission level for a session.
+     *
+     * @param $user_id int The user id.
+     * @param $session_id int The session id.
+     * @return string The user's permission level for the session.
+     */
     function getUserSessionPermission($user_id, $session_id) {
         $sql = "SELECT user_session_permission FROM User_Session WHERE user_id = ? AND session_id = ?";
         $statement = $this->_db->prepare($sql);

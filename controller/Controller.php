@@ -78,7 +78,7 @@ class Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->_f3->set("username", $_POST["username"]);
 
-            $user = $db->userLogin($_POST["username"], $_POST["password"]);
+            $user = $db->getUserByLogin($_POST["username"], $_POST["password"]);
 
             if (!empty($user)) {
                 //creating an object of a user class, passed returned $user (array) as params
