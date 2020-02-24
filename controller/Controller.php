@@ -113,27 +113,28 @@ class Controller
     {
         global $db;
 
-        // check user permission level before update
+        // check user permission level before update, redirect to /sessions if user has invalid credentials
         if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
             $this->_f3->reroute("/sessions");
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            //update session
+            //update the session
             if (isset($_POST['sessionUpdate'])) {
                 if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
                 }
             }
-            //delete session
+            //delete the session
             if(isset($_POST['sessionDelete'])){
                 $db->deleteSession($param['id']);
 
             }
-            //update user
+            //update the user
             if (isset($_POST['userUpdate'])) {
                 if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])) {
+                    // If user id is 0, create a new user instead of updating and existing one
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
                     } else {
@@ -141,18 +142,24 @@ class Controller
                     }
                 }
             }
-            //delete user
+
+            //delete the user
             if (isset($_POST['userDelete'])) {
                 $db->deleteUser($_POST['userId']);
             }
-            // MUST BE LAST
+
+            // Get's the data for the currently selected user and adds it to the $f3 hive
+            // MUST BE LAST since the selectedUser's information might have been updated
             if (isset($_POST['userId'])) {
                 $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
             }
         }
+
+        // Adds session id to the hive
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
-        $this->_f3->set("users", $db->getUsersBySession($param['id']));//gets all the user_id and user_nickname
+        // Adds user user_ids and user_nicknames used to populate the user select dropdown
+        $this->_f3->set("users", $db->getUsersBySession($param['id']));
 
         $view = new Template();
         echo $view->render("/views/session_edit.html");
