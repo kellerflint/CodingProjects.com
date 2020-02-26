@@ -108,6 +108,11 @@ INSERT INTO User_Session VALUES (3, 1, NOW(), NULL, "user");
 INSERT INTO User_Session VALUES (4, 1, NOW(), NULL, "user");
 INSERT INTO User_Session VALUES (5, 1, NOW(), NULL, "user");
 
-
 INSERT INTO User_Session VALUES (1, 2, NOW(), NULL, "user");
 INSERT INTO User_Session VALUES (2, 3, NOW(), NULL, "admin");
+
+INSERT INTO User_Project VALUES(1, 1, 1, NOW());
+INSERT INTO User_Project VALUES(1, 2, 1, NOW());
+INSERT INTO User_Project VALUES(1, 3, 1, NOW());
+INSERT INTO User_Project VALUES(2, 1, 1, NULL);
+INSERT INTO User_Project VALUES(3, 1, 1, NOW());
