@@ -18,7 +18,7 @@ $db = new Database();
 $controller = new Controller($f3);
 
 // Define a default route
-$f3->route('GET /', function () {
+$f3->route('GET|POST /', function () {
     global $controller;
     $controller->projectsPage();
 });
@@ -30,7 +30,7 @@ $f3->route('GET /player/@item', function ($f3, $param) {
 });
 
 // Define sessions page route
-$f3->route('GET /sessions', function () {
+$f3->route('GET|POST /sessions', function () {
     global $controller;
     $controller->sessionsPage();
 });

@@ -23,10 +23,32 @@ class Controller
     function projectsPage()
     {
         global $db;
-        $this->_f3->set("projects", $db->getProjects());
+
+        $projects = $db->getProjects();
+
+        $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
+        $this->_f3->set("permission", $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']));
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if (!isset($_SESSION['session_id'])) {
+                $_SESSION['session_id'] = 1;
+            }
+
+
+            foreach ($projects as $key=>$value) {
+                if($db->getUserProjectDate($_POST['selectedUser'], $value['project_id'])){
+                    $projects[$key]['project_complete']= "true";
+                }
+                else{
+                    $projects[$key]['project_complete']= "false";
+                }
+            }
+        }
+        $this->_f3->set("projects", $projects);
         $view = new Template();
         echo $view->render('views/home.html');
     }
+
 
     /**
      * Video player
@@ -57,6 +79,10 @@ class Controller
     function sessionsPage()
     {
         global $db;
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $_SESSION['session_id'] = $_POST['sessionId'];
+        }
+
         $this->_f3->set("session", $db->getSession());
         $view = new Template();
         echo $view->render('views/sessions.html');
@@ -89,7 +115,6 @@ class Controller
         }
         $view = new Template();
         echo $view->render('views/login.html');
-
     }
 
     /**
@@ -127,7 +152,7 @@ class Controller
                 }
             }
             //delete the session
-            if(isset($_POST['sessionDelete'])){
+            if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
 
             }

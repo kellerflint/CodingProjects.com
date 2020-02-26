@@ -2,10 +2,21 @@
 
 <repeat group="{{ @session }}"
         value="{{ @value }}">
+    <form method="post" action="#">
+
     <div class="item border border-primary col-4">
-        <p> <a href="/session-edit/{{@value['session_id']}}" > {{ @value['session_title'] }}</a></p>
+        <p>
+            {{ @value['session_title'] }}
+        </p>
         <p>{{ @value['session_description'] }}</p>
+        <a href="/session-edit/{{@value['session_id']}}" >
+            <button type="button" >Edit Session</button></a>
+
+        <input type="hidden" name="sessionId" value="{{@value['session_id']}}">
+        <button type="submit">Connect</button>
     </div>
+
+    </form>
 </repeat>
 
 <include href="views/footer.html"/>

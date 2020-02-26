@@ -8,7 +8,29 @@
             <img class="card-img img-fluid img-thumbnail image"
                  src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
         <p>{{ @value["project_description"] }}</p>
+        <check if="{{@permission=='admin'}}">
+            <check if="{{@value['project_complete']=='true'}}">
+                <true>
+                    <button>Remove</button>
+                </true>
+                <false>
+                    <button>Give</button>
+                </false>
+            </check>
+        </check>
     </div>
 </repeat>
+<!--Displaying user list-->
+<check if="{{@permission=='admin'}}">
+    <repeat group="{{@users}}" value="{{@value}}">
+        <form method="post" action="#">
+        <div class="item">
+            <p>{{@value['user_nickname']}}</p>
+            <input type="hidden" name="selectedUser" value="{{@value['user_id']}}">
+            <button type="submit"> Select</button>
+        </div>
+        </form>
+    </repeat>
+</check>
 
 <include href="views/footer.html"/>

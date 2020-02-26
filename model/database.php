@@ -248,4 +248,14 @@ class Database
         $statement->execute([$user_id, $session_id]);
         return $statement->fetch(PDO::FETCH_ASSOC)["user_session_permission"];
     }
+
+    function getUserProjectDate($userId, $projectId)
+    {
+        $sql= "SELECT user_project_date_complete FROM User_Project
+            WHERE user_id=?  AND project_id=?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$userId, $projectId]);
+        return $statement->fetch(PDO::FETCH_ASSOC)["user_project_date_complete"];
+
+    }
 }
