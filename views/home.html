@@ -23,6 +23,11 @@
                 </check>
             </form>
         </check>
+        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+            <a href="/project-edit/{{@value['project_id']}}">
+                <button>Edit Project</button>
+            </a>
+        </check>
     </div>
 </repeat>
 <!--Displaying user list-->

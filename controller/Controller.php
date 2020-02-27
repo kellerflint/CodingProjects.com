@@ -124,7 +124,7 @@ class Controller
                         $user["user_nickname"]);
                 }
 
-                //$this->_f3->reroute('/');
+                $this->_f3->reroute('/');
             }
         }
         $view = new Template();
