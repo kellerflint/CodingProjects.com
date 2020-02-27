@@ -20,7 +20,7 @@ $controller = new Controller($f3);
 // Define a default route
 $f3->route('GET|POST /', function () {
     global $controller;
-    $controller->projectsPage();
+    $controller->homePage();
 });
 
 // Define video player route

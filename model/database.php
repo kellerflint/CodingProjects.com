@@ -263,6 +263,28 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$userId, $projectId]);
         return $statement->fetch(PDO::FETCH_ASSOC)["user_project_date_complete"];
+    }
+
+    function giveUserProject($userId, $projectId)
+    {
+        $sql = "UPDATE User_Project 
+        SET user_project_date_complete = NOW() WHERE user_id = ? AND project_id = ?";
+        $statement = $this->_db-> prepare($sql);
+        $statement->execute([$userId,$projectId]);
+
+        $sql = "INSERT INTO User_Project VALUES(?, ? ,1, NOW())";
+        $statement= $this->_db->prepare($sql);
+        $statement->execute([$userId,$projectId]);
+    }
+
+    function removeUserProject($userId, $projectId)
+    {
+        $sql = "UPDATE User_Project 
+        SET user_project_date_complete = NULL WHERE user_id = ? AND project_id = ?";
+        $statement = $this->_db-> prepare($sql);
+        $statement->execute([$userId,$projectId]);
 
     }
+
+
 }

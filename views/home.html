@@ -9,14 +9,19 @@
                  src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
         <p>{{ @value["project_description"] }}</p>
         <check if="{{@permission=='admin'}}">
-            <check if="{{@value['project_complete']=='true'}}">
-                <true>
-                    <button>Remove</button>
-                </true>
-                <false>
-                    <button>Give</button>
-                </false>
-            </check>
+            <form method="post" action="#">
+                <input type="hidden" name="selectedUser" value="{{@selectedUser}}">
+                <input type="hidden" name="selectedProject" value="{{@value['project_id']}}">
+
+                <check if="{{@value['project_complete']=='true'}}">
+                    <true>
+                        <button type="submit" name="remove" value="remove">Remove</button>
+                    </true>
+                    <false>
+                        <button type="submit" name="give" value="give">Give</button>
+                    </false>
+                </check>
+            </form>
         </check>
     </div>
 </repeat>
@@ -24,11 +29,11 @@
 <check if="{{@permission=='admin'}}">
     <repeat group="{{@users}}" value="{{@value}}">
         <form method="post" action="#">
-        <div class="item">
-            <p>{{@value['user_nickname']}}</p>
-            <input type="hidden" name="selectedUser" value="{{@value['user_id']}}">
-            <button type="submit"> Select</button>
-        </div>
+            <div class="item">
+                <p>{{@value['user_nickname']}}</p>
+                <input type="hidden" name="selectedUser" value="{{@value['user_id']}}">
+                <button type="submit"> Select</button>
+            </div>
         </form>
     </repeat>
 </check>

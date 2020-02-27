@@ -20,7 +20,7 @@ class Controller
      * ProjectPage
      * creating a view for project by getting projects form database
      */
-    function projectsPage()
+    function homePage()
     {
         global $db;
 
@@ -30,10 +30,15 @@ class Controller
         $this->_f3->set("permission", $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']));
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if (!isset($_SESSION['session_id'])) {
-                $_SESSION['session_id'] = 1;
+            if(isset($_POST["remove"])){
+                $db->removeUserProject($_POST['selectedUser'],$_POST['selectedProject']);
+
+            }
+            if(isset($_POST['give'])){
+                $db->giveUserProject($_POST['selectedUser'],$_POST['selectedProject']);
             }
 
+            $this->_f3->set("selectedUser", $_POST['selectedUser']);
             //key=pair value
             foreach ($projects as $key=>$value) {
                 //get date of user completed project
