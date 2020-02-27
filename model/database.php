@@ -58,15 +58,16 @@ class Database
     /**
      * Get all of the sessions for a specific user.
      *
+     * @param $userId
      * @return array The session associative arrays for the given user.
      */
-    function getSession()
+    function getSession($userId)
     {
-        $sql = "SELECT * FROM User_Session WHERE user_id = ?";
+        $sql = "SELECT * FROM User_Session WHERE user_id = ? ORDER BY user_session_last_login ASC";
 
         $statement = $this->_db->prepare($sql);
 
-        $statement->execute([$_SESSION['user']->getUserId()]);
+        $statement->execute([$userId]);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $resultSession = array();

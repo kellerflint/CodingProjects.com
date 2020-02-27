@@ -91,7 +91,7 @@ class Controller
             $_SESSION['session_id'] = $_POST['sessionId'];
         }
 
-        $this->_f3->set("session", $db->getSession());
+        $this->_f3->set("session", $db->getSession($_SESSION['user']->getUserId()));
         $view = new Template();
         echo $view->render('views/sessions.html');
     }
@@ -123,6 +123,7 @@ class Controller
                     $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
                         $user["user_nickname"]);
                 }
+                $_SESSION['session_id']= $db->getSession($user["user_id"])[0]['session_id'];
 
                 $this->_f3->reroute('/');
             }
