@@ -203,4 +203,10 @@ class Controller
         $view = new Template();
         echo $view->render("/views/session_edit.html");
     }
+
+    function  projectEditPage()
+    {
+        $view = new Template();
+        echo $view->render('views/project_edit.html');
+    }
 }
