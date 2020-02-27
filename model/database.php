@@ -283,8 +283,6 @@ class Database
         SET user_project_date_complete = NULL WHERE user_id = ? AND project_id = ?";
         $statement = $this->_db-> prepare($sql);
         $statement->execute([$userId,$projectId]);
-
     }
-
 
 }

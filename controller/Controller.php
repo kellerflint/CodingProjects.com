@@ -116,9 +116,15 @@ class Controller
 
             if (!empty($user)) {
                 //creating an object of a user class, passed returned $user (array) as params
-                $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
-                    $user["user_nickname"], $user["user_is_admin"]);
-                $this->_f3->reroute('/');
+                if ($user["user_is_admin"] == 1) {
+                    $_SESSION['user'] = new UserAdmin($user["user_id"], $user["user_name"],
+                        $user["user_nickname"]);
+                } else {
+                    $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
+                        $user["user_nickname"]);
+                }
+
+                //$this->_f3->reroute('/');
             }
         }
         $view = new Template();

@@ -92,7 +92,7 @@ INSERT INTO Video VALUE (1, 1, "Project 1 Video", "https://www.youtube.com/embed
 INSERT INTO Video VALUE (2, 2, "Project 2 Video", "https://www.youtube.com/embed/393W6KnRGSs", 1);
 INSERT INTO Video VALUE (3, 3, "Project 3 Video", "https://www.youtube.com/embed/393W6KnRGSs", 1);
 
-INSERT INTO User VALUES (1, "user1", "User 1", "1234", NULL, 0);
+INSERT INTO User VALUES (1, "user1", "User 1", "1234", NULL, 1);
 INSERT INTO User VALUES (2, "user2", "User 2", "1234", NULL, 0);
 INSERT INTO User VALUES (3, "user3", "User 3", "1234", NULL, 0);
 INSERT INTO User VALUES (4, "user4", "User 4", "1234", NULL, 0);
