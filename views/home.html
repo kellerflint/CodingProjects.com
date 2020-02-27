@@ -37,7 +37,15 @@
             <div class="item">
                 <p>{{@value['user_nickname']}}</p>
                 <input type="hidden" name="selectedUser" value="{{@value['user_id']}}">
-                <button type="submit"> Select</button>
+                <check if="{{ @value['user_id'] == @selectedUser }}">
+                    <true>
+                        <button type="submit" class="bg-success">Select</button>
+                    </true>
+                    <false>
+                        <button type="submit">Select</button>
+
+                    </false>
+                </check>
             </div>
         </form>
     </repeat>
