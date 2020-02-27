@@ -249,6 +249,13 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC)["user_session_permission"];
     }
 
+    /**
+     * Get users projects complete date
+     * @param $userId int The user id
+     * @param $projectId int the project id
+     * @return DATETIME
+     */
+
     function getUserProjectDate($userId, $projectId)
     {
         $sql= "SELECT user_project_date_complete FROM User_Project

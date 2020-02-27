@@ -34,8 +34,9 @@ class Controller
                 $_SESSION['session_id'] = 1;
             }
 
-
+            //key=pair value
             foreach ($projects as $key=>$value) {
+                //get date of user completed project
                 if($db->getUserProjectDate($_POST['selectedUser'], $value['project_id'])){
                     $projects[$key]['project_complete']= "true";
                 }
@@ -80,6 +81,8 @@ class Controller
     {
         global $db;
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            //while connecting sessions, it stores session id that user selected
+            //by clicking connect button from the session page
             $_SESSION['session_id'] = $_POST['sessionId'];
         }
 
