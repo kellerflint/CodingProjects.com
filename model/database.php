@@ -309,5 +309,19 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$videoTitle,$videoUrl,$videoId]);
     }
+    function removeVideo($videoId)
+    {
+        $sql = "UPDATE User_Project SET user_project_bookmark =
+                NULL WHERE user_project_bookmark = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$videoId]);
+
+        $sql= "DELETE FROM Video WHERE video_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement -> execute([$videoId]);
+
+    }
+
+
 
 }

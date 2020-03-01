@@ -215,7 +215,9 @@ class Controller
             }
             if(isset($_POST["updateVideo"])){
                 $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"]);
-
+            }
+            if(isset($_POST['removeVideo'])){
+                $db->removeVideo($_POST['videoId']);
             }
 
         }
