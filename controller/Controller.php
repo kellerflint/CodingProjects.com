@@ -66,6 +66,7 @@ class Controller
         global $db;
         $this->_f3->set('project_id', $param['item']);//$param['item'] is user selected project id
 
+
         $videoArray = $db->getVideos($param['item']);
 
         foreach ($videoArray as $video) {
@@ -205,8 +206,12 @@ class Controller
         echo $view->render("/views/session_edit.html");
     }
 
-    function  projectEditPage()
+    function  projectEditPage($param)
     {
+        global $db;
+       $this->_f3->set("videos", $db->getVideos($param['id']));
+       $this->_f3->set("project", $db->getProjectsById($param['id']));
+
         $view = new Template();
         echo $view->render('views/project_edit.html');
     }

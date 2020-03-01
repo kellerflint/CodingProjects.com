@@ -54,9 +54,9 @@ $f3->route('GET|POST /session-edit/@id', function($f3, $param) {
 });
 $f3->route('GET|POST /project-edit/@id', function($f3, $param) {
     global $controller;
-    $controller->projectEditPage();
-
+    $controller->projectEditPage($param);
 });
+
 
 //run fat free
 $f3->run();

@@ -286,4 +286,13 @@ class Database
         $statement->execute([$userId,$projectId]);
     }
 
+    function getProjectsById($project_id)
+    {
+        $sql="SELECT *FROM Project WHERE project_id=?";
+        $statement = $this->_db-> prepare($sql);
+        $statement->execute([$project_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+
+    }
+
 }

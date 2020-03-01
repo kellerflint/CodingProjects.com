@@ -91,6 +91,8 @@ INSERT INTO Project VALUES (3, "Project 3", "test3.png", "Project 3 Description"
 INSERT INTO Video VALUE (1, 1, "Project 1 Video", "https://www.youtube.com/embed/393W6KnRGSs", 1);
 INSERT INTO Video VALUE (2, 2, "Project 2 Video", "https://www.youtube.com/embed/393W6KnRGSs", 1);
 INSERT INTO Video VALUE (3, 3, "Project 3 Video", "https://www.youtube.com/embed/393W6KnRGSs", 1);
+INSERT INTO Video VALUE (4, 1, "Project 1 Video4", "https://www.youtube.com/embed/393W6KnRGSs", 1);
+INSERT INTO Video VALUE (5, 1, "Project 1 Video5", "https://www.youtube.com/embed/393W6KnRGSs", 1);
 
 INSERT INTO User VALUES (1, "user1", "User 1", "1234", NULL, 1);
 INSERT INTO User VALUES (2, "user2", "User 2", "1234", NULL, 0);
