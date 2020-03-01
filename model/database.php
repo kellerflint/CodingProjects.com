@@ -348,9 +348,5 @@ class Database
         $sql = "DELETE FROM Project  WHERE project_id=?";//deleting row if match project_id
         $statement = $this->_db->prepare($sql);
         $statement->execute([$projectId]);
-
-
     }
-
-
 }
