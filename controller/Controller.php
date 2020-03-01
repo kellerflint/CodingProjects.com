@@ -213,6 +213,11 @@ class Controller
             if (isset($_POST["updateProject"])) {
                 $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"]);
             }
+            if(isset($_POST["updateVideo"])){
+                $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"]);
+
+            }
+
         }
 
         $this->_f3->set("videos", $db->getVideos($param['id']));

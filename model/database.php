@@ -303,4 +303,11 @@ class Database
         $statement->execute([$project_title, $project_description, $project_id]);
     }
 
+    function updateVideoById($videoId,$videoTitle,$videoUrl)
+    {
+        $sql= "UPDATE Video SET video_title=?, video_url=? WHERE video_id=?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$videoTitle,$videoUrl,$videoId]);
+    }
+
 }

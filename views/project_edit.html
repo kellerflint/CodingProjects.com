@@ -21,6 +21,7 @@
                 value="{{ @value }}">
             <form method="post" action="#">
                 <div class="border mb-3">
+                    <input type="hidden" name="videoId" value="{{@value['video_id']}}">
                     <div class="form-group">
                         <label for="videoName">Video Name</label>
                         <input type="text" class="form-control" id="videoName" name="videoName"
@@ -31,7 +32,9 @@
                         <input type="text" class="form-control" id="videoUrl" name="videoUrl"
                                value="{{ @value['video_url'] }}">
                     </div>
+                    <button type="submit" name="updateVideo" value="updateVideo">Update</button>
                 </div>
+
             </form>
         </repeat>
     </div>
