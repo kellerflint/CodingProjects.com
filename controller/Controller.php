@@ -218,7 +218,7 @@ class Controller
                 $db->addVideo($param['id'],$_POST['videoName'],$_POST['videoUrl']);
                 }
                 else{
-                    $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"]);
+                    $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"], $_POST["videoOrder"]);
                 }
 
             }

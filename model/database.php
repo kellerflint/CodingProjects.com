@@ -46,7 +46,7 @@ class Database
      */
     function getVideos($project_id)
     {
-        $sql = "SELECT * FROM Video WHERE project_id = ?";
+        $sql = "SELECT * FROM Video WHERE project_id = ? ORDER BY video_order ASC";
 
         $statement = $this->_db->prepare($sql);
 
@@ -305,11 +305,11 @@ class Database
         $statement->execute([$project_title, $project_description, $project_id]);
     }
 
-    function updateVideoById($videoId, $videoTitle, $videoUrl)
+    function updateVideoById($videoId, $videoTitle, $videoUrl, $videoOrder)
     {
-        $sql = "UPDATE Video SET video_title=?, video_url=? WHERE video_id=?";
+        $sql = "UPDATE Video SET video_title = ? , video_url = ?, video_order = ? WHERE video_id=?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$videoTitle, $videoUrl, $videoId]);
+        $statement->execute([$videoTitle, $videoUrl, $videoOrder, $videoId]);
     }
 
     function removeVideo($videoId)
@@ -327,10 +327,14 @@ class Database
 
     function addVideo($projectId, $videoTitle, $videoUrl)
     {
-        $sql = "INSERT INTO Video VALUES(DEFAULT ,?,?,?,1)";
+        $sql = "SELECT MAX(video_order) FROM Video WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$projectId, $videoTitle, $videoUrl]);
+        $statement->execute([$projectId]);
+        $max = $statement->fetch(PDO::FETCH_ASSOC)['MAX(video_order)'] + 1;
 
+        $sql = "INSERT INTO Video VALUES(DEFAULT ,?,?,?,?)";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId, $videoTitle, $videoUrl, $max]);
     }
 
     function removeProject($projectId)

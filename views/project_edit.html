@@ -29,6 +29,12 @@
                         <label for="url{{@value['video_id']}}">Video URL</label>
                         <input type="text" class="form-control" id="url{{@value['video_id']}}" name="videoUrl"
                                value="{{ @value['video_url'] }}">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="order{{@value['video_id']}}">Video Order</label>
+                        <input type="text" class="form-control" id="order{{@value['video_id']}}" name="videoOrder"
+                               value="{{ @value['video_order'] }}">
                     </div>
                     <button type="submit" name="updateVideo" value="updateVideo">Update</button>
                     <button type="submit" name="removeVideo" value="removeVideo">Remove</button>
