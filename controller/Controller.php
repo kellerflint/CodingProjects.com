@@ -225,6 +225,10 @@ class Controller
             if(isset($_POST['removeVideo'])){
                 $db->removeVideo($_POST['videoId']);
             }
+            if(isset($_POST['removeProject'])){
+                $db->removeProject($param["id"]);
+                $this->_f3->reroute("/");
+            }
 
 
         }

@@ -142,7 +142,7 @@ class Database
     {
         $sql = "SELECT User.user_id, User.user_nickname FROM User 
             INNER JOIN User_Session ON User.user_id = User_Session.user_id WHERE session_id=?";
-        $statement = $this->_db-> prepare($sql);
+        $statement = $this->_db->prepare($sql);
         $statement->execute([$session_id]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -169,13 +169,13 @@ class Database
      * @param $nickName string The new user nickname.
      * @param $password string The new user password.
      */
-    function updateUser($id, $name, $nickName,$password)
+    function updateUser($id, $name, $nickName, $password)
     {
         $sql = "UPDATE User 
                 SET user_name = ?, user_nickname = ?, user_password=?
                 WHERE user_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$name, $nickName, $password,$id]);
+        $statement->execute([$name, $nickName, $password, $id]);
     }
 
     /**
@@ -185,13 +185,13 @@ class Database
      */
     function deleteSession($id)
     {
-        $sql= "DELETE FROM User_Session WHERE session_id = ?";
+        $sql = "DELETE FROM User_Session WHERE session_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$id]);
+        $statement->execute([$id]);
 
-        $sql= "DELETE FROM Session WHERE session_id = ?";
+        $sql = "DELETE FROM Session WHERE session_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$id]);
+        $statement->execute([$id]);
     }
 
     /**
@@ -201,17 +201,17 @@ class Database
      */
     function deleteUser($id)
     {
-        $sql= "DELETE FROM User_Session WHERE user_id = ?";
+        $sql = "DELETE FROM User_Session WHERE user_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$id]);
+        $statement->execute([$id]);
 
-        $sql= "DELETE FROM User_Project WHERE user_id = ?";
+        $sql = "DELETE FROM User_Project WHERE user_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$id]);
+        $statement->execute([$id]);
 
-        $sql= "DELETE FROM User WHERE user_id = ?";
+        $sql = "DELETE FROM User WHERE user_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$id]);
+        $statement->execute([$id]);
     }
 
     /**
@@ -228,7 +228,7 @@ class Database
         $sql = "INSERT INTO User VALUES(DEFAULT, ?, ?, ?, NULL, 0)";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$name, $nickName, $password]);
-        $id =  $this->_db->lastInsertId();
+        $id = $this->_db->lastInsertId();
 
         $sql = "INSERT INTO User_Session VALUES(?, ?, NOW(), NULL, 'user')";
         $statement = $this->_db->prepare($sql);
@@ -243,7 +243,8 @@ class Database
      * @param $session_id int The session id.
      * @return string The user's permission level for the session.
      */
-    function getUserSessionPermission($user_id, $session_id) {
+    function getUserSessionPermission($user_id, $session_id)
+    {
         $sql = "SELECT user_session_permission FROM User_Session WHERE user_id = ? AND session_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$user_id, $session_id]);
@@ -259,7 +260,7 @@ class Database
 
     function getUserProjectDate($userId, $projectId)
     {
-        $sql= "SELECT user_project_date_complete FROM User_Project
+        $sql = "SELECT user_project_date_complete FROM User_Project
             WHERE user_id=?  AND project_id=?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$userId, $projectId]);
@@ -270,32 +271,33 @@ class Database
     {
         $sql = "UPDATE User_Project 
         SET user_project_date_complete = NOW() WHERE user_id = ? AND project_id = ?";
-        $statement = $this->_db-> prepare($sql);
-        $statement->execute([$userId,$projectId]);
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$userId, $projectId]);
 
         $sql = "INSERT INTO User_Project VALUES(?, ? ,1, NOW())";
-        $statement= $this->_db->prepare($sql);
-        $statement->execute([$userId,$projectId]);
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$userId, $projectId]);
     }
 
     function removeUserProject($userId, $projectId)
     {
         $sql = "UPDATE User_Project 
         SET user_project_date_complete = NULL WHERE user_id = ? AND project_id = ?";
-        $statement = $this->_db-> prepare($sql);
-        $statement->execute([$userId,$projectId]);
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$userId, $projectId]);
     }
 
     function getProjectsById($project_id)
     {
-        $sql="SELECT *FROM Project WHERE project_id=?";
-        $statement = $this->_db-> prepare($sql);
+        $sql = "SELECT *FROM Project WHERE project_id=?";
+        $statement = $this->_db->prepare($sql);
         $statement->execute([$project_id]);
         return $statement->fetch(PDO::FETCH_ASSOC);
 
     }
 
-    function updateProject($project_id, $project_title, $project_description) {
+    function updateProject($project_id, $project_title, $project_description)
+    {
         $sql = "UPDATE Project SET project_title = ?, project_description = ? WHERE project_id = ?";
 
         $statement = $this->_db->prepare($sql);
@@ -303,32 +305,52 @@ class Database
         $statement->execute([$project_title, $project_description, $project_id]);
     }
 
-    function updateVideoById($videoId,$videoTitle,$videoUrl)
+    function updateVideoById($videoId, $videoTitle, $videoUrl)
     {
-        $sql= "UPDATE Video SET video_title=?, video_url=? WHERE video_id=?";
+        $sql = "UPDATE Video SET video_title=?, video_url=? WHERE video_id=?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$videoTitle,$videoUrl,$videoId]);
+        $statement->execute([$videoTitle, $videoUrl, $videoId]);
     }
+
     function removeVideo($videoId)
     {
         $sql = "UPDATE User_Project SET user_project_bookmark =
                 NULL WHERE user_project_bookmark = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$videoId]);
+        $statement->execute([$videoId]);
 
-        $sql= "DELETE FROM Video WHERE video_id = ?";
+        $sql = "DELETE FROM Video WHERE video_id = ?";
         $statement = $this->_db->prepare($sql);
-        $statement -> execute([$videoId]);
+        $statement->execute([$videoId]);
 
     }
-    function addVideo($projectId,$videoTitle,$videoUrl)
+
+    function addVideo($projectId, $videoTitle, $videoUrl)
     {
-        $sql="INSERT INTO Video VALUES(DEFAULT ,?,?,?,1)";
-        $statement= $this->_db->prepare($sql);
-        $statement->execute([$projectId,$videoTitle,$videoUrl]);
+        $sql = "INSERT INTO Video VALUES(DEFAULT ,?,?,?,1)";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId, $videoTitle, $videoUrl]);
 
     }
 
+    function removeProject($projectId)
+    {
+        $sql = "DELETE FROM User_Project  WHERE project_id=?";//deleting row if match project_id
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId]);
+
+        //deleting videos associated with project_id
+        $sql = "DELETE FROM Video  WHERE project_id=?";//deleting row if match project_id
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId]);
+
+        //deleting project
+        $sql = "DELETE FROM Project  WHERE project_id=?";//deleting row if match project_id
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId]);
+
+
+    }
 
 
 }
