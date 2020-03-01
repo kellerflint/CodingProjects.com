@@ -214,11 +214,18 @@ class Controller
                 $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"]);
             }
             if(isset($_POST["updateVideo"])){
-                $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"]);
+                if($_POST['videoId']==0){
+                $db->addVideo($param['id'],$_POST['videoName'],$_POST['videoUrl']);
+                }
+                else{
+                    $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"]);
+                }
+
             }
             if(isset($_POST['removeVideo'])){
                 $db->removeVideo($_POST['videoId']);
             }
+
 
         }
 

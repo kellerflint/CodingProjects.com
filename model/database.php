@@ -321,6 +321,13 @@ class Database
         $statement -> execute([$videoId]);
 
     }
+    function addVideo($projectId,$videoTitle,$videoUrl)
+    {
+        $sql="INSERT INTO Video VALUES(DEFAULT ,?,?,?,1)";
+        $statement= $this->_db->prepare($sql);
+        $statement->execute([$projectId,$videoTitle,$videoUrl]);
+
+    }
 
 
 
