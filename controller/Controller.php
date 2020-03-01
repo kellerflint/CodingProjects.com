@@ -213,19 +213,18 @@ class Controller
             if (isset($_POST["updateProject"])) {
                 $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"]);
             }
-            if(isset($_POST["updateVideo"])){
-                if($_POST['videoId']==0){
-                $db->addVideo($param['id'],$_POST['videoName'],$_POST['videoUrl']);
-                }
-                else{
-                    $db->updateVideoById($_POST['videoId'],$_POST["videoName"],$_POST["videoUrl"], $_POST["videoOrder"]);
+            if (isset($_POST["updateVideo"])) {
+                if ($_POST['videoId'] == 0) {
+                    $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                } else {
+                    $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
                 }
 
             }
-            if(isset($_POST['removeVideo'])){
+            if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
             }
-            if(isset($_POST['removeProject'])){
+            if (isset($_POST['removeProject'])) {
                 $db->removeProject($param["id"]);
                 $this->_f3->reroute("/");
             }
@@ -238,5 +237,36 @@ class Controller
 
         $view = new Template();
         echo $view->render('views/project_edit.html');
+    }
+
+    function editCategory()
+    {
+        global $db;
+
+        $this->_f3->set("category", $db->getCategory());
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST["category"])) {
+                $this->_f3->set("selectedCategory", $_POST['category']);
+            }
+
+            if (isset($_POST["categoryUpdate"])) {
+                if ($_POST['category'] == "0") {
+                    echo"hi";
+                    var_dump($_POST);
+                    $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
+
+                } else {
+                    $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
+                }
+            }
+            $this->_f3->set("categories", $db->getCategoryById($_POST['category']));
+            if (isset($_POST['categoryRemove'])) {
+                $db->removeCategory($_POST['category']);
+            }
+        }
+
+
+        $view = new Template();
+        echo $view->render('views/category_edit.html');
     }
 }

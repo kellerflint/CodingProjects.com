@@ -56,6 +56,10 @@ $f3->route('GET|POST /project-edit/@id', function($f3, $param) {
     global $controller;
     $controller->projectEditPage($param);
 });
+$f3->route('GET|POST /category-edit', function ($f3){
+    global $controller;
+    $controller->editCategory();
+});
 
 
 //run fat free

@@ -353,4 +353,61 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$projectId]);
     }
+
+    function getCategory()
+    {
+        $sql = "SELECT * FROM Category";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+    function getCategoryById($categoryId)
+    {
+        $sql="SELECT * FROM Category WHERE category_id=?";
+        $statement = $this-> _db->prepare($sql);
+        $statement -> execute([$categoryId]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    function  updateCategory($categoryId,$categoryTitle,$categoryDescription)
+    {
+        $sql = "UPDATE Category SET category_title =?, category_description=?
+                WHERE category_id= ?";
+        $statement =$this->_db->prepare($sql);
+        $statement->execute([$categoryTitle,$categoryDescription,$categoryId]);
+    }
+
+    function removeCategory($categoryId)
+    {
+        $projects = $this->getProjectByCategoryId($categoryId);
+        foreach ($projects as $value) {
+            $this->removeProject($value['project_id']);
+        }
+        $sql = "DELETE FROM Category  WHERE $categoryId=?";//deleting row if match project_id
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$categoryId]);
+    }
+    function  getProjectByCategoryId($categoryId)
+    {
+        $sql = "SELECT * FROM Project WHERE category_id= ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$categoryId]);
+        return $statement->fetchALL(PDO::FETCH_ASSOC);
+    }
+
+
+    function addCategory($categoryTitle,$categoryDescription)
+    {
+       $sql =  "SELECT MAX(category_order) FROM Category";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute();
+        $max = $statement->fetch(PDO::FETCH_ASSOC)["MAX(category_order)"]+1;
+        //INSERTING INTO CATEGORY
+        $sql = "INSERT INTO Category VALUES(DEFAULT ,? ,? ,?)";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$categoryTitle,$categoryDescription,$max]);
+
+
+
+    }
 }
