@@ -30,23 +30,22 @@ class Controller
         $this->_f3->set("permission", $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']));
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if(isset($_POST["remove"])){
-                $db->removeUserProject($_POST['selectedUser'],$_POST['selectedProject']);
+            if (isset($_POST["remove"])) {
+                $db->removeUserProject($_POST['selectedUser'], $_POST['selectedProject']);
 
             }
-            if(isset($_POST['give'])){
-                $db->giveUserProject($_POST['selectedUser'],$_POST['selectedProject']);
+            if (isset($_POST['give'])) {
+                $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
             }
 
             $this->_f3->set("selectedUser", $_POST['selectedUser']);
             //key=pair value
-            foreach ($projects as $key=>$value) {
+            foreach ($projects as $key => $value) {
                 //get date of user completed project
-                if($db->getUserProjectDate($_POST['selectedUser'], $value['project_id'])){
-                    $projects[$key]['project_complete']= "true";
-                }
-                else{
-                    $projects[$key]['project_complete']= "false";
+                if ($db->getUserProjectDate($_POST['selectedUser'], $value['project_id'])) {
+                    $projects[$key]['project_complete'] = "true";
+                } else {
+                    $projects[$key]['project_complete'] = "false";
                 }
             }
         }
@@ -124,7 +123,7 @@ class Controller
                     $_SESSION['user'] = new User($user["user_id"], $user["user_name"],
                         $user["user_nickname"]);
                 }
-                $_SESSION['session_id']= $db->getSession($user["user_id"])[0]['session_id'];
+                $_SESSION['session_id'] = $db->getSession($user["user_id"])[0]['session_id'];
 
                 $this->_f3->reroute('/');
             }
@@ -206,11 +205,18 @@ class Controller
         echo $view->render("/views/session_edit.html");
     }
 
-    function  projectEditPage($param)
+    function projectEditPage($param)
     {
         global $db;
-       $this->_f3->set("videos", $db->getVideos($param['id']));
-       $this->_f3->set("project", $db->getProjectsById($param['id']));
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST["updateProject"])) {
+                $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"]);
+            }
+        }
+
+        $this->_f3->set("videos", $db->getVideos($param['id']));
+        $this->_f3->set("project", $db->getProjectsById($param['id']));
 
         $view = new Template();
         echo $view->render('views/project_edit.html');

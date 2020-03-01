@@ -295,4 +295,12 @@ class Database
 
     }
 
+    function updateProject($project_id, $project_title, $project_description) {
+        $sql = "UPDATE Project SET project_title = ?, project_description = ? WHERE project_id = ?";
+
+        $statement = $this->_db->prepare($sql);
+
+        $statement->execute([$project_title, $project_description, $project_id]);
+    }
+
 }
