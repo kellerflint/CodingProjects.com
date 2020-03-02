@@ -5,7 +5,18 @@
         <div class="col-8">
             <p>Description</p>
             <textarea name="projectDescription"> {{@project['project_description']}}</textarea>
-
+            <select name="categoryId" id="category">
+                <repeat group="{{ @categories }}" value="{{ @value }}">
+                    <check if="{{@value['category_id'] == @project['category_id']}}">
+                        <true>
+                            <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}</option>
+                        </true>
+                        <false>
+                            <option value="{{ @value['category_id'] }}">{{ @value['category_title'] }}</option>
+                        </false>
+                    </check>
+                </repeat>
+            </select>
             <div class="form-group">
                 <label for="exampleFormControlFile1">Example file input</label>
                 <input type="file" class="form-control-file" id="exampleFormControlFile1">

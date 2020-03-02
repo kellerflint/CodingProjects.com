@@ -296,13 +296,13 @@ class Database
 
     }
 
-    function updateProject($project_id, $project_title, $project_description)
+    function updateProject($project_id, $project_title, $project_description, $categoryId)
     {
-        $sql = "UPDATE Project SET project_title = ?, project_description = ? WHERE project_id = ?";
+        $sql = "UPDATE Project SET project_title = ?, project_description = ?, category_id = ? WHERE project_id = ?";
 
         $statement = $this->_db->prepare($sql);
 
-        $statement->execute([$project_title, $project_description, $project_id]);
+        $statement->execute([$project_title, $project_description, $categoryId, $project_id]);
     }
 
     function updateVideoById($videoId, $videoTitle, $videoUrl, $videoOrder)
@@ -406,8 +406,5 @@ class Database
         $sql = "INSERT INTO Category VALUES(DEFAULT ,? ,? ,?)";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$categoryTitle,$categoryDescription,$max]);
-
-
-
     }
 }

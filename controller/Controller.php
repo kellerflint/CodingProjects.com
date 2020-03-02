@@ -209,9 +209,11 @@ class Controller
     {
         global $db;
 
+        $this->_f3->set("categories", $db->getCategory());
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["updateProject"])) {
-                $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"]);
+                $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
             }
             if (isset($_POST["updateVideo"])) {
                 if ($_POST['videoId'] == 0) {
