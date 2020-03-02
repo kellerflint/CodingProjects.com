@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../styles/header.css">
     <check if="{{ isset(@stylesheets) }}">
         <repeat group="{{ @stylesheets }}" value="{{ @value }}">
             <link rel="stylesheet" type="text/css" href="../{{ @value }}">
@@ -17,14 +18,14 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="mr-3">
         <a href="/">
-            <button class="btn bg-light" type="button">Home</button>
+            <button class="btn btn-dark" type="button">Home</button>
         </a>
     </div>
     <div class="dropdown">
-        <button class="btn bg-light dropdown-toggle" type="button"
+        <button class="btn btn-dark dropdown-toggle" type="button"
                 id="dropdownUserButton" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             Categories
@@ -33,14 +34,16 @@
             <a class="dropdown-item" href="#">Scratch Projects</a>
             <a class="dropdown-item" href="#"> HTML </a>
             <a class="dropdown-item" href="#"> CSS</a>
-            <a class="dropdown-item" href="/category-edit"> Category</a>
+            <check if="{{ @permission=='admin' }}">
+                <a class="dropdown-item" href="/category-edit">Edit Categories</a>
+            </check>
         </div>
     </div>
     <div class="float-lg-right">
         <check if="{{isset(@SESSION.user)}}">
             <true>
                 <div class="dropdown">
-                    <button class="btn bg-light dropdown-toggle" type="button"
+                    <button class="btn btn-dark dropdown-toggle" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                         {{@SESSION.user->getUserName()}}
@@ -53,7 +56,7 @@
             </true>
             <false>
                 <a href="/login">
-                    <button class="btn bg-light" type="button">Login</button>
+                    <button class="btn btn-dark" type="button">Login</button>
                 </a>
             </false>
         </check>

@@ -28,8 +28,13 @@ class Controller
 
         $projects = $db->getProjects();
 
+        $permission = "none";
+        if (isset($_SESSION['user'])) {
+            $permission =  $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
+        }
+
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
-        $this->_f3->set("permission", $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']));
+        $this->_f3->set("permission", $permission);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (isset($_POST["remove"])) {

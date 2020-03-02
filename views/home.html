@@ -2,7 +2,7 @@
 
 <!--Displaying user list-->
 <check if="{{ @permission=='admin' }}">
-    <div class="user-list mb-3">
+    <div class="user-list mb-3 mt-3">
         <repeat group="{{ @users }}" value="{{ @value }}">
             <div class="user">
                 <form method="post" action="#">
@@ -25,7 +25,7 @@
 </check>
 
 <!-- Displaying Projects -->
-<div>
+<div class="mb-4 mt-4">
     <check if="{{ @permission == 'admin' }}">
         <a href="/project-edit/0">
             <button type="button" class="btn btn-success">Create New Project</button>
@@ -45,18 +45,21 @@
                 <input type="hidden" name="selectedUser" value="{{ @selectedUser }}">
                 <input type="hidden" name="selectedProject" value="{{ @value['project_id'] }}">
                 <div>
-                    <check if="{{ @value['project_complete'] == 'true' }}">
-                        <true>
-                            <button type="submit" class="btn btn-warning" name="remove" value="remove">Remove</button>
-                        </true>
-                        <false>
-                            <button type="submit" class="btn btn-success" name="give" value="give">Give</button>
-                        </false>
-                    </check>
-                    <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-                        <a href="/project-edit/{{ @value['project_id'] }}">
-                            <button type="button" class="btn btn-info">Edit Project</button>
-                        </a>
+                    <check if="{{ isset(@SESSION['user']) }}">
+                        <check if="{{ @value['project_complete'] == 'true' }}">
+                            <true>
+                                <button type="submit" class="btn btn-warning" name="remove" value="remove">Remove
+                                </button>
+                            </true>
+                            <false>
+                                <button type="submit" class="btn btn-success" name="give" value="give">Give</button>
+                            </false>
+                        </check>
+                        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+                            <a href="/project-edit/{{ @value['project_id'] }}">
+                                <button type="button" class="btn btn-info">Edit Project</button>
+                            </a>
+                        </check>
                     </check>
                 </div>
             </form>
