@@ -87,6 +87,9 @@ class Controller
     function sessionsPage()
     {
         global $db;
+
+        $this->_f3->set("stylesheets", ["styles/sessions.css"]);
+
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             //while connecting sessions, it stores session id that user selected
             //by clicking connect button from the session page

@@ -2,22 +2,20 @@
 <!--Displaying all the sessions the logged in user has -->
 <repeat group="{{ @session }}"
         value="{{ @value }}">
-    <form method="post" action="#">
+    <div class="item">
+        <form method="post" action="#">
+            <h5>
+                {{ @value['session_title'] }}
+            </h5>
+            <p>{{ @value['session_description'] }}</p>
 
-    <div class="item border border-primary col-4">
-        <p>
-            {{ @value['session_title'] }}
-        </p>
-        <p>{{ @value['session_description'] }}</p>
-        <a href="/session-edit/{{@value['session_id']}}" >
-            <button type="button" >Edit Session</button></a>
-
-
-        <input type="hidden" name="sessionId" value="{{@value['session_id']}}">
-        <button type="submit">Connect</button>
+            <input type="hidden" name="sessionId" value="{{ @value['session_id'] }}">
+            <button type="submit" class="btn btn-success">Connect</button>
+            <a href="/session-edit/{{@value['session_id']}}">
+                <button type="button" class="btn btn-info">Edit Session</button>
+            </a>
+        </form>
     </div>
-
-    </form>
 </repeat>
 
 <include href="views/footer.html"/>
