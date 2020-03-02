@@ -39,11 +39,11 @@
     /* --- Validation functions --- */
     function isEmpty(input, valClass) {
         let isValid = false;
-        if (input.val().trim() == "") {
+        if (input.val().trim() === "") {
             isValid = true;
         }
         toggleErrors(input, valClass, !isValid, "Cannot be empty.");
-        return isValid;
+        return !isValid;
     }
 
     function phoneValid(input, valClass) {
@@ -68,7 +68,7 @@
 
         // validation on submit
         $("form").submit(function (event) {
-            if (validations[i][1]($("." + validations[i][0]).find(".input"))) {
+            if (!validations[i][1]($("." + validations[i][0]).find(".input"), validations[i][0])) {
                 event.preventDefault();
             }
         });
