@@ -1,56 +1,83 @@
 <include href="views/header.html"/>
 <div class="row">
-    <form action="#" method="post">
-        <input value="{{@project['project_title']}}" name="projectName">
-        <div class="col-8">
-            <p>Description</p>
-            <textarea name="projectDescription"> {{@project['project_description']}}</textarea>
-            <select name="categoryId" id="category">
-                <repeat group="{{ @categories }}" value="{{ @value }}">
-                    <check if="{{@value['category_id'] == @project['category_id']}}">
-                        <true>
-                            <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}</option>
-                        </true>
-                        <false>
-                            <option value="{{ @value['category_id'] }}">{{ @value['category_title'] }}</option>
-                        </false>
-                    </check>
-                </repeat>
-            </select>
-            <div class="form-group">
-                <label for="exampleFormControlFile1">Example file input</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
+    <br>
+</div>
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-center mb-3">Project Details</h3>
+        <div class="project-edit">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="project-name">Project Title</label>
+                    <input value="{{@project['project_title']}}" name="projectName" id="project-name"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="projectDescription" id="description" class="form-control">{{ @project['project_description'] }}</textarea>
+                </div>
+                <label for="category">Category</label>
+                <select name="categoryId" id="category" class="form-control">
+                    <repeat group="{{ @categories }}" value="{{ @value }}">
+                        <check if="{{@value['category_id'] == @project['category_id']}}">
+                            <true>
+                                <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}
+                                </option>
+                            </true>
+                            <false>
+                                <option value="{{ @value['category_id'] }}">{{ @value['category_title'] }}</option>
+                            </false>
+                        </check>
+                    </repeat>
+                </select>
+                <!--
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Example file input</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                -->
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-success" name="updateProject" value="updateProject">
+                        Update
+                    </button>
+                    <button type="submit" class="btn btn-danger" name="removeProject" value="updateProject">Remove
+                    </button>
+                </div>
+            </form>
         </div>
-        <button type="submit" name="updateProject" value="updateProject">Update</button>
-        <button type="submit" name="removeProject" value="updateProject">Remove</button>
-    </form>
-    <div class="col-4">
+    </div>
+    <div class="col-6">
+        <h3 class="text-center mb-3">Project Videos</h3>
         <repeat group="{{ @videos }}"
                 value="{{ @value }}">
-            <form method="post" action="#">
-                <div class="border mb-3">
-                    <input type="hidden" name="videoId" value="{{@value['video_id']}}">
+            <div class="mb-3 video-item">
+                <form method="post" action="#">
+                    <input type="hidden" name="videoId" value="{{ @value['video_id'] }}">
                     <div class="form-group">
                         <label for="title{{@value['video_id']}}">Video Name</label>
-                        <input type="text" class="form-control" id="title{{@value['video_id']}}" name="videoName"
+                        <input type="text" class="form-control" id="title{{ @value['video_id'] }}" name="videoName"
                                value="{{ @value['video_title'] }}">
                     </div>
                     <div class="form-group">
-                        <label for="url{{@value['video_id']}}">Video URL</label>
-                        <input type="text" class="form-control" id="url{{@value['video_id']}}" name="videoUrl"
+                        <label for="url{{ @value['video_id'] }}">Video URL</label>
+                        <input type="text" class="form-control" id="url{{ @value['video_id'] }}" name="videoUrl"
                                value="{{ @value['video_url'] }}">
 
                     </div>
                     <div class="form-group">
-                        <label for="order{{@value['video_id']}}">Video Order</label>
-                        <input type="text" class="form-control" id="order{{@value['video_id']}}" name="videoOrder"
+                        <label for="order{{ @value['video_id'] }}">Video Order</label>
+                        <input type="text" class="form-control" id="order{{ @value['video_id'] }}" name="videoOrder"
                                value="{{ @value['video_order'] }}">
                     </div>
-                    <button type="submit" name="updateVideo" value="updateVideo">Update</button>
-                    <button type="submit" name="removeVideo" value="removeVideo">Remove</button>
-                </div>
-            </form>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">
+                            Update
+                        </button>
+                        <button type="submit" class="btn btn-danger" name="removeVideo" value="removeVideo">Remove
+                        </button>
+                    </div>
+                </form>
+            </div>
         </repeat>
         <form method="post" action="#">
             <div class="border mb-3">

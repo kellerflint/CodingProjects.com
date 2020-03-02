@@ -209,6 +209,8 @@ class Controller
     {
         global $db;
 
+        $this->_f3->set("stylesheets", array("styles/project_edit.css"));
+
         $this->_f3->set("categories", $db->getCategory());
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
