@@ -108,6 +108,8 @@ class Controller
      */
     function loginPage()
     {
+        $this->_f3->set("stylesheets", ["styles/login.css"]);
+
         //if user is set reroute it to home page
         if (isset($_SESSION['user'])) {
             $this->_f3->reroute('/');
