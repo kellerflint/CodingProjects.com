@@ -47,6 +47,24 @@
         </div>
     </div>
     <div class="col-6">
+        <h3 class="text-center mb-3">Add Video</h3>
+        <div class="mb-3 video-item">
+            <form method="post" action="#">
+                <input type="hidden" name="videoId" value="0">
+                <div class="form-group">
+                    <label for="title0">Video Name</label>
+                    <input type="text" class="form-control" id="title0" name="videoName">
+
+                </div>
+                <div class="form-group">
+                    <label for="url0">Video URL</label>
+                    <input type="text" class="form-control" id="url0" name="videoUrl">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">Add</button>
+                </div>
+            </form>
+        </div>
         <h3 class="text-center mb-3">Project Videos</h3>
         <repeat group="{{ @videos }}"
                 value="{{ @value }}">
@@ -54,7 +72,7 @@
                 <form method="post" action="#">
                     <input type="hidden" name="videoId" value="{{ @value['video_id'] }}">
                     <div class="form-group">
-                        <label for="title{{@value['video_id']}}">Video Name</label>
+                        <label for="title{{ @value['video_id'] }}">Video Name</label>
                         <input type="text" class="form-control" id="title{{ @value['video_id'] }}" name="videoName"
                                value="{{ @value['video_title'] }}">
                     </div>
@@ -79,21 +97,7 @@
                 </form>
             </div>
         </repeat>
-        <form method="post" action="#">
-            <div class="border mb-3">
-                <input type="hidden" name="videoId" value="0">
-                <div class="form-group">
-                    <label for="title0">Video Name</label>
-                    <input type="text" class="form-control" id="title0" name="videoName">
-
-                </div>
-                <div class="form-group">
-                    <label for="url0">Video URL</label>
-                    <input type="text" class="form-control" id="url0" name="videoUrl">
-                </div>
-                <button type="submit" name="updateVideo" value="updateVideo">Add</button>
-            </div>
-        </form>
     </div>
+
 </div>
 <include href="views/footer.html"/>

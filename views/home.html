@@ -1,54 +1,67 @@
 <include href="views/header.html"/>
 
+<!--Displaying user list-->
+<check if="{{ @permission=='admin' }}">
+    <div class="user-list mb-3">
+        <repeat group="{{ @users }}" value="{{ @value }}">
+            <div class="user">
+                <form method="post" action="#">
+                    <div class="item">
+                        <p>{{@value['user_nickname']}}</p>
+                        <input type="hidden" name="selectedUser" value="{{ @value['user_id' ]}}">
+                        <check if="{{ @value['user_id'] == @selectedUser }}">
+                            <true>
+                                <button type="submit" class="btn bg-success">Select</button>
+                            </true>
+                            <false>
+                                <button type="submit" class="btn btn-secondary">Select</button>
+                            </false>
+                        </check>
+                    </div>
+                </form>
+            </div>
+        </repeat>
+    </div>
+</check>
+
+<!-- Displaying Projects -->
+<div>
+    <check if="{{ @permission == 'admin' }}">
+        <a href="/project-edit/0">
+            <button type="button" class="btn btn-success">Create New Project</button>
+        </a>
+    </check>
+</div>
 <repeat group="{{ @projects }}"
         value="{{ @value }}">
-    <div class="item">
-        <p>{{ @value["project_title"] }}</p>
+    <div class="item mx-3">
+        <h5>{{ @value["project_title"] }}</h5>
         <a href="/player/{{ @value['project_id'] }}">
-            <img class="card-img img-fluid img-thumbnail image"
+            <img class="card-img img-fluid image"
                  src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
         <p>{{ @value["project_description"] }}</p>
-        <check if="{{@permission=='admin'}}">
+        <check if="{{ @permission == 'admin' }}">
             <form method="post" action="#">
-                <input type="hidden" name="selectedUser" value="{{@selectedUser}}">
-                <input type="hidden" name="selectedProject" value="{{@value['project_id']}}">
-
-                <check if="{{@value['project_complete']=='true'}}">
-                    <true>
-                        <button type="submit" name="remove" value="remove">Remove</button>
-                    </true>
-                    <false>
-                        <button type="submit" name="give" value="give">Give</button>
-                    </false>
-                </check>
+                <input type="hidden" name="selectedUser" value="{{ @selectedUser }}">
+                <input type="hidden" name="selectedProject" value="{{ @value['project_id'] }}">
+                <div>
+                    <check if="{{ @value['project_complete'] == 'true' }}">
+                        <true>
+                            <button type="submit" class="btn btn-warning" name="remove" value="remove">Remove</button>
+                        </true>
+                        <false>
+                            <button type="submit" class="btn btn-success" name="give" value="give">Give</button>
+                        </false>
+                    </check>
+                    <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+                        <a href="/project-edit/{{ @value['project_id'] }}">
+                            <button type="button" class="btn btn-info">Edit Project</button>
+                        </a>
+                    </check>
+                </div>
             </form>
-        </check>
-        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-            <a href="/project-edit/{{@value['project_id']}}">
-                <button>Edit Project</button>
-            </a>
         </check>
     </div>
 </repeat>
-<!--Displaying user list-->
-<check if="{{@permission=='admin'}}">
-    <repeat group="{{@users}}" value="{{@value}}">
-        <form method="post" action="#">
-            <div class="item">
-                <p>{{@value['user_nickname']}}</p>
-                <input type="hidden" name="selectedUser" value="{{@value['user_id']}}">
-                <check if="{{ @value['user_id'] == @selectedUser }}">
-                    <true>
-                        <button type="submit" class="bg-success">Select</button>
-                    </true>
-                    <false>
-                        <button type="submit">Select</button>
-
-                    </false>
-                </check>
-            </div>
-        </form>
-    </repeat>
-</check>
 
 <include href="views/footer.html"/>

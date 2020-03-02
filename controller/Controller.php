@@ -24,6 +24,8 @@ class Controller
     {
         global $db;
 
+        $this->_f3->set("stylesheets", ["styles/home.css"]);
+
         $projects = $db->getProjects();
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
@@ -223,7 +225,6 @@ class Controller
                 } else {
                     $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
                 }
-
             }
             if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
@@ -268,7 +269,6 @@ class Controller
                 $db->removeCategory($_POST['category']);
             }
         }
-
 
         $view = new Template();
         echo $view->render('views/category_edit.html');
