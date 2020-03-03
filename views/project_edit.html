@@ -7,14 +7,16 @@
         <h3 class="text-center mb-3">Project Details</h3>
         <div class="project-edit">
             <form action="#" method="post">
-                <div class="form-group">
+                <div class="form-group val-empty val-lessThan255">
                     <label for="project-name">Project Title</label>
                     <input value="{{@project['project_title']}}" name="projectName" id="project-name"
-                           class="form-control">
+                           class="form-control input">
+                    <div class="errors text-danger"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group val-lessThan5000">
                     <label for="description">Description</label>
-                    <textarea name="projectDescription" id="description" class="form-control">{{ @project['project_description'] }}</textarea>
+                    <textarea name="projectDescription" id="description" class="form-control input">{{ @project['project_description'] }}</textarea>
+                    <div class="errors text-danger"></div>
                 </div>
                 <label for="category">Category</label>
                 <select name="categoryId" id="category" class="form-control">
@@ -51,14 +53,15 @@
         <div class="mb-3 video-item">
             <form method="post" action="#">
                 <input type="hidden" name="videoId" value="0">
-                <div class="form-group">
+                <div class="form-group val-empty val-lessThan255">
                     <label for="title0">Video Name</label>
-                    <input type="text" class="form-control" id="title0" name="videoName">
-
+                    <input type="text" class="form-control input" id="title0" name="videoName">
+                    <div class="errors text-danger"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group val-empty val-lessThan255">
                     <label for="url0">Video URL</label>
-                    <input type="text" class="form-control" id="url0" name="videoUrl">
+                    <input type="text" class="form-control input" id="url0" name="videoUrl">
+                    <div class="errors text-danger"></div>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">Add</button>
@@ -71,21 +74,23 @@
             <div class="mb-3 video-item">
                 <form method="post" action="#">
                     <input type="hidden" name="videoId" value="{{ @value['video_id'] }}">
-                    <div class="form-group">
+                    <div class="form-group val-empty val-lessThan255">
                         <label for="title{{ @value['video_id'] }}">Video Name</label>
-                        <input type="text" class="form-control" id="title{{ @value['video_id'] }}" name="videoName"
+                        <input type="text" class="form-control input" id="title{{ @value['video_id'] }}" name="videoName"
                                value="{{ @value['video_title'] }}">
+                        <div class="errors text-danger"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group  val-empty val-lessThan255">
                         <label for="url{{ @value['video_id'] }}">Video URL</label>
-                        <input type="text" class="form-control" id="url{{ @value['video_id'] }}" name="videoUrl"
+                        <input type="text" class="form-control input" id="url{{ @value['video_id'] }}" name="videoUrl"
                                value="{{ @value['video_url'] }}">
-
+                        <div class="errors text-danger"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group val-empty">
                         <label for="order{{ @value['video_id'] }}">Video Order</label>
-                        <input type="text" class="form-control" id="order{{ @value['video_id'] }}" name="videoOrder"
+                        <input type="text" class="form-control input" id="order{{ @value['video_id'] }}" name="videoOrder"
                                value="{{ @value['video_order'] }}">
+                        <div class="errors text-danger"></div>
                     </div>
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">
