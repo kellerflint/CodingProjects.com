@@ -80,10 +80,14 @@ class Validation
         if (!$this->validVideoName($f3->get('validVideoName'))) {
             $isValidVideo = false;
             $f3->set("errors['validVideoName']", "Please enter Video Name");
+        } else {
+            $f3->clear("errors['validVideoName']");
         }
         if (!$this->validUrl($f3->get('videoUrl'))) {
             $isValidVideo = false;
             $f3->set("errors['videoUrl']", "Please insert valid URL ");
+        } else {
+            $f3->clear("errors['videoUrl']");
         }
         return $isValidVideo;
 

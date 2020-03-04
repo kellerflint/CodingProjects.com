@@ -62,7 +62,7 @@
                 <div class="form-group val-empty val-lessThan255">
                     <label for="title0">Video Name</label>
                     <input type="text" class="form-control input" id="title0" name="videoName" value="{{ @validVideoName }}">
-                    <check if="{{ @errors['validVideoName'] }}">
+                    <check if="{{ @errors['validVideoName'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err">{{ @errors['validVideoName'] }}</span>
                     </check>
                     <div class="errors text-danger"></div>
@@ -70,7 +70,7 @@
                 <div class="form-group val-empty val-lessThan255">
                     <label for="url0">Video URL</label>
                     <input type="text" class="form-control input" id="url0" name="videoUrl" value="{{ @videoUrl }}">
-                    <check if="{{ @errors['videoUrl'] }}">
+                    <check if="{{ @errors['videoUrl'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err">{{ @errors['videoUrl'] }}</span>
                     </check>
                     <div class="errors text-danger"></div>
@@ -92,21 +92,24 @@
                                value="{{ @value['video_title'] }}">
                         <div class="errors text-danger"></div>
                     </div>
+                    <check if="{{ @errors['validVideoName'] && @errors['id'] == @value['video_id'] }}">
+                        <span class="err">{{ @errors['validVideoName'] }}</span>
+                    </check>
                     <div class="form-group  val-empty val-lessThan255">
                         <label for="url{{ @value['video_id'] }}">Video URL</label>
                         <input type="text" class="form-control input" id="url{{ @value['video_id'] }}" name="videoUrl"
                                value="{{ @value['video_url'] }}">
                         <div class="errors text-danger"></div>
                     </div>
+                    <check if="{{ @errors['videoUrl'] && @errors['id'] == @value['video_id'] }}">
+                        <span class="err">{{ @errors['videoUrl'] }}</span>
+                    </check>
                     <div class="form-group val-empty">
                         <label for="order{{ @value['video_id'] }}">Video Order</label>
                         <input type="text" class="form-control input" id="order{{ @value['video_id'] }}" name="videoOrder"
                                value="{{ @value['video_order'] }}">
                         <div class="errors text-danger"></div>
                     </div>
-                    <check if="{{ @errors['errors'] && @errors['']}}">
-                        <span class="err">{{ @errors['errors'] }}</span>
-                    </check>
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">
                             Update

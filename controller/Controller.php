@@ -258,7 +258,7 @@ class Controller
                         $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
                     }
                     else{
-                        $this->_f3->set("errors['errors']", array($_POST["videoId"], "Please enter valid data in all fields"));
+                        $this->_f3->set("errors['id']", $_POST["videoId"]);
                     }
                 }
             }
