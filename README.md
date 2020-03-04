@@ -7,7 +7,7 @@ Running development environment on local with Docker
 * To run composer for the first time on your docker server, use ```docker exec -it app_name bash``` and run ```composer install```
 
 To update composer
-* ```docker exec -it codingprojectscom_app_1 bash``` and then run ```composer update```
+* ```docker exec -it codingprojectscom_app_1 bash``` or ```coding-projects_app_1``` and then run ```composer update```
 
 To enable routing for the docker container
 * Make sure the .htaccess file is in the project root
