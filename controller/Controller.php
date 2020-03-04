@@ -124,10 +124,14 @@ class Controller
 
         global $db;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->_f3->set("username", $_POST["username"]);
 
-            $user = $db->getUserByLogin($_POST["username"], $_POST["password"]);
+            $this->_f3->set("userNameLogin", $_POST["username"]);
+            $this->_f3->set("userPassword", $_POST["password"]);
+            if($this->_val->validateLoginCredentials())
+            {
+                $user = $db->getUserByLogin($_POST["username"], $_POST["password"]);
 
+            }
             if (!empty($user)) {
                 //creating an object of a user class, passed returned $user (array) as params
                 if ($user["user_is_admin"] == 1) {

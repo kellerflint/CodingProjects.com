@@ -93,6 +93,19 @@ class Validation
 
     }
 
+    function validateLoginCredentials()
+    {
+        global $f3;
+        $isValidLogin = true;//flag
+        if(!$this->validateUserLoin($f3->get('userNameLogin'),$f3->get('userPassword'))){
+            $isValidLogin = false;
+            $f3->set("errors['invalid']", "User name is not found ");
+        }
+
+        return $isValidLogin;
+
+    }
+
     /**
      * validating user name
      * @param $userName
@@ -207,4 +220,13 @@ class Validation
         return strpos($string, ' ');
     }
 
+    function validateUserLoin($userName,$password)
+    {
+        global $db;
+        if(!empty($db->getUserByLogin($userName,$password))) {
+            return true;
+        }
+        return false;
+
+    }
 }
