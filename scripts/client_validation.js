@@ -8,8 +8,6 @@ let validations = [
     ["val-hasSpaces", hasSpaces]
 ];
 
-
-
 /* --- Validation functions --- */
 function isEmpty(input, valClass) {
     let isValid = false;
@@ -57,13 +55,13 @@ for (let i = 0; i < validations.length; i++) {
     $("." + validations[i][0]).find(".input").on("input focus blur", function () {
         validations[i][1]($(this), validations[i][0]);
     });
-
-    // validation on submit
-    $("form").submit(function (event) {
-        if (!validations[i][1]($("." + validations[i][0]).find(".input"), validations[i][0])) {
-            event.preventDefault();
-        }
-    });
+    //
+    // // validation on submit
+    // $("form").submit(function (event) {
+    //     if (!validations[i][1]($("." + validations[i][0]).find(".input"), validations[i][0])) {
+    //         event.preventDefault();
+    //     }
+    // });
 }
 
 function toggleErrors(object, valClass, isValid, message) {

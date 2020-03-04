@@ -6,6 +6,7 @@
 class Controller
 {
     private $_f3;//router
+    private $_val;
 
     /**
      * Controller constructor.
@@ -13,6 +14,7 @@ class Controller
      */
     function __construct($f3)
     {
+        $this->_val = new Validation();
         $this->_f3 = $f3;
     }
 
@@ -30,7 +32,7 @@ class Controller
 
         $permission = "none";
         if (isset($_SESSION['user'])) {
-            $permission =  $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
+            $permission = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
         }
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
@@ -175,7 +177,11 @@ class Controller
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //update the session
             if (isset($_POST['sessionUpdate'])) {
-                if (!isEmpty($_POST["title"]) && !isEmpty($_POST["description"])) {
+                //store the data in hive
+                $this->_f3->set('sessionTitle', $_POST["title"]);
+                $this->_f3->set('sessionDescription', $_POST["description"]);
+
+                if ($this->_val->editSessionToUpdate()) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
                 }
@@ -183,12 +189,24 @@ class Controller
             //delete the session
             if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
+            }
 
+            if (isset($_POST['userId'])) {
+                $user = $db->getUserById($_POST["userId"]);
+                $this->_f3->set('userId', $user["user_id"]);
+                $this->_f3->set('userName', $user["user_name"]);
+                $this->_f3->set('userNickName', $user["user_nickname"]);
+                $this->_f3->set('password', $user["user_password"]);
             }
             //update the user
             if (isset($_POST['userUpdate'])) {
-                if (!isEmpty($_POST["name"]) && !isEmpty($_POST["nickName"]) && !isEmpty($_POST['password'])) {
-                    // If user id is 0, create a new user instead of updating and existing one
+                //set the user input data in a hive
+                $this->_f3->set('userName', $_POST['name']);
+                $this->_f3->set('userNickName', $_POST['nickName']);
+                $this->_f3->set('password', $_POST['password']);
+
+                // If user id is 0, create a new user instead of updating and existing one
+                if ($this->_val->ValidNewUser()) {
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
                     } else {
@@ -196,19 +214,11 @@ class Controller
                     }
                 }
             }
-
             //delete the user
             if (isset($_POST['userDelete'])) {
                 $db->deleteUser($_POST['userId']);
             }
-
-            // Get's the data for the currently selected user and adds it to the $f3 hive
-            // MUST BE LAST since the selectedUser's information might have been updated
-            if (isset($_POST['userId'])) {
-                $this->_f3->set("selectedUser", $db->getUserById($_POST['userId']));
-            }
         }
-
         // Adds session id to the hive
         $this->_f3->set("session", $db->getSessionById($param['id']));
 
@@ -229,13 +239,27 @@ class Controller
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["updateProject"])) {
-                $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                //hive user into data
+                $this->_f3->set('projectTitle', $_POST['projectName']);
+                $this->_f3->set('projectDescription', $_POST['projectDescription']);
+                if ($this->_val->validateProjectPage()) {
+                    $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                }
             }
             if (isset($_POST["updateVideo"])) {
-                if ($_POST['videoId'] == 0) {
+                //hive user input data
+                $this->_f3->set('validVideoName', $_POST['videoName']);
+                $this->_f3->set('videoUrl', $_POST['videoUrl']);
+                if ($this->_val->validateNewVideo() && $_POST['videoId'] == 0) {
                     $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
                 } else {
-                    $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
+                    if($this->_val->validateUserSelectedVideo($_POST["videoName"],$_POST["videoUrl"],$_POST["videoOrder"]))
+                    {
+                        $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
+                    }
+                    else{
+                        $this->_f3->set("errors['errors']", array($_POST["videoId"], "Please enter valid data in all fields"));
+                    }
                 }
             }
             if (isset($_POST['removeVideo'])) {
@@ -245,10 +269,7 @@ class Controller
                 $db->removeProject($param["id"]);
                 $this->_f3->reroute("/");
             }
-
-
         }
-
         $this->_f3->set("videos", $db->getVideos($param['id']));
         $this->_f3->set("project", $db->getProjectsById($param['id']));
 
@@ -259,7 +280,6 @@ class Controller
     function editCategory()
     {
         global $db;
-
         $this->_f3->set("category", $db->getCategory());
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["category"])) {
@@ -268,7 +288,7 @@ class Controller
 
             if (isset($_POST["categoryUpdate"])) {
                 if ($_POST['category'] == "0") {
-                    echo"hi";
+                    echo "hi";
                     var_dump($_POST);
                     $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
 
@@ -281,7 +301,6 @@ class Controller
                 $db->removeCategory($_POST['category']);
             }
         }
-
         $view = new Template();
         echo $view->render('views/category_edit.html');
     }
