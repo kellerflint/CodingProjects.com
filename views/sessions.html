@@ -4,16 +4,25 @@
         value="{{ @value }}">
     <div class="item">
         <form method="post" action="#">
+            <div class="selected">
             <h5>
                 {{ @value['session_title'] }}
             </h5>
             <p>{{ @value['session_description'] }}</p>
-
             <input type="hidden" name="sessionId" value="{{ @value['session_id'] }}">
-            <button type="submit" class="btn btn-success">Connect</button>
+            <check if="{{ @value['session_id'] == @SESSION['session_id'] }}">
+                <true>
+                    <button type="submit" class="btn bg-success">Connect</button>
+                </true>
+                <false>
+                    <button type="submit" class="btn btn-secondary">Connect</button>
+                </false>
+            </check>
+<!--            <button type="submit" class="btn btn-success">Connect</button>-->
             <a href="/session-edit/{{@value['session_id']}}">
                 <button type="button" class="btn btn-info">Edit Session</button>
             </a>
+            </div>
         </form>
     </div>
 </repeat>
