@@ -286,6 +286,8 @@ class Controller
     function editCategory()
     {
         global $db;
+        $this->_f3->set("stylesheets", array("styles/category_edit.css"));
+
         $this->_f3->set("category", $db->getCategory());
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["category"])) {
