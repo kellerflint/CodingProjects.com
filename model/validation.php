@@ -99,7 +99,7 @@ class Validation
         $isValidLogin = true;//flag
         if(!$this->validateUserLoin($f3->get('userNameLogin'),$f3->get('userPassword'))){
             $isValidLogin = false;
-            $f3->set("errors['invalid']", "User name is not found ");
+            $f3->set("errors['invalid']", "Enter valid credentials ");
         }
 
         return $isValidLogin;
