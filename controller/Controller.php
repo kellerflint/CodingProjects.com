@@ -27,7 +27,8 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/home.css"]);
-
+        //get the call the getCategory() and store the result in hive variable
+        $this->_f3->set("categories",$db->getCategory());
         $projects = $db->getProjects();
 
         $userId = 0;
@@ -42,6 +43,10 @@ class Controller
         $this->_f3->set("permission", $permission);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if(isset($_POST['category_id'])){
+                $projects  = $db->getProjectByCategoryId($_POST['category_id']);
+            }
+
             if (isset($_POST["remove"])) {
                 $db->removeUserProject($_POST['selectedUser'], $_POST['selectedProject']);
 
@@ -50,11 +55,11 @@ class Controller
                 $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
             }
 
-            $this->_f3->set("selectedUser", $_POST['selectedUser']);
-            //key=pair value
-
-            $userId = $_POST['selectedUser'];
-
+            if($permission=="admin")
+            {
+                $this->_f3->set("selectedUser", $_POST['selectedUser']);
+                $userId = $_POST['selectedUser'];
+            }
         }
 
         foreach ($projects as $key => $value) {

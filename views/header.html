@@ -30,14 +30,6 @@
                 aria-expanded="false">
             Categories
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Scratch Projects</a>
-            <a class="dropdown-item" href="#"> HTML </a>
-            <a class="dropdown-item" href="#"> CSS</a>
-            <check if="{{ @permission=='admin' }}">
-                <a class="dropdown-item" href="/category-edit">Edit Categories</a>
-            </check>
-        </div>
     </div>
     <div class="float-lg-right">
         <check if="{{isset(@SESSION.user)}}">

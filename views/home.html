@@ -1,5 +1,14 @@
 <include href="views/header.html"/>
+<repeat group ="{{ @categories }}" value ="{{ @category }}">
 
+    <form method="post" action="#">
+        <input type="hidden" name="category_id" value="{{@category['category_id']}}">
+        <button type="submit" name="category" value="category"> {{@category['category_title']}}</button>
+    </form>
+</repeat>
+<check if="{{ @permission=='admin' }}">
+    <a class="dropdown-item" href="/category-edit">Edit Categories</a>
+</check>
 <!--Displaying user list-->
 <check if="{{ @permission=='admin' }}">
     <div class="user-list mb-3 mt-3">
