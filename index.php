@@ -61,6 +61,12 @@ $f3->route('GET|POST /category-edit', function ($f3){
     $controller->editCategory();
 });
 
+$f3->route('POST /ajax', function ($f3) {
+    if (isset($_POST['project_id'])) {
+        global $db;
+        echo json_encode($db->getVideos($_POST['project_id']));
+    }
+});
 
 //run fat free
 $f3->run();

@@ -84,19 +84,8 @@ class Controller
     function videoPlayer($param)
     {
         $this->_f3->set("stylesheets", ["../styles/player.css"]);
+        $this->_f3->set("project_id", $param['item']);
 
-        global $db;
-        $this->_f3->set('project_id', $param['item']);//$param['item'] is user selected project id
-
-
-        $videoArray = $db->getVideos($param['item']);
-
-        foreach ($videoArray as $video) {
-            if ($video["video_order"] == 1) {
-                $this->_f3->set('video', $video); //set a row to video if condition match
-                break;
-            }
-        }
         $view = new Template();
         echo $view->render('views/player.html');
     }

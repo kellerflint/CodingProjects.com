@@ -3,17 +3,18 @@
     <div class="col-1">
     </div>
     <div class="col-10">
-        <h1>Project Title </h1>
-        <p>{{ @video['video_title'] }}</p>
+        <input type="hidden" id="project-id" value="{{ @project_id }}">
+        <h1>Project Title TODO</h1>
+        <p id="video-title"></p>
         <div>
             <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="{{ @video['video_url'] }}" frameborder="0"
+                <iframe class="embed-responsive-item" frameborder="0" id="iframe"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
             </div>
         </div>
         <button id="last" class="inline btn btn-info float-left mt-3">Last</button>
-        <p id="progress" class="inline mt-3">{{ @video['video_order'] }}</p>
+        <p id="progress" class="inline mt-3"></p>
         <button id="next" class="inline btn btn-info float-right mt-3">Next</button>
     </div>
     <div class="col-1">
