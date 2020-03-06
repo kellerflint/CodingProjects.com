@@ -28,7 +28,7 @@ class Controller
 
         $this->_f3->set("stylesheets", ["styles/home.css"]);
         //get the call the getCategory() and store the result in hive variable
-        $this->_f3->set("categories",$db->getCategory());
+        $this->_f3->set("categories", $db->getCategory());
         $projects = $db->getProjects();
 
         $userId = 0;
@@ -43,8 +43,8 @@ class Controller
         $this->_f3->set("permission", $permission);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if(isset($_POST['category_id'])){
-                $projects  = $db->getProjectByCategoryId($_POST['category_id']);
+            if (isset($_POST['category_id'])) {
+                $projects = $db->getProjectByCategoryId($_POST['category_id']);
             }
 
             if (isset($_POST["remove"])) {
@@ -55,8 +55,7 @@ class Controller
                 $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
             }
 
-            if($permission=="admin")
-            {
+            if ($permission == "admin") {
                 $this->_f3->set("selectedUser", $_POST['selectedUser']);
                 $userId = $_POST['selectedUser'];
             }
@@ -142,8 +141,7 @@ class Controller
 
             $this->_f3->set("userNameLogin", $_POST["username"]);
             $this->_f3->set("userPassword", $_POST["password"]);
-            if($this->_val->validateLoginCredentials())
-            {
+            if ($this->_val->validateLoginCredentials()) {
                 $user = $db->getUserByLogin($_POST["username"], $_POST["password"]);
 
             }
@@ -272,11 +270,9 @@ class Controller
                 if ($this->_val->validateNewVideo() && $_POST['videoId'] == 0) {
                     $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
                 } else {
-                    if($this->_val->validateUserSelectedVideo($_POST["videoName"],$_POST["videoUrl"],$_POST["videoOrder"]))
-                    {
+                    if ($this->_val->validateUserSelectedVideo($_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"])) {
                         $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
-                    }
-                    else{
+                    } else {
                         $this->_f3->set("errors['id']", $_POST["videoId"]);
                     }
                 }
@@ -301,15 +297,19 @@ class Controller
         global $db;
         $this->_f3->set("stylesheets", array("styles/category_edit.css"));
 
-        $this->_f3->set("category", $db->getCategory());
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["category"])) {
+                //get from database
                 $this->_f3->set("selectedCategory", $_POST['category']);
+                $category = $db->getCategoryById($_POST['category']);
+                $this->_f3->set("categoryTitle", $category['category_title']);
+                $this->_f3->set("categoryDescription", $category['category_description']);
             }
 
             if (isset($_POST["categoryUpdate"])) {
+                $this->_f3->set("categoryTitle", $_POST['categoryTitle']);
+                $this->_f3->set("categoryDescription", $_POST['categoryDescription']);
                 if ($_POST['category'] == "0") {
-                    echo "hi";
                     var_dump($_POST);
                     $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
 
@@ -317,11 +317,14 @@ class Controller
                     $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
                 }
             }
-            $this->_f3->set("categories", $db->getCategoryById($_POST['category']));
+
             if (isset($_POST['categoryRemove'])) {
                 $db->removeCategory($_POST['category']);
             }
         }
+        $this->_f3->set("categories", $db->getCategory());
+        $this->_f3->set("category", $db->getCategoryById($_POST['category']));
+
         $view = new Template();
         echo $view->render('views/category_edit.html');
     }

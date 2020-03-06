@@ -7,7 +7,7 @@
                 <label for="selectedCategory">Select Category</label>
                 <select name="category" class="form-control" id="selectedCategory">
                     <option value="0">New Category</option>
-                    <repeat group="{{ @category }}" value="{{ @value }}">
+                    <repeat group="{{ @categories }}" value="{{ @value }}">
                         <check if="{{ @selectedCategory == @value['category_id'] }}">
                             <true>
                                 <option value="{{@value['category_id']}}" selected>{{@value['category_title']}}</option>
@@ -21,14 +21,16 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group val-empty val-lessThan255">
                 <label for="category_title">Category Title</label>
-                <input type="text" class="form-control" id="category_title" name="categoryTitle"
-                       value="{{ @categories['category_title'] }}">
+                <input type="text" class="form-control input" id="category_title" name="categoryTitle"
+                       value="{{ @category['category_title'] }}">
+                <div class="errors text-danger"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group val-lessThan5000">
                 <label for="category_description">Category Description</label>
-                <textarea class="form-control" id="category_description" name="categoryDescription">{{ @categories['category_description'] }}</textarea>
+                <textarea class="form-control input" id="category_description" name="categoryDescription">{{ @category['category_description'] }}</textarea>
+                <div class="errors text-danger"></div>
             </div>
             <div class="text-center">
             <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
