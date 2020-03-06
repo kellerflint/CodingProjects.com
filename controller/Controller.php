@@ -71,6 +71,8 @@ class Controller
      */
     function videoPlayer($param)
     {
+        $this->_f3->set("stylesheets", ["../styles/player.css"]);
+
         global $db;
         $this->_f3->set('project_id', $param['item']);//$param['item'] is user selected project id
 

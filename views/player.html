@@ -1,15 +1,23 @@
 <include href="views/header.html"/>
-
-<h1>Project Title </h1>
-<p>{{ @video['video_title'] }}</p>
-<div>
-    <iframe width="1344" height="756" src="{{ @video['video_url'] }}" frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-
-    </iframe>
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-10">
+        <h1>Project Title </h1>
+        <p>{{ @video['video_title'] }}</p>
+        <div>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ @video['video_url'] }}" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <button id="last" class="inline btn btn-info float-left mt-3">Last</button>
+        <p id="progress" class="inline mt-3">{{ @video['video_order'] }}</p>
+        <button id="next" class="inline btn btn-info float-right mt-3">Next</button>
+    </div>
+    <div class="col-1">
+    </div>
 </div>
-<button id="last" class="inline">Last</button>
-<p id="progress" class="inline">{{ @video['video_order'] }}</p>
-<button id="next" class="inline">Next</button>
 
 <include href="views/footer.html"/>
