@@ -30,9 +30,12 @@ class Controller
 
         $projects = $db->getProjects();
 
+        $userId = 0;
+
         $permission = "none";
         if (isset($_SESSION['user'])) {
             $permission = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
+            $userId = $_SESSION["user"]->getUserId();
         }
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
@@ -49,15 +52,20 @@ class Controller
 
             $this->_f3->set("selectedUser", $_POST['selectedUser']);
             //key=pair value
-            foreach ($projects as $key => $value) {
-                //get date of user completed project
-                if ($db->getUserProjectDate($_POST['selectedUser'], $value['project_id'])) {
-                    $projects[$key]['project_complete'] = "true";
-                } else {
-                    $projects[$key]['project_complete'] = "false";
-                }
+
+            $userId = $_POST['selectedUser'];
+
+        }
+
+        foreach ($projects as $key => $value) {
+            //get date of user completed project
+            if ($db->getUserProjectDate($userId, $value['project_id'])) {
+                $projects[$key]['project_complete'] = "true";
+            } else {
+                $projects[$key]['project_complete'] = "false";
             }
         }
+
         $this->_f3->set("projects", $projects);
         $view = new Template();
         echo $view->render('views/home.html');

@@ -35,7 +35,15 @@
 <repeat group="{{ @projects }}"
         value="{{ @value }}">
     <div class="item mx-3">
-        <h5>{{ @value["project_title"] }}</h5>
+        <!--        if user has a project make a text green else make it red-->
+        <check if="{{ @value['project_complete'] == 'true' }}">
+            <true>
+                <h5 class="text-success">{{ @value["project_title"] }}</h5>
+            </true>
+            <false>
+                <h5 class="text-danger">{{ @value["project_title"] }}</h5>
+            </false>
+        </check>
         <a href="/player/{{ @value['project_id'] }}">
             <img class="card-img img-fluid image"
                  src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
