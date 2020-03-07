@@ -1,87 +1,104 @@
 <include href="views/header.html"/>
-<repeat group ="{{ @categories }}" value ="{{ @category }}">
 
-    <form method="post" action="#">
-        <input type="hidden" name="category_id" value="{{@category['category_id']}}">
-        <button type="submit" name="category" value="category"> {{@category['category_title']}}</button>
-    </form>
-</repeat>
-<check if="{{ @permission=='admin' }}">
+<check if="{{ @permission == 'admin' }}">
     <a class="dropdown-item" href="/category-edit">Edit Categories</a>
 </check>
-<!--Displaying user list-->
-<check if="{{ @permission=='admin' }}">
-    <div class="user-list mb-3 mt-3">
-        <repeat group="{{ @users }}" value="{{ @value }}">
-            <div class="user">
-                <form method="post" action="#">
-                    <div class="item">
-                        <p>{{@value['user_nickname']}}</p>
+
+<ul class="nav nav-tabs justify-content-center">
+    <repeat group="{{ @categories }}" value="{{ @category }}">
+
+        <li class="nav-item category">
+            <a class="nav-link active" href="#">{{ @category['category_title'] }}</a></li>
+        <!--
+        <form method="post" action="#">
+            <input type="hidden" name="category_id" value="{{@category['category_id']}}">
+            <button type="submit" name="category" value="category"> {{@category['category_title']}}</button>
+        </form>
+        -->
+    </repeat>
+</ul>
+
+<div class="wrapper">
+    <!--Displaying user list-->
+    <div class="sidebar">
+        <h3 class="border-bottom">Session Users</h3>
+        <check if="{{ @permission=='admin' }}">
+            <div class="user-list mb-2 mt-2">
+                <repeat group="{{ @users }}" value="{{ @value }}">
+                    <form method="post" action="#">
                         <input type="hidden" name="selectedUser" value="{{ @value['user_id' ]}}">
                         <check if="{{ @value['user_id'] == @selectedUser }}">
                             <true>
-                                <button type="submit" class="btn bg-success">Select</button>
-                            </true>
-                            <false>
-                                <button type="submit" class="btn btn-secondary">Select</button>
-                            </false>
-                        </check>
-                    </div>
-                </form>
-            </div>
-        </repeat>
-    </div>
-</check>
-
-<!-- Displaying Projects -->
-<div class="mb-4 mt-4">
-    <check if="{{ @permission == 'admin' }}">
-        <a href="/project-edit/0">
-            <button type="button" class="btn btn-success">Create New Project</button>
-        </a>
-    </check>
-</div>
-<repeat group="{{ @projects }}"
-        value="{{ @value }}">
-    <div class="item mx-3">
-        <!--        if user has a project make a text green else make it red-->
-        <check if="{{ @value['project_complete'] == 'true' }}">
-            <true>
-                <h5 class="text-success">{{ @value["project_title"] }}</h5>
-            </true>
-            <false>
-                <h5 class="text-danger">{{ @value["project_title"] }}</h5>
-            </false>
-        </check>
-        <a href="/player/{{ @value['project_id'] }}">
-            <img class="card-img img-fluid image"
-                 src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
-        <p>{{ @value["project_description"] }}</p>
-        <check if="{{ @permission == 'admin' }}">
-            <form method="post" action="#">
-                <input type="hidden" name="selectedUser" value="{{ @selectedUser }}">
-                <input type="hidden" name="selectedProject" value="{{ @value['project_id'] }}">
-                <div>
-                    <check if="{{ isset(@SESSION['user']) }}">
-                        <check if="{{ @value['project_complete'] == 'true' }}">
-                            <true>
-                                <button type="submit" class="btn btn-warning" name="remove" value="remove">Remove
+                                <button type="submit" class="user-button btn bg-success mt-1 mb-1">
+                                    {{@value['user_nickname']}}
                                 </button>
                             </true>
                             <false>
-                                <button type="submit" class="btn btn-success" name="give" value="give">Give</button>
+                                <button type="submit" class="user-button btn btn-secondary mt-1 mb-1">
+                                    {{@value['user_nickname']}}
+                                </button>
                             </false>
                         </check>
-                        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-                            <a href="/project-edit/{{ @value['project_id'] }}">
-                                <button type="button" class="btn btn-info">Edit Project</button>
-                            </a>
-                        </check>
-                    </check>
-                </div>
-            </form>
+                    </form>
+                </repeat>
+            </div>
         </check>
     </div>
-</repeat>
+
+    <div class="content">
+        <!-- Displaying Projects -->
+        <div class="mb-4 mt-4">
+            <check if="{{ @permission == 'admin' }}">
+                <a href="/project-edit/0">
+                    <button type="button" class="btn btn-success">Create New Project</button>
+                </a>
+            </check>
+        </div>
+        <repeat group="{{ @projects }}"
+                value="{{ @value }}">
+            <div class="item mx-3">
+                <!--        if user has a project make a text green else make it red-->
+                <check if="{{ @value['project_complete'] == 'true' }}">
+                    <true>
+                        <h5 class="text-success">{{ @value["project_title"] }}</h5>
+                    </true>
+                    <false>
+                        <h5 class="text-danger">{{ @value["project_title"] }}</h5>
+                    </false>
+                </check>
+                <a href="/player/{{ @value['project_id'] }}">
+                    <img class="card-img img-fluid image"
+                         src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
+                <p>{{ @value["project_description"] }}</p>
+                <check if="{{ @permission == 'admin' }}">
+                    <form method="post" action="#">
+                        <input type="hidden" name="selectedUser" value="{{ @selectedUser }}">
+                        <input type="hidden" name="selectedProject" value="{{ @value['project_id'] }}">
+                        <div>
+                            <check if="{{ isset(@SESSION['user']) }}">
+                                <check if="{{ @value['project_complete'] == 'true' }}">
+                                    <true>
+                                        <button type="submit" class="btn btn-warning" name="remove" value="remove">
+                                            Remove
+                                        </button>
+                                    </true>
+                                    <false>
+                                        <button type="submit" class="btn btn-success" name="give" value="give">Give
+                                        </button>
+                                    </false>
+                                </check>
+                                <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+                                    <a href="/project-edit/{{ @value['project_id'] }}">
+                                        <button type="button" class="btn btn-info">Edit Project</button>
+                                    </a>
+                                </check>
+                            </check>
+                        </div>
+                    </form>
+                </check>
+            </div>
+        </repeat>
+    </div>
+</div>
 
 <include href="views/footer.html"/>
