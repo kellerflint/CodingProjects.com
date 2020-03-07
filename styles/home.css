@@ -8,7 +8,7 @@ body {
 }
 
 .user-button {
-    width: 200px;
+    width: 150px;
     font-size: 1.1em;
 }
 
@@ -27,4 +27,8 @@ body {
     position: fixed;
     top: 0;
     left: 25px;
+}
+
+.categories {
+    width: 25%;
 }

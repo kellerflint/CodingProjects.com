@@ -1,51 +1,48 @@
 <include href="views/header.html"/>
 
-<check if="{{ @permission == 'admin' }}">
-    <a class="dropdown-item" href="/category-edit">Edit Categories</a>
-</check>
+<div class="row">
+    <check if="{{ @permission == 'admin' }}">
+        <div class="col-3">
+            <!--Displaying user list-->
+            <h3 class="border-bottom mt-5">Users</h3>
+            <check if="{{ @permission=='admin' }}">
+                <div class="user-list mb-2 mt-2">
+                    <repeat group="{{ @users }}" value="{{ @value }}">
+                        <form method="post" action="#">
+                            <input type="hidden" name="selectedUser" value="{{ @value['user_id' ]}}">
+                            <check if="{{ @value['user_id'] == @selectedUser }}">
+                                <true>
+                                    <button type="submit" class="user-button btn bg-success mt-1 mb-1">
+                                        {{@value['user_nickname']}}
+                                    </button>
+                                </true>
+                                <false>
+                                    <button type="submit" class="user-button btn btn-secondary mt-1 mb-1">
+                                        {{@value['user_nickname']}}
+                                    </button>
+                                </false>
+                            </check>
+                        </form>
+                    </repeat>
+                </div>
+            </check>
+        </div>
+    </check>
 
-<ul class="nav nav-tabs justify-content-center">
-    <repeat group="{{ @categories }}" value="{{ @category }}">
+    <div class="col">
+        <!-- Displaying Categories -->
+        <select class="form-control form-control-lg categories d-inline mt-4">
+            <repeat group="{{ @categories }}" value="{{ @category }}">
+                <option value="{{ @category['category_id'] }}"> {{@category['category_title']}}</option>
+            </repeat>
+        </select>
 
-        <li class="nav-item category">
-            <a class="nav-link active" href="#">{{ @category['category_title'] }}</a></li>
-        <!--
-        <form method="post" action="#">
-            <input type="hidden" name="category_id" value="{{@category['category_id']}}">
-            <button type="submit" name="category" value="category"> {{@category['category_title']}}</button>
-        </form>
-        -->
-    </repeat>
-</ul>
-
-<div class="wrapper">
-    <!--Displaying user list-->
-    <div class="sidebar">
-        <h3 class="border-bottom">Session Users</h3>
-        <check if="{{ @permission=='admin' }}">
-            <div class="user-list mb-2 mt-2">
-                <repeat group="{{ @users }}" value="{{ @value }}">
-                    <form method="post" action="#">
-                        <input type="hidden" name="selectedUser" value="{{ @value['user_id' ]}}">
-                        <check if="{{ @value['user_id'] == @selectedUser }}">
-                            <true>
-                                <button type="submit" class="user-button btn bg-success mt-1 mb-1">
-                                    {{@value['user_nickname']}}
-                                </button>
-                            </true>
-                            <false>
-                                <button type="submit" class="user-button btn btn-secondary mt-1 mb-1">
-                                    {{@value['user_nickname']}}
-                                </button>
-                            </false>
-                        </check>
-                    </form>
-                </repeat>
-            </div>
+        <check if="{{ @permission == 'admin' }}">
+            <a href="/category-edit">
+                <button class="btn btn-info">Edit Categories</button>
+            </a>
         </check>
-    </div>
 
-    <div class="content">
         <!-- Displaying Projects -->
         <div class="mb-4 mt-4">
             <check if="{{ @permission == 'admin' }}">
