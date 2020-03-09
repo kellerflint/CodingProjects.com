@@ -447,7 +447,7 @@ class Database
         foreach ($projects as $value) {
             $this->removeProject($value['project_id']);
         }
-        $sql = "DELETE FROM Category  WHERE $categoryId=?";//deleting row if match project_id
+        $sql = "DELETE FROM Category  WHERE category_id=?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$categoryId]);
     }
