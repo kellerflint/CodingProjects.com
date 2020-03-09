@@ -44,6 +44,9 @@
             <check if="{{ @success['categoryRemove'] }}">
                 <span class="err text-danger">{{ @success['categoryRemove'] }}</span>
             </check>
+            <check if="{{ @errors['unableToRemoveCategory'] }}">
+                <span class="err text-danger">{{ @errors['unableToRemoveCategory'] }}</span>
+            </check>
             <div class="text-center mt-3">
                 <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
                 <button type="submit" name="categoryRemove" class="btn btn-danger">Remove</button>

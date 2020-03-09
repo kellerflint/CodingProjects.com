@@ -189,13 +189,13 @@ class Controller
                 if ($this->_val->editSessionToUpdate()) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
-                    $this->_f3->set("success['sessionUpdate']","Session has been updated");
+                    $this->_f3->set("success['sessionUpdate']", "Session has been updated");
                 }
             }
             //delete the session
             if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
-                $this->_f3->set("success['sessionDelete']","Session has been deleted");
+                $this->_f3->set("success['sessionDelete']", "Session has been deleted");
 
             }
 
@@ -325,8 +325,10 @@ class Controller
                     $this->_f3->set("categoryDescription", $_POST['categoryDescription']);
                     if ($_POST['category'] == "0") {
                         $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
+                        $this->_f3->set("success['categoryAdded']", "New category has been added");
                     } else {
                         $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
+                        $this->_f3->set("success['categoryUpdated']", "Existing category has been updated");
                     }
                 } else {
                     $this->_f3->set("errors['categoryTitle']", "Category title can't be empty");
@@ -335,17 +337,18 @@ class Controller
 
             //Removing category
             if (isset($_POST['categoryRemove'])) {
-                $db->removeCategory($_POST['category']);
-                $this->_f3->set('categoryTitle', "");
-                $this->_f3->set('categoryDescription', "");
-                $this->_f3->set("success['categoryRemove']", "Category has been removed");
-
+                if ($_POST['category'] == 0) {
+                    $this->_f3->set("errors['unableToRemoveCategory']", "Please select category to remove");
+                } else {
+                    $db->removeCategory($_POST['category']);
+                    $this->_f3->set('categoryTitle', "");
+                    $this->_f3->set('categoryDescription', "");
+                    $this->_f3->set("success['categoryRemove']", "Category has been removed");
+                }
             }
         }
-
         $this->_f3->set("categories", $db->getCategory());
         $this->_f3->set("category", $db->getCategoryById($_POST['category']));
-
         $view = new Template();
         echo $view->render('views/category_edit.html');
     }
