@@ -267,6 +267,11 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC)["user_project_date_complete"];
     }
 
+    /**
+     * Update the project with user input data
+     * @param $userId takes user's id
+     * @param $projectId takes project's id
+     */
     function giveUserProject($userId, $projectId)
     {
         $sql = "UPDATE User_Project 
@@ -279,6 +284,11 @@ class Database
         $statement->execute([$userId, $projectId]);
     }
 
+    /**
+     * Remove the project
+     * @param $userId takes user's id
+     * @param $projectId takes project's id
+     */
     function removeUserProject($userId, $projectId)
     {
         $sql = "UPDATE User_Project 
@@ -287,6 +297,11 @@ class Database
         $statement->execute([$userId, $projectId]);
     }
 
+    /**
+     * Get all the project by its id
+     * @param $project_id takes project's id
+     * @return mixed all the projects of the specified project id
+     */
     function getProjectsById($project_id)
     {
         $sql = "SELECT *FROM Project WHERE project_id=?";
@@ -296,6 +311,13 @@ class Database
 
     }
 
+    /**
+     * Update project with user input data
+     * @param $project_id takes project id  (user selected)
+     * @param $project_title takes project title (user input)
+     * @param $project_description takes project description (user input)
+     * @param $categoryId takes category id (user selected)
+     */
     function updateProject($project_id, $project_title, $project_description, $categoryId)
     {
         $sql = "UPDATE Project SET project_title = ?, project_description = ?, category_id = ? WHERE project_id = ?";
@@ -305,6 +327,13 @@ class Database
         $statement->execute([$project_title, $project_description, $categoryId, $project_id]);
     }
 
+    /**
+     * Update video
+     * @param $videoId takes video id
+     * @param $videoTitle takes video title
+     * @param $videoUrl takes video url
+     * @param $videoOrder takes video order
+     */
     function updateVideoById($videoId, $videoTitle, $videoUrl, $videoOrder)
     {
         $sql = "UPDATE Video SET video_title = ? , video_url = ?, video_order = ? WHERE video_id=?";
@@ -312,6 +341,10 @@ class Database
         $statement->execute([$videoTitle, $videoUrl, $videoOrder, $videoId]);
     }
 
+    /**
+     * Remove video
+     * @param $videoId
+     */
     function removeVideo($videoId)
     {
         $sql = "UPDATE User_Project SET user_project_bookmark =
@@ -325,6 +358,12 @@ class Database
 
     }
 
+    /**
+     * Add video
+     * @param $projectId takes project id
+     * @param $videoTitle takes video title
+     * @param $videoUrl takes video url
+     */
     function addVideo($projectId, $videoTitle, $videoUrl)
     {
         $sql = "SELECT MAX(video_order) FROM Video WHERE project_id = ?";
@@ -337,6 +376,10 @@ class Database
         $statement->execute([$projectId, $videoTitle, $videoUrl, $max]);
     }
 
+    /**
+     * Remove project
+     * @param $projectId takes project id
+     */
     function removeProject($projectId)
     {
         $sql = "DELETE FROM User_Project  WHERE project_id=?";//deleting row if match project_id
@@ -354,6 +397,10 @@ class Database
         $statement->execute([$projectId]);
     }
 
+    /**
+     * Get all the category
+     * @return array
+     */
     function getCategory()
     {
         $sql = "SELECT * FROM Category";
@@ -362,6 +409,12 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
 
     }
+
+    /**
+     * Get the category by the category id
+     * @param $categoryId takes category id
+     * @return mixed
+     */
     function getCategoryById($categoryId)
     {
         $sql="SELECT * FROM Category WHERE category_id=?";
@@ -369,6 +422,13 @@ class Database
         $statement -> execute([$categoryId]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Update category
+     * @param $categoryId takes category id
+     * @param $categoryTitle takes category title
+     * @param $categoryDescription takes category description
+     */
     function  updateCategory($categoryId,$categoryTitle,$categoryDescription)
     {
         $sql = "UPDATE Category SET category_title =?, category_description=?
@@ -377,6 +437,10 @@ class Database
         $statement->execute([$categoryTitle,$categoryDescription,$categoryId]);
     }
 
+    /**
+     * Remove specified category
+     * @param $categoryId takes category id
+     */
     function removeCategory($categoryId)
     {
         $projects = $this->getProjectByCategoryId($categoryId);
@@ -387,6 +451,12 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$categoryId]);
     }
+
+    /**
+     * Get all the project of specified category id
+     * @param $categoryId takes category id
+     * @return array
+     */
     function  getProjectByCategoryId($categoryId)
     {
         $sql = "SELECT * FROM Project WHERE category_id= ?";
@@ -396,6 +466,11 @@ class Database
     }
 
 
+    /**
+     * Add new category
+     * @param $categoryTitle takes user input category title
+     * @param $categoryDescription takes user input category description
+     */
     function addCategory($categoryTitle,$categoryDescription)
     {
        $sql =  "SELECT MAX(category_order) FROM Category";

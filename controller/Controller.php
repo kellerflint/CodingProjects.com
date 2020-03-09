@@ -248,10 +248,15 @@ class Controller
         echo $view->render("/views/session_edit.html");
     }
 
+    /**
+     * Project edit
+     * Let the user to update the project
+     * let the user delete the project
+     * @param $param takes project_id
+     */
     function projectEditPage($param)
     {
         global $db;
-
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
         $this->_f3->set("categories", $db->getCategory());
@@ -294,6 +299,11 @@ class Controller
         echo $view->render('views/project_edit.html');
     }
 
+    /**
+     * Edit Category
+     * let the user update category
+     * let the user remove category
+     */
     function editCategory()
     {
         global $db;

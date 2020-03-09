@@ -97,7 +97,7 @@ class Validation
     {
         global $f3;
         $isValidLogin = true;//flag
-        if (!$this->validateUserLoin($f3->get('userNameLogin'), $f3->get('userPassword'))) {
+        if (!$this->validateUserLogIn($f3->get('userNameLogin'), $f3->get('userPassword'))) {
             $isValidLogin = false;
             $f3->set("errors['invalid']", "Enter valid credentials ");
         }
@@ -203,6 +203,13 @@ class Validation
         return !empty($url) && (filter_var($url, FILTER_VALIDATE_URL));
     }
 
+    /**
+     * validate the user input videos
+     * @param $videoName
+     * @param $videoUrl
+     * @param $videoOrder
+     * @return bool
+     */
     function validateUserSelectedVideo($videoName, $videoUrl, $videoOrder)
     {
         if (!empty($videoName) && !empty($videoUrl)
@@ -211,24 +218,38 @@ class Validation
             && (filter_var($videoUrl, FILTER_VALIDATE_URL))) {
             return true;
         }
-
     }
 
+    /**
+     * Check to see if a string has white space
+     * @param $string
+     * @return false|int
+     */
     function hasWhiteSpace($string)
     {
         return strpos($string, ' ');
     }
 
-    function validateUserLoin($userName, $password)
+    /**
+     * Validate login credentials
+     * @param $userName
+     * @param $password
+     * @return bool
+     */
+    function validateUserLogIn($userName, $password)
     {
         global $db;
         if (!empty($db->getUserByLogin($userName, $password))) {
             return true;
         }
         return false;
-
     }
 
+    /**
+     * Validate category title
+     * @param $categoryTitle
+     * @return bool
+     */
     function validCategory($categoryTitle)
     {
         $categoryTitle = trim($categoryTitle);
