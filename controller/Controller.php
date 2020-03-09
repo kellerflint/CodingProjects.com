@@ -186,15 +186,17 @@ class Controller
                 //store the data in hive
                 $this->_f3->set('sessionTitle', $_POST["title"]);
                 $this->_f3->set('sessionDescription', $_POST["description"]);
-
                 if ($this->_val->editSessionToUpdate()) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
+                    $this->_f3->set("success['sessionUpdate']","Session has been updated");
                 }
             }
             //delete the session
             if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
+                $this->_f3->set("success['sessionDelete']","Session has been deleted");
+
             }
 
             if (isset($_POST['userId'])) {
@@ -216,14 +218,24 @@ class Controller
                     // If user id is 0, create a new user instead of updating and existing one
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
+                        $this->_f3->set("success['createNewUser']", "You have successfully created new user");
                     } else {
                         $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"], $_POST['password']);
+                        $this->_f3->set("success['userUpdate']", "You have successfully updated existing user");
                     }
                 }
             }
             //delete the user
             if (isset($_POST['userDelete'])) {
-                $db->deleteUser($_POST['userId']);
+                if ($_POST['userId'] == 0) {
+                    $this->_f3->set("errors['unableToRemove']", "Please select user to delete");
+                } else {
+                    $db->deleteUser($_POST['userId']);
+                    $this->_f3->set('userName', "");
+                    $this->_f3->set('userNickName', "");
+                    $this->_f3->set('password', "");
+                    $this->_f3->set("success['userRemoved']", "You have successfully removed selected user");
+                }
             }
         }
         // Adds session id to the hive

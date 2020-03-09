@@ -15,7 +15,6 @@
                             <false>
                                 <option value="{{@value['category_id']}}">{{@value['category_title']}}</option>
                             </false>
-
                         </check>
                     </repeat>
                 </select>
@@ -35,18 +34,21 @@
                 <textarea class="form-control input" id="category_description" name="categoryDescription">{{ @categoryDescription }}</textarea>
                 <div class="errors text-danger"></div>
             </div>
-            <div class="text-center">
-            <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
-            <button type="submit" name="categoryRemove" class="btn btn-danger">Remove</button>
+
+            <check if="{{ @success['categoryAdded'] }}">
+                <span class="err text-success">{{ @success['categoryAdded'] }}</span>
+            </check>
+            <check if="{{ @success['categoryUpdated'] }}">
+                <span class="err text-success">{{ @success['categoryUpdated'] }}</span>
+            </check>
+            <check if="{{ @success['categoryRemove'] }}">
+                <span class="err text-danger">{{ @success['categoryRemove'] }}</span>
+            </check>
+            <div class="text-center mt-3">
+                <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
+                <button type="submit" name="categoryRemove" class="btn btn-danger">Remove</button>
             </div>
         </form>
     </div>
 </div>
-
-
 <include href="views/footer.html"/>
-
-<!--
-
-
--->

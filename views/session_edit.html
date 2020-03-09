@@ -7,7 +7,7 @@
                 <label for="title">Title</label>
                 <input type="text" class="form-control input" id="title" name="title" value="{{ @session['session_title'] }}">
                 <check if="{{ @errors['sessionTitle'] }}">
-                    <span class="err">{{ @errors['sessionTitle'] }}</span>
+                    <span class="err text-danger">{{ @errors['sessionTitle'] }}</span>
                 </check>
                 <div class="errors text-danger"></div>
             </div>
@@ -16,10 +16,17 @@
                 <input type="text" class="form-control input" name="description" id="description"
                        value="{{ @session['session_description'] }}">
                 <check if="{{ @errors['sessionDescription'] }}">
-                    <span class="err">{{ @errors['sessionDescription'] }}</span>
+                    <span class="err text-danger">{{ @errors['sessionDescription'] }}</span>
                 </check>
+
                 <div class="errors text-danger"></div>
             </div>
+            <check if="{{ @success['sessionUpdate'] }}">
+                <span class="err text-success">{{ @success['sessionUpdate'] }}</span>
+            </check>
+            <check if="{{ @success['sessionDelete'] }}">
+                <span class="err text-danger">{{ @success['sessionDelete'] }}</span>
+            </check>
             <div class="text-center">
             <button type="submit" class="btn btn-success" name="sessionUpdate" value="update">Update</button>
             <button type="submit" class="btn btn-danger" name="sessionDelete" value="delete">Delete</button>
@@ -51,7 +58,7 @@
                 <input type="text" class="form-control input" id="userName" name="name"
                        value="{{ @userName }}">
                 <check if="{{ @errors['userName'] }}">
-                    <span class="err">{{ @errors['userName'] }}</span>
+                    <span class="err text-danger">{{ @errors['userName'] }}</span>
                 </check>
                 <div class="errors text-danger"></div>
             </div>
@@ -60,7 +67,7 @@
                 <input type="text" class="form-control input" id="nickName" name="nickName"
                        value="{{ @userNickName }}">
                 <check if="{{ @errors['userNickName'] }}">
-                    <span class="err">{{ @errors['userNickName'] }}</span>
+                    <span class="err text-danger">{{ @errors['userNickName'] }}</span>
                 </check>
                 <div class="errors text-danger"></div>
             </div>
@@ -69,10 +76,22 @@
                 <input type="text" class="form-control input" id="password" name="password"
                        value="{{ @password }}">
                 <check if="{{ @errors['password'] }}">
-                    <span class="err">{{ @errors['password'] }}</span>
+                    <span class="err text-danger">{{ @errors['password'] }}</span>
                 </check>
                 <div class="errors text-danger"></div>
             </div>
+            <check if="{{ @success['createNewUser'] }}">
+                <span class="err text-success">{{ @success['createNewUser'] }}</span>
+            </check>
+            <check if="{{ @success['userUpdate'] }}">
+                <span class="err text-success">{{ @success['userUpdate'] }}</span>
+            </check>
+            <check if="{{ @success['userRemoved'] }}">
+                <span class="err text-danger">{{ @success['userRemoved'] }}</span>
+            </check>
+            <check if="{{ @errors['unableToRemove'] }}">
+                <span class="err text-danger">{{ @errors['unableToRemove'] }}</span>
+            </check>
             <div class="text-center">
             <button type="submit" class="btn btn-success" name="userUpdate" value="userUpdate">Update</button>
             <button type="submit" class="btn btn-info">Copy</button>
