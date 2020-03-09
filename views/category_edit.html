@@ -24,12 +24,15 @@
             <div class="form-group val-empty val-lessThan255">
                 <label for="category_title">Category Title</label>
                 <input type="text" class="form-control input" id="category_title" name="categoryTitle"
-                       value="{{ @category['category_title'] }}">
+                       value="{{ @categoryTitle }}">
+                <check if="{{ @errors['categoryTitle'] }}">
+                    <span class="err text-danger">{{ @errors['categoryTitle'] }}</span>
+                </check>
                 <div class="errors text-danger"></div>
             </div>
             <div class="form-group val-lessThan5000">
                 <label for="category_description">Category Description</label>
-                <textarea class="form-control input" id="category_description" name="categoryDescription">{{ @category['category_description'] }}</textarea>
+                <textarea class="form-control input" id="category_description" name="categoryDescription">{{ @categoryDescription }}</textarea>
                 <div class="errors text-danger"></div>
             </div>
             <div class="text-center">

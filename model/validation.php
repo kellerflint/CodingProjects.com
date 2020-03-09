@@ -97,7 +97,7 @@ class Validation
     {
         global $f3;
         $isValidLogin = true;//flag
-        if(!$this->validateUserLoin($f3->get('userNameLogin'),$f3->get('userPassword'))){
+        if (!$this->validateUserLoin($f3->get('userNameLogin'), $f3->get('userPassword'))) {
             $isValidLogin = false;
             $f3->set("errors['invalid']", "Enter valid credentials ");
         }
@@ -203,13 +203,12 @@ class Validation
         return !empty($url) && (filter_var($url, FILTER_VALIDATE_URL));
     }
 
-    function validateUserSelectedVideo($videoName,$videoUrl,$videoOrder)
+    function validateUserSelectedVideo($videoName, $videoUrl, $videoOrder)
     {
-        if(!empty($videoName)&& !empty($videoUrl)
+        if (!empty($videoName) && !empty($videoUrl)
             && !empty($videoOrder)
             && ctype_digit($videoOrder)
-            && (filter_var($videoUrl, FILTER_VALIDATE_URL)))
-        {
+            && (filter_var($videoUrl, FILTER_VALIDATE_URL))) {
             return true;
         }
 
@@ -220,13 +219,19 @@ class Validation
         return strpos($string, ' ');
     }
 
-    function validateUserLoin($userName,$password)
+    function validateUserLoin($userName, $password)
     {
         global $db;
-        if(!empty($db->getUserByLogin($userName,$password))) {
+        if (!empty($db->getUserByLogin($userName, $password))) {
             return true;
         }
         return false;
 
+    }
+
+    function validCategory($categoryTitle)
+    {
+        $categoryTitle = trim($categoryTitle);
+        return !empty($categoryTitle);
     }
 }

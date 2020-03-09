@@ -206,13 +206,14 @@ class Controller
             }
             //update the user
             if (isset($_POST['userUpdate'])) {
-                //set the user input data in a hive
+                //set the user input data in hive variable
                 $this->_f3->set('userName', $_POST['name']);
                 $this->_f3->set('userNickName', $_POST['nickName']);
                 $this->_f3->set('password', $_POST['password']);
 
-                // If user id is 0, create a new user instead of updating and existing one
+                //if the data input by user are valid
                 if ($this->_val->ValidNewUser()) {
+                    // If user id is 0, create a new user instead of updating and existing one
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
                     } else {
@@ -287,30 +288,35 @@ class Controller
         $this->_f3->set("stylesheets", array("styles/category_edit.css"));
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (isset($_POST["category"])) {
-                //get from database
+            if (isset($_POST["category"])) { //category is CategoryId
+                //if user select options get the data from database
                 $this->_f3->set("selectedCategory", $_POST['category']);
                 $category = $db->getCategoryById($_POST['category']);
                 $this->_f3->set("categoryTitle", $category['category_title']);
+
                 $this->_f3->set("categoryDescription", $category['category_description']);
             }
 
             if (isset($_POST["categoryUpdate"])) {
-                $this->_f3->set("categoryTitle", $_POST['categoryTitle']);
-                $this->_f3->set("categoryDescription", $_POST['categoryDescription']);
-                if ($_POST['category'] == "0") {
-                    var_dump($_POST);
-                    $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
-
+                if ($this->_val->validCategory($_POST['categoryTitle'])) {
+                    $this->_f3->set("categoryTitle", $_POST['categoryTitle']);
+                    $this->_f3->set("categoryDescription", $_POST['categoryDescription']);
+                    if ($_POST['category'] == "0") {
+                        $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
+                    } else {
+                        $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
+                    }
                 } else {
-                    $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
+                    $this->_f3->set("errors['categoryTitle']", "Category title can't be empty");
                 }
             }
 
+            //Removing category
             if (isset($_POST['categoryRemove'])) {
                 $db->removeCategory($_POST['category']);
             }
         }
+
         $this->_f3->set("categories", $db->getCategory());
         $this->_f3->set("category", $db->getCategoryById($_POST['category']));
 
