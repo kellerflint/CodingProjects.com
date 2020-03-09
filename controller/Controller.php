@@ -336,6 +336,10 @@ class Controller
             //Removing category
             if (isset($_POST['categoryRemove'])) {
                 $db->removeCategory($_POST['category']);
+                $this->_f3->set('categoryTitle', "");
+                $this->_f3->set('categoryDescription', "");
+                $this->_f3->set("success['categoryRemove']", "Category has been removed");
+
             }
         }
 
