@@ -302,8 +302,15 @@ class Controller
                 $this->_f3->set('projectTitle', $_POST['projectName']);
                 $this->_f3->set('projectDescription', $_POST['projectDescription']);
                 if ($this->_val->validateProjectPage()) {
-                    $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                    if ($param['id'] == 0) {
+                        //creating new project
+                        $id = $db->createProject($_POST['projectName'], $_POST['projectDescription'], $_POST['categoryId']);
+                        $this->_f3->reroute("project-edit/$id");
+                    } else {
+                        $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                    }
                 }
+
             }
             if (isset($_POST["updateVideo"])) {
                 //hive user input data
