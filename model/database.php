@@ -482,4 +482,10 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$categoryTitle,$categoryDescription,$max]);
     }
+
+    function uploadProjectImage($filePath, $projectId) {
+        $sql = "UPDATE Project SET project_image = ? WHERE project_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$filePath, $projectId]);
+    }
 }

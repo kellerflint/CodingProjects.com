@@ -65,7 +65,7 @@
                 </check>
                 <a href="/player/{{ @value['project_id'] }}">
                     <img class="card-img img-fluid image"
-                         src="images/picone.jpeg" alt="{{ @value['project_title'] . ' image' }}"></a>
+                         src="../uploads/{{ @value['project_image'] }}" alt="{{ @value['project_title'] . ' image' }}"></a>
                 <p>{{ @value["project_description"] }}</p>
                 <check if="{{ @permission == 'admin' }}">
                     <form method="post" action="#">

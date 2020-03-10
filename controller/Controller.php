@@ -256,12 +256,47 @@ class Controller
      */
     function projectEditPage($param)
     {
+        $dirName = 'uploads/';
+
         global $db;
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
         $this->_f3->set("categories", $db->getCategory());
+        $test = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            if (isset($_FILES["fileToUpload"])) {
+                $file = $_FILES['fileToUpload'];
+
+                //defining the valid file type
+                $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
+
+                //checking the file size 2MB-maximum
+                if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
+                    $test .= "<p class='error'>.FILE SIZE IS TOO LARGE. MAXIMUM FILE SIZE IS 3 MB</p>";
+                } //check the file type
+                elseif (in_array($file['type'], $validateType)) {
+                    if ($file['error'] > 0) {
+                        $test .= "<p class='error'>Return Code:{$file['error']}</p>";
+                    }
+                    //checking for duplicate
+                    if (file_exists($dirName . $file['name'])) {
+                        $test .= "<p class='error'> Error uploading:";
+                        $test .= $file['name'] . "already exist.</p>";
+                    } else {
+                        //move file to the upload directory
+                        move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
+                        $test .= "<p class='success'>Uploaded {$file['name']} successfully</p>";
+
+                        // store the file name in the database
+                        $db->uploadProjectImage($file["name"], $param["id"]);
+                    }
+                } else {
+                    $test .= "<p class='error'>Wrong file type.</p>";
+                }
+            }
+
             if (isset($_POST["updateProject"])) {
                 //hive user into data
                 $this->_f3->set('projectTitle', $_POST['projectName']);
@@ -295,8 +330,11 @@ class Controller
         $this->_f3->set("videos", $db->getVideos($param['id']));
         $this->_f3->set("project", $db->getProjectsById($param['id']));
 
+        var_dump($_FILES);
+        var_dump($test);
         $view = new Template();
         echo $view->render('views/project_edit.html');
+
     }
 
     /**
