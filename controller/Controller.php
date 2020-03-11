@@ -289,19 +289,24 @@ class Controller
                 }
 
             }
+
             //updating video
             if (isset($_POST["updateVideo"])) {
                 //hive user input data
                 $this->_f3->set('validVideoName', $_POST['videoName']);
                 $this->_f3->set('videoUrl', $_POST['videoUrl']);
-                if ($this->_val->validateNewVideo() && $_POST['videoId'] == 0) {
-                    $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                if ($this->_val->validateNewVideo()) {
+                    if ($_POST['videoId'] == 0) {
+                        $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                        $this->_f3->set("success['addedVideo']", "New video has been added");
+                    }
                 } else {
                     if ($this->_val->validateUserSelectedVideo($_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"])) {
                         $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
                     } else {
                         $this->_f3->set("errors['id']", $_POST["videoId"]);
                     }
+                    $this->_f3->set("errors['UnableToAddVideo']", "**Both fields are required**");
                 }
             }
             //removing video
@@ -422,3 +427,6 @@ class Controller
         }
     }
 }
+
+
+

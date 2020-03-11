@@ -98,10 +98,14 @@
                     <check if="{{ @errors['videoUrl'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err text-danger">{{ @errors['videoUrl'] }}</span>
                     </check>
+
+                    <check if="{{ @success['addedVideo']}}">
+                        <span class="err text-success">{{ @success['addedVideo'] }}</span>
+                    </check>
                     <div class="errors text-danger"></div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">Add</button>
+                    <button type="submit" class="btn btn-success" name="addVideo" value="updateVideo">Add</button>
                 </div>
             </form>
         </div>
@@ -118,6 +122,9 @@
                                value="{{ @value['video_title'] }}">
                         <div class="errors text-danger"></div>
                     </div>
+                    <check if="{{ @errors['validVideoName'] && @errors['id'] == @value['video_id'] }}">
+                        <span class="err text-danger">{{ @errors['validVideoName'] }}</span>
+                    </check>
                     <check if="{{ @errors['validVideoName'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err text-danger">{{ @errors['validVideoName'] }}</span>
                     </check>
@@ -150,3 +157,4 @@
     </div>
 </div>
 <include href="views/footer.html"/>
+
