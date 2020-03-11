@@ -32,8 +32,8 @@ class Controller
         $projects = $db->getProjects();
 
         $userId = 0;
-
         $permission = "none";
+
         if (isset($_SESSION['user'])) {
             $permission = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
             $userId = $_SESSION["user"]->getUserId();
@@ -42,6 +42,7 @@ class Controller
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
         $this->_f3->set("permission", $permission);
 
+        //when sever request is post
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (isset($_POST['category_id'])) {
                 $projects = $db->getProjectByCategoryId($_POST['category_id']);
@@ -99,7 +100,7 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/sessions.css"]);
-
+        //when sever request is post
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             //while connecting sessions, it stores session id that user selected
             //by clicking connect button from the session page
@@ -126,6 +127,7 @@ class Controller
         }
 
         global $db;
+        //when sever request is post
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $this->_f3->set("userNameLogin", $_POST["username"]);
@@ -134,6 +136,7 @@ class Controller
                 $user = $db->getUserByLogin($_POST["username"], $_POST["password"]);
 
             }
+
             if (!empty($user)) {
                 //creating an object of a user class, passed returned $user (array) as params
                 if ($user["user_is_admin"] == 1) {
@@ -179,13 +182,14 @@ class Controller
         if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
             $this->_f3->reroute("/sessions");
         }
-
+        //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //update the session
             if (isset($_POST['sessionUpdate'])) {
                 //store the data in hive
                 $this->_f3->set('sessionTitle', $_POST["title"]);
                 $this->_f3->set('sessionDescription', $_POST["description"]);
+                //calling validation function (if valid)
                 if ($this->_val->editSessionToUpdate()) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
@@ -199,6 +203,7 @@ class Controller
 
             }
 
+            //when specific user is selected
             if (isset($_POST['userId'])) {
                 $user = $db->getUserById($_POST["userId"]);
                 $this->_f3->set('userId', $user["user_id"]);
@@ -256,13 +261,14 @@ class Controller
      */
     function projectEditPage($param)
     {
-        $dirName = 'uploads/';
 
         global $db;
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
+        //setting the category in hive
         $this->_f3->set("categories", $db->getCategory());
 
+        //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["updateProject"])) {
                 //hive user into data
@@ -272,45 +278,17 @@ class Controller
                     if ($param['id'] == 0) {
                         //creating new project
                         $id = $db->createProject($_POST['projectName'], $_POST['projectDescription'], $_POST['categoryId']);
+                        $this->fileUpload($param);
+                        //TODO not up loading image when project id is 0
                         $this->_f3->reroute("project-edit/$id");
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                        $this->fileUpload($param);
                     }
                 }
-                if (isset($_FILES["fileToUpload"])) {
-                    $file = $_FILES['fileToUpload'];
 
-                    //defining the valid file type
-                    $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
-
-                    //checking the file size 2MB-maximum
-                    if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
-                        $this->_f3->set("errors['largeImg", "Sorry! file size too large Maximum file size is 3 MB ");
-
-                    } //check the file type
-                    elseif (in_array($file['type'], $validateType)) {
-                        if ($file['error'] > 0) {
-                            $this->_f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
-
-
-                        }
-                        //checking for duplicate
-                        if (file_exists($dirName . $file['name'])) {
-                            $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
-
-                        } else {
-                            //move file to the upload directory
-                            move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
-                            $this->_f3->set("success['uploadSuccessfully']", "Uploaded images successfully");
-
-                            // store the file name in the database
-                            $db->uploadProjectImage($file["name"], $param["id"]);
-                        }
-                    } else {
-                        $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
-                    }
-                }
             }
+            //updating video
             if (isset($_POST["updateVideo"])) {
                 //hive user input data
                 $this->_f3->set('validVideoName', $_POST['videoName']);
@@ -325,14 +303,17 @@ class Controller
                     }
                 }
             }
+            //removing video
             if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
             }
+            //removing project
             if (isset($_POST['removeProject'])) {
                 $db->removeProject($param["id"]);
                 $this->_f3->reroute("/");
             }
         }
+        //hive the data videos and projects
         $this->_f3->set("videos", $db->getVideos($param['id']));
         $this->_f3->set("project", $db->getProjectsById($param['id']));
         $view = new Template();
@@ -350,6 +331,7 @@ class Controller
         global $db;
         $this->_f3->set("stylesheets", array("styles/category_edit.css"));
 
+        //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["category"])) { //category is CategoryId
                 //if user select options get the data from database
@@ -360,6 +342,7 @@ class Controller
                 $this->_f3->set("categoryDescription", $category['category_description']);
             }
 
+            //updating category
             if (isset($_POST["categoryUpdate"])) {
                 if ($this->_val->validCategory($_POST['categoryTitle'])) {
                     $this->_f3->set("categoryTitle", $_POST['categoryTitle']);
@@ -388,9 +371,53 @@ class Controller
                 }
             }
         }
+        //setting category data in hive variables
         $this->_f3->set("categories", $db->getCategory());
         $this->_f3->set("category", $db->getCategoryById($_POST['category']));
         $view = new Template();
         echo $view->render('views/category_edit.html');
+    }
+
+    /**
+     * Uploading cover picture for project
+     * @param $param takes project id
+     */
+    function fileUpload($param)
+    {
+        $dirName = 'uploads/';
+        global $db;
+        if (isset($_FILES["fileToUpload"])) {
+            $file = $_FILES['fileToUpload'];
+
+            //defining the valid file type
+            $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
+
+            //checking the file size 2MB-maximum
+            if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
+                $this->_f3->set("errors['largeImg", "Sorry! file size too large Maximum file size is 3 MB ");
+
+            } //check the file type
+            elseif (in_array($file['type'], $validateType)) {
+                if ($file['error'] > 0) {
+                    $this->_f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
+
+
+                }
+                //checking for duplicate
+                if (file_exists($dirName . $file['name'])) {
+                    $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
+
+                } else {
+                    //move file to the upload directory
+                    move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
+                    $this->_f3->set("success['uploadSuccessfully']", "Uploaded images successfully");
+
+                    // store the file name in the database
+                    $db->uploadProjectImage($file["name"], $param["id"]);
+                }
+            } else {
+                $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
+            }
+        }
     }
 }

@@ -24,22 +24,24 @@
                     </check>
                     <div class="errors text-danger"></div>
                 </div>
-                <label for="category">Category</label>
-                <select name="categoryId" id="category" class="form-control">
-                    <repeat group="{{ @categories }}" value="{{ @value }}">
-                        <check if="{{@value['category_id'] == @project['category_id']}}">
-                            <true>
-                                <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}
-                                </option>
-                            </true>
-                            <false>
-                                <option value="{{ @value['category_id'] }}">{{ @value['category_title'] }}</option>
-                            </false>
-                        </check>
-                    </repeat>
-                </select>
                 <div class="form-group">
-                    <input type="file" class="form-control-file btn" id="exampleFormControlFile1" name="fileToUpload">
+                    <label for="category">Category</label>
+                    <select name="categoryId" id="category" class="form-control">
+                        <repeat group="{{ @categories }}" value="{{ @value }}">
+                            <check if="{{@value['category_id'] == @project['category_id']}}">
+                                <true>
+                                    <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}
+                                    </option>
+                                </true>
+                                <false>
+                                    <option value="{{ @value['category_id'] }}">{{ @value['category_title'] }}</option>
+                                </false>
+                            </check>
+                        </repeat>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" class="form-control-file"  name="fileToUpload">
                 </div>
                 <div class="text-center mt-3">
                     <check if="{{ @project['project_id'] == 0}}">
