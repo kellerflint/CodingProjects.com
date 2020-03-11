@@ -262,7 +262,6 @@ class Controller
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
         $this->_f3->set("categories", $db->getCategory());
-        $test = "";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -274,26 +273,34 @@ class Controller
 
                 //checking the file size 2MB-maximum
                 if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
-                    $test .= "<p class='error'>.FILE SIZE IS TOO LARGE. MAXIMUM FILE SIZE IS 3 MB</p>";
+//                    $test .= "<p class='error'>.FILE SIZE IS TOO LARGE. MAXIMUM FILE SIZE IS 3 MB</p>";
+                    $this->_f3->set("errors['largeImg", "Sorry! file size too large Maximum file size is 3 MB ");
+
                 } //check the file type
                 elseif (in_array($file['type'], $validateType)) {
                     if ($file['error'] > 0) {
-                        $test .= "<p class='error'>Return Code:{$file['error']}</p>";
+//                        echo "<p class='error'>Return Code:{$file['error']}</p>";
+                        $this->_f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
+
+
                     }
                     //checking for duplicate
                     if (file_exists($dirName . $file['name'])) {
-                        $test .= "<p class='error'> Error uploading:";
-                        $test .= $file['name'] . "already exist.</p>";
+//                        echo "<p class='error'> Error uploading:";
+//                        echo $file['name'] . "already exist.</p>";
+                        $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
+
                     } else {
                         //move file to the upload directory
                         move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
-                        $test .= "<p class='success'>Uploaded {$file['name']} successfully</p>";
+//                       echo "<p class='success'>Uploaded {$file['name']} successfully</p>";
+                        $this->_f3->set("success['uploadSuccessfully']", "Uploaded images successfully");
 
                         // store the file name in the database
                         $db->uploadProjectImage($file["name"], $param["id"]);
                     }
                 } else {
-                    $test .= "<p class='error'>Wrong file type.</p>";
+                    $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
                 }
             }
 
@@ -336,9 +343,6 @@ class Controller
         }
         $this->_f3->set("videos", $db->getVideos($param['id']));
         $this->_f3->set("project", $db->getProjectsById($param['id']));
-
-        var_dump($_FILES);
-        var_dump($test);
         $view = new Template();
         echo $view->render('views/project_edit.html');
 

@@ -40,9 +40,18 @@
                 </select>
 
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-success" name="updateProject" value="updateProject">
-                        Update
-                    </button>
+                    <check if="{{ @project['project_id'] == 0}}">
+                        <true>
+                            <button type="submit" class="btn btn-success" name="updateProject" value="updateProject">
+                                Create
+                            </button>
+                        </true>
+                        <false>
+                            <button type="submit" class="btn btn-success" name="updateProject" value="updateProject">
+                                Update
+                            </button>
+                        </false>
+                    </check>
                     <button type="submit" class="btn btn-danger" name="removeProject" value="updateProject">Remove
                     </button>
                 </div>
@@ -50,12 +59,24 @@
             <form action="#" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <input type="file" class="form-control-file btn" id="exampleFormControlFile1" name="fileToUpload">
-                    <input type="submit" class="form-control-file btn btn-info" name="uploadImage" value="uploadImage">
+                    <input type="submit" class="form-control-file btn btn-info" name="uploadImage" value="Upload Image">
                 </div>
             </form>
-            <div class="text-center">
-                <img src="../uploads/{{ @project['project_image'] }}" alt="project image">
-            </div>
+            <check if="{{ @errors['largeImg'] }}">
+                <span class="err text-danger">{{ @errors['largeImg'] }}</span>
+            </check>
+            <check if="{{ @errors['returnCode'] }}">
+                <span class="err text-danger">{{ @errors['returnCode'] }}</span>
+            </check>
+            <check if="{{ @errors['duplicatedImage'] }}">
+                <span class="err text-danger">{{ @errors['duplicatedImage'] }}</span>
+            </check>
+            <check if="{{ @errors['wrongFileType'] }}">
+                <span class="err text-danger">{{ @errors['wrongFileType'] }}</span>
+            </check>
+            <check if="{{ @success['uploadSuccessfully'] }}">
+                <span class="err text-success">{{ @success['uploadSuccessfully'] }}</span>
+            </check>
         </div>
     </div>
     <div class="col-6">
