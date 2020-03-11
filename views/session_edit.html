@@ -24,9 +24,6 @@
             <check if="{{ @success['sessionUpdate'] }}">
                 <span class="err text-success">{{ @success['sessionUpdate'] }}</span>
             </check>
-            <check if="{{ @success['sessionDelete'] }}">
-                <span class="err text-danger">{{ @success['sessionDelete'] }}</span>
-            </check>
             <div class="text-center">
             <button type="submit" class="btn btn-success" name="sessionUpdate" value="update">Update</button>
             <button type="submit" class="btn btn-danger" name="sessionDelete" value="delete">Delete</button>

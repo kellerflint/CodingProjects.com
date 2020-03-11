@@ -199,7 +199,8 @@ class Controller
             //delete the session
             if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
-                $this->_f3->set("success['sessionDelete']", "Session has been deleted");
+                //reroute to home page after session has been deleted
+                $this->_f3->reroute("/");
 
             }
 
@@ -410,7 +411,7 @@ class Controller
                 } else {
                     //move file to the upload directory
                     move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
-                    $this->_f3->set("success['uploadSuccessfully']", "Uploaded images successfully");
+                    $this->_f3->set("success['uploadSuccessfully']", "Updated successfully");
 
                     // store the file name in the database
                     $db->uploadProjectImage($file["name"], $param["id"]);
