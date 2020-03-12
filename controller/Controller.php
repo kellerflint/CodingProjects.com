@@ -222,6 +222,7 @@ class Controller
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
                         $this->_f3->set("success['createNewUser']", "You have successfully created new user");
+                        $this->_f3->set("userId", $_POST['userId']);
                     } else {
                         $db->updateUser($_POST['userId'], $_POST["name"], $_POST["nickName"], $_POST['password']);
                         $this->_f3->set("success['userUpdate']", "You have successfully updated existing user");
