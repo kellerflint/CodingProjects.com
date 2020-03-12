@@ -8,21 +8,9 @@
             <check if="{{ @SESSION['session_permission'] =='admin' }}">
                 <div class="user-list mb-2 mt-2">
                     <repeat group="{{ @users }}" value="{{ @value }}">
-                        <form method="post" action="#">
-                            <input type="hidden" name="selectedUser" value="{{ @value['user_id' ]}}">
-                            <check if="{{ @value['user_id'] == @selectedUser }}">
-                                <true>
-                                    <button type="submit" class="user-button btn bg-success mt-1 mb-1">
-                                        {{@value['user_nickname']}}
-                                    </button>
-                                </true>
-                                <false>
-                                    <button type="submit" class="user-button btn btn-secondary mt-1 mb-1">
-                                        {{@value['user_nickname']}}
-                                    </button>
-                                </false>
-                            </check>
-                        </form>
+                        <button type="submit" class="user-button btn btn-secondary mt-1 mb-1" value="{{ @value['user_id'] }}">
+                            {{@value['user_nickname']}}
+                        </button>
                     </repeat>
                 </div>
             </check>

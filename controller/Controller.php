@@ -280,7 +280,7 @@ class Controller
                         $this->_f3->reroute("project-edit/$id");
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        $this->fileUpload($param);
+                        $this->fileUpload($param["id"]);
                     }
                 }
             }
