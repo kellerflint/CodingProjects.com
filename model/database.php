@@ -496,4 +496,28 @@ class Database
         $statement = $this->_db->prepare($sql);
         $statement->execute([$filePath, $projectId]);
     }
+    function moveVideoUpOrDown($videoId, $change, $projectId)
+    {
+        // get the info of the current video
+        $sql = "SELECT * FROM Video WHERE video_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$videoId]);
+        $currentVideo = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // get the info of the video above/below
+        $otherOrder = $currentVideo['video_order'];
+        ($change == "up") ? $otherOrder-- : $otherOrder++;
+
+        $sql ="SELECT * FROM Video WHERE video_order = ? AND project_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$otherOrder,  $projectId]);
+        $otherVideo = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // set the order of the current video to the order of the other video
+        $sql = "UPDATE Video SET video_order = ? WHERE video_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$otherVideo['video_order'], $currentVideo['video_id']]);
+        $statement->execute([$currentVideo['video_order'], $otherVideo['video_id']]);
+
+    }
 }

@@ -144,12 +144,19 @@
                                value="{{ @value['video_order'] }}">
                         <div class="errors text-danger"></div>
                     </div>
+
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success" name="updateVideo" value="updateVideo">
                             Update
                         </button>
                         <button type="submit" class="btn btn-danger" name="removeVideo" value="removeVideo">Remove
                         </button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success" name="movingUpButton" value="moveUp"> Move up</button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success" name="movingDownButton" value="MoveDown"> Move Down</button>
                     </div>
                 </form>
             </div>

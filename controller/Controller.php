@@ -307,7 +307,15 @@ class Controller
                     }
                 }
             }
+            //Change the projects order
+            if(isset($_POST['movingUpButton'])){
+                //should move the project one level up
+                $db->moveVideoUpOrDown($_POST['videoId'],"up",$param['id']);
+            }
+            if(isset($_POST['movingDownButton'])){
+                $db->moveVideoUpOrDown($_POST['videoId'],"down",$param['id']);
 
+            }
             //removing video
             if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
