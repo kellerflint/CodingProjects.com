@@ -327,14 +327,12 @@ class Database
         $statement->execute([$project_title, $project_description, $categoryId, $project_id]);
     }
 
-    function createProject($projectTitle,$projectDescription,$categoryId)
+    function createProject($projectTitle, $projectDescription, $categoryId)
     {
         $sql = "INSERT INTO Project values (DEFAULT,?,'test.png',?,?)";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$projectTitle,$projectDescription,$categoryId]);
+        $statement->execute([$projectTitle, $projectDescription, $categoryId]);
         return $this->_db->lastInsertId();
-
-
     }
 
     /**

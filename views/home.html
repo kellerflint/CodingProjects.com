@@ -31,7 +31,7 @@
 
     <div class="col">
         <!-- Displaying Categories -->
-        <select class="form-control form-control-lg categories d-inline mt-4">
+        <select class="form-control form-control-lg categories d-inline mt-4" id="category">
             <repeat group="{{ @categories }}" value="{{ @category }}">
                 <option value="{{ @category['category_id'] }}"> {{@category['category_title']}}</option>
             </repeat>

@@ -200,7 +200,7 @@ class Controller
             if (isset($_POST['sessionDelete'])) {
                 $db->deleteSession($param['id']);
                 //reroute to home page after session has been deleted
-                $this->_f3->reroute("/");
+                $this->_f3->reroute("/sessions");
 
             }
 
@@ -271,15 +271,19 @@ class Controller
 
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
             if (isset($_POST["updateProject"])) {
+
                 //hive user into data
                 $this->_f3->set('projectTitle', $_POST['projectName']);
                 $this->_f3->set('projectDescription', $_POST['projectDescription']);
+
                 if ($this->_val->validateProjectPage()) {
+
                     if ($param['id'] == 0) {
                         //creating new project
                         $id = $db->createProject($_POST['projectName'], $_POST['projectDescription'], $_POST['categoryId']);
-                        $this->fileUpload($param);
+                        $this->fileUpload($id);
                         //TODO not up loading image when project id is 0
                         $this->_f3->reroute("project-edit/$id");
                     } else {
@@ -287,7 +291,6 @@ class Controller
                         $this->fileUpload($param);
                     }
                 }
-
             }
 
             //updating video
@@ -386,9 +389,9 @@ class Controller
 
     /**
      * Uploading cover picture for project
-     * @param $param takes project id
+     * @param $param string takes project id
      */
-    function fileUpload($param)
+    function fileUpload($id)
     {
         $dirName = 'uploads/';
         global $db;
@@ -419,7 +422,7 @@ class Controller
                     $this->_f3->set("success['uploadSuccessfully']", "Updated successfully");
 
                     // store the file name in the database
-                    $db->uploadProjectImage($file["name"], $param["id"]);
+                    $db->uploadProjectImage($file["name"], $id);
                 }
             } else {
                 $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
