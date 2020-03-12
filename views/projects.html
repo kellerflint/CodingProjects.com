@@ -1,0 +1,40 @@
+<repeat group="{{ @projects }}"
+        value="{{ @value }}">
+    <div class="item mx-3">
+        <!--        if user has a project make a text green else make it red-->
+        <check if="{{ @value['project_complete'] == 'true' }}">
+            <true>
+                <h5 class="text-success">{{ @value["project_title"] }}</h5>
+            </true>
+            <false>
+                <h5 class="text-danger">{{ @value["project_title"] }}</h5>
+            </false>
+        </check>
+        <a href="/player/{{ @value['project_id'] }}">
+            <img class="card-img img-fluid image"
+                 src="../uploads/{{ @value['project_image'] }}" alt="{{ @value['project_title'] . ' image' }}"></a>
+        <p>{{ @value["project_description"] }}</p>
+        <check if="{{ @SESSION['session_permission'] == 'admin' }}">
+            <div>
+                <check if="{{ isset(@SESSION['user']) }}">
+                    <check if="{{ @value['project_complete'] == 'true' }}">
+                        <true>
+                            <button type="submit" class="btn btn-warning" name="remove" value="remove">
+                                Remove
+                            </button>
+                        </true>
+                        <false>
+                            <button type="submit" class="btn btn-success" name="give" value="give">Give
+                            </button>
+                        </false>
+                    </check>
+                    <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+                        <a href="/project-edit/{{ @value['project_id'] }}">
+                            <button type="button" class="btn btn-info">Edit Project</button>
+                        </a>
+                    </check>
+                </check>
+            </div>
+        </check>
+    </div>
+</repeat>

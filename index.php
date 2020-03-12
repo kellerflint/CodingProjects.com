@@ -62,9 +62,15 @@ $f3->route('GET|POST /category-edit', function ($f3){
 });
 
 $f3->route('POST /ajax', function ($f3) {
+    global $db;
+    global $controller;
+
     if (isset($_POST['project_id'])) {
-        global $db;
         echo json_encode($db->getVideos($_POST['project_id']));
+    }
+
+    if (isset($_POST["category_id"])) {
+        echo $controller->displayProjects($_POST['category_id'], $_POST["user_id"]);
     }
 });
 

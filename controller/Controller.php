@@ -27,44 +27,33 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/home.css"]);
-        //get the call the getCategory() and store the result in hive variable
         $this->_f3->set("categories", $db->getCategory());
-        $projects = $db->getProjects();
-
-        $userId = 0;
-        $permission = "none";
-
-        if (isset($_SESSION['user'])) {
-            $permission = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
-            $userId = $_SESSION["user"]->getUserId();
-        }
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
-        $this->_f3->set("permission", $permission);
 
         //when sever request is post
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if (isset($_POST['category_id'])) {
-                $projects = $db->getProjectByCategoryId($_POST['category_id']);
-            }
+//        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+//            if (isset($_POST["remove"])) {
+//                $db->removeUserProject($_POST['selectedUser'], $_POST['selectedProject']);
+//
+//            }
+//            if (isset($_POST['give'])) {
+//                $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
+//            }
+//        }
 
-            if (isset($_POST["remove"])) {
-                $db->removeUserProject($_POST['selectedUser'], $_POST['selectedProject']);
+        $view = new Template();
+        echo $view->render('views/home.html');
+    }
 
-            }
-            if (isset($_POST['give'])) {
-                $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
-            }
+    function displayProjects($category_id, $user_id) {
+        global $db;
 
-            if ($permission == "admin") {
-                $this->_f3->set("selectedUser", $_POST['selectedUser']);
-                $userId = $_POST['selectedUser'];
-            }
-        }
+        $projects = $db->getProjectByCategoryId($category_id);
 
         foreach ($projects as $key => $value) {
             //get date of user completed project
-            if ($db->getUserProjectDate($userId, $value['project_id'])) {
+            if ($db->getUserProjectDate($user_id, $value['project_id'])) {
                 $projects[$key]['project_complete'] = "true";
             } else {
                 $projects[$key]['project_complete'] = "false";
@@ -72,10 +61,10 @@ class Controller
         }
 
         $this->_f3->set("projects", $projects);
-        $view = new Template();
-        echo $view->render('views/home.html');
-    }
 
+        $view = new Template();
+        return $view->render("views/projects.html");
+    }
 
     /**
      * Video player
@@ -108,6 +97,8 @@ class Controller
         }
 
         $this->_f3->set("session", $db->getSession($_SESSION['user']->getUserId()));
+        $_SESSION["session_permission"] = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
+
         $view = new Template();
         echo $view->render('views/sessions.html');
     }
@@ -147,6 +138,7 @@ class Controller
                         $user["user_nickname"]);
                 }
                 $_SESSION['session_id'] = $db->getSession($user["user_id"])[0]['session_id'];
+                $_SESSION["session_permission"] = $db->getUserSessionPermission($_SESSION['user']->getUserId(), $_SESSION['session_id']);
 
                 $this->_f3->reroute('/');
             }

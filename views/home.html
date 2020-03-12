@@ -1,11 +1,11 @@
 <include href="views/header.html"/>
 
 <div class="row">
-    <check if="{{ @permission == 'admin' }}">
+    <check if="{{ @SESSION['session_permission'] == 'admin' }}">
         <div class="col-3">
             <!--Displaying user list-->
             <h3 class="border-bottom mt-5">Users</h3>
-            <check if="{{ @permission=='admin' }}">
+            <check if="{{ @SESSION['session_permission'] =='admin' }}">
                 <div class="user-list mb-2 mt-2">
                     <repeat group="{{ @users }}" value="{{ @value }}">
                         <form method="post" action="#">
@@ -37,7 +37,7 @@
             </repeat>
         </select>
 
-        <check if="{{ @permission == 'admin' }}">
+        <check if="{{ @SESSION['session_permission'] == 'admin' }}">
             <a href="/category-edit">
                 <button class="btn btn-info">Edit Categories</button>
             </a>
@@ -45,56 +45,13 @@
 
         <!-- Displaying Projects -->
         <div class="mb-4 mt-4">
-            <check if="{{ @permission == 'admin' }}">
+            <check if="{{ @SESSION['session_permission'] == 'admin' }}">
                 <a href="/project-edit/0">
                     <button type="button" class="btn btn-success">Create New Project</button>
                 </a>
             </check>
         </div>
-        <repeat group="{{ @projects }}"
-                value="{{ @value }}">
-            <div class="item mx-3">
-                <!--        if user has a project make a text green else make it red-->
-                <check if="{{ @value['project_complete'] == 'true' }}">
-                    <true>
-                        <h5 class="text-success">{{ @value["project_title"] }}</h5>
-                    </true>
-                    <false>
-                        <h5 class="text-danger">{{ @value["project_title"] }}</h5>
-                    </false>
-                </check>
-                <a href="/player/{{ @value['project_id'] }}">
-                    <img class="card-img img-fluid image"
-                         src="../uploads/{{ @value['project_image'] }}" alt="{{ @value['project_title'] . ' image' }}"></a>
-                <p>{{ @value["project_description"] }}</p>
-                <check if="{{ @permission == 'admin' }}">
-                    <form method="post" action="#">
-                        <input type="hidden" name="selectedUser" value="{{ @selectedUser }}">
-                        <input type="hidden" name="selectedProject" value="{{ @value['project_id'] }}">
-                        <div>
-                            <check if="{{ isset(@SESSION['user']) }}">
-                                <check if="{{ @value['project_complete'] == 'true' }}">
-                                    <true>
-                                        <button type="submit" class="btn btn-warning" name="remove" value="remove">
-                                            Remove
-                                        </button>
-                                    </true>
-                                    <false>
-                                        <button type="submit" class="btn btn-success" name="give" value="give">Give
-                                        </button>
-                                    </false>
-                                </check>
-                                <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-                                    <a href="/project-edit/{{ @value['project_id'] }}">
-                                        <button type="button" class="btn btn-info">Edit Project</button>
-                                    </a>
-                                </check>
-                            </check>
-                        </div>
-                    </form>
-                </check>
-            </div>
-        </repeat>
+        <div id="projects"></div>
     </div>
 </div>
 

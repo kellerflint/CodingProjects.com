@@ -1,7 +1,9 @@
 console.log("loaded player.js");
+
 let project = $("#project-id").val();
 let videos = "";
 let index = 0;
+
 $.post("/ajax", {project_id : project}, function (result) {
     videos = JSON.parse(result);
     console.log(videos);
