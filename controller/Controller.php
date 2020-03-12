@@ -27,6 +27,8 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/home.css"]);
+        $this->_f3->set("scripts", ["scripts/home.js"]);
+
         $this->_f3->set("categories", $db->getCategory());
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
@@ -75,6 +77,7 @@ class Controller
     function videoPlayer($param)
     {
         $this->_f3->set("stylesheets", ["../styles/player.css"]);
+        $this->_f3->set("scripts", ["scripts/player.js"]);
         $this->_f3->set("project_id", $param['item']);
 
         $view = new Template();
@@ -170,6 +173,7 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/session_edit.css"]);
+        $this->_f3->set("scripts", ["scripts/user_select.js"]);
 
         // check user permission level before update, redirect to /sessions if user has invalid credentials
         if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
@@ -255,7 +259,6 @@ class Controller
      */
     function projectEditPage($param)
     {
-
         global $db;
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
@@ -301,26 +304,6 @@ class Controller
                 }
             }
 
-
-//            //updating video
-//            if (isset($_POST["updateVideo"])) {
-//                //hive user input data
-//                $this->_f3->set('validVideoName', $_POST['videoName']);
-//                $this->_f3->set('videoUrl', $_POST['videoUrl']);
-//                if ($this->_val->validateNewVideo()) {
-//                    if ($_POST['videoId'] == 0) {
-//                        $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
-//                        $this->_f3->set("success['addedVideo']", "New video has been added");
-//                    }
-//                } else {
-//                    if ($this->_val->validateUserSelectedVideo($_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"])) {
-//                        $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
-//                    } else {
-//                        $this->_f3->set("errors['id']", $_POST["videoId"]);
-//                    }
-//                    $this->_f3->set("errors['UnableToAddVideo']", "**Both fields are required**");
-//                }
-//            }
             //removing video
             if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
@@ -347,6 +330,7 @@ class Controller
     {
         global $db;
         $this->_f3->set("stylesheets", array("styles/category_edit.css"));
+        $this->_f3->set("scripts", array("scripts/category_select.js"));
 
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
