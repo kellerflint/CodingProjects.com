@@ -265,6 +265,9 @@ class Controller
         //setting the category in hive
         $this->_f3->set("categories", $db->getCategory());
 
+        $this->_f3->set('projectTitle', $db->getProjectsById($param["id"])["project_title"]);
+        $this->_f3->set('projectDescription', $db->getProjectsById($param["id"])["project_description"]);
+
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -294,13 +297,13 @@ class Controller
                 $this->_f3->set('projectTitle', $_POST['projectName']);
                 $this->_f3->set('projectDescription', $_POST['projectDescription']);
                 if ($this->_val->validateProjectPage()) {
-                    if ($_POST['projectId'] == 0) {
+                    if ($param["id"] == 0) {
                         $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
                         $this->fileUpload($id);
+                    } else {
+                        $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                        $this->fileUpload($param["id"]);
                     }
-                } else {
-                    $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                    $this->fileUpload($param["id"]);
                 }
             }
 
@@ -319,6 +322,7 @@ class Controller
         $this->_f3->set("project", $db->getProjectsById($param['id']));
         $view = new Template();
         echo $view->render('views/project_edit.html');
+        var_dump($_POST);
     }
 
     /**
@@ -404,22 +408,37 @@ class Controller
 
 
                 }
+
+               $randomFileName = $this->generateRandomString() . "." . explode("/" , $file['type'])[1];
+
                 //checking for duplicate
-                if (file_exists($dirName . $file['name'])) {
+                if (file_exists($dirName .$randomFileName)) {
                     $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
 
                 } else {
                     //move file to the upload directory
-                    move_uploaded_file($file['tmp_name'], $dirName . $file['name']);
+                    move_uploaded_file($file['tmp_name'], $dirName . $randomFileName);
+                    //generate random string of 8 character for file name
+
                     $this->_f3->set("success['uploadSuccessfully']", "Updated successfully");
 
                     // store the file name in the database
-                    $db->uploadProjectImage($file["name"], $id);
+                    $db->uploadProjectImage($randomFileName, $id);
                 }
             } else {
                 $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
             }
         }
+    }
+    function generateRandomString()
+    {
+        $characters= "0123456789abcdefghijklmnopqrstuvwxyz";
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for($i = 0 ; $i < 10; $i++) {
+            $randomString .=$characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
 

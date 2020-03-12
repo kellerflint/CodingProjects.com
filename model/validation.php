@@ -38,12 +38,11 @@ class Validation
         $isValidSession = true;//flag
         if (!$this->sessionUpdateTitle($f3->get('sessionTitle'))) {
             $isValidSession = false;
-            $f3->set("errors['sessionTitle']", "Please enter new session title ");
-
+            $f3->set("errors['sessionTitle']", ["val-empty-error"=>"Cannot be empty."]);
         }
         if (!$this->sessionUpdateDescription($f3->get('sessionDescription'))) {
             $isValidSession = false;
-            $f3->set("errors['sessionDescription']", "Please enter new session description ");
+            $f3->set("errors['sessionDescription']", "Invalid Entry. Cannot be empty or greater than 5000 characters.");
 
         }
         return $isValidSession;

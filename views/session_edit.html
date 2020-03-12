@@ -6,20 +6,23 @@
             <div class="form-group val-empty val-lessThan255">
                 <label for="title">Title</label>
                 <input type="text" class="form-control input" id="title" name="title" value="{{ @session['session_title'] }}">
-                <check if="{{ @errors['sessionTitle'] }}">
-                    <span class="err text-danger">{{ @errors['sessionTitle'] }}</span>
-                </check>
-                <div class="errors text-danger"></div>
+                <div class="errors text-danger">
+                    <check if="{{ @errors['sessionTitle'] }}">
+                        <repeat group="{{ @errors['sessionTitle'] }}" key="{{ @key }}" value = "{{ @value }}">
+                            <div class="{{ @key }}">{{ @value }}</div>
+                        </repeat>
+                    </check>
+                </div>
             </div>
             <div class="form-group val-empty val-lessThan5000">
                 <label for="description">Description</label>
                 <input type="text" class="form-control input" name="description" id="description"
                        value="{{ @session['session_description'] }}">
-                <check if="{{ @errors['sessionDescription'] }}">
-                    <span class="err text-danger">{{ @errors['sessionDescription'] }}</span>
-                </check>
-
-                <div class="errors text-danger"></div>
+                <div class="errors text-danger">
+                    <check if="{{ @errors['sessionDescription'] }}">
+                        <div class="val-empty-error">{{ @errors['sessionDescription'] }}</div>
+                    </check>
+                </div>
             </div>
             <check if="{{ @success['sessionUpdate'] }}">
                 <span class="err text-success">{{ @success['sessionUpdate'] }}</span>
