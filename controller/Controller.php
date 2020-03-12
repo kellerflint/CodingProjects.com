@@ -46,7 +46,8 @@ class Controller
         echo $view->render('views/home.html');
     }
 
-    function displayProjects($category_id, $user_id) {
+    function displayProjects($category_id, $user_id)
+    {
         global $db;
 
         $projects = $db->getProjectByCategoryId($category_id);
@@ -264,46 +265,46 @@ class Controller
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            if (isset($_POST["updateProject"])) {
+            //add the new video
+            if (isset($_POST['addVideo'])) {
+                $this->_f3->set('addValidName', $_POST['videoName']);
+                $this->_f3->set('addValidUrl', $_POST['videoUrl']);
 
-                //hive user into data
-                $this->_f3->set('projectTitle', $_POST['projectName']);
-                $this->_f3->set('projectDescription', $_POST['projectDescription']);
-
-                if ($this->_val->validateProjectPage()) {
-
-                    if ($param['id'] == 0) {
-                        //creating new project
-                        $id = $db->createProject($_POST['projectName'], $_POST['projectDescription'], $_POST['categoryId']);
-                        $this->fileUpload($id);
-                        //TODO not up loading image when project id is 0
-                        $this->_f3->reroute("project-edit/$id");
-                    } else {
-                        $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        $this->fileUpload($param["id"]);
-                    }
+                if ($this->_val->validateNewVideo()) {
+                    //creating new project
+                    $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                    $this->_f3->set("success['addedVideo']","Added video successfully.");
                 }
             }
 
-            //updating video
+            //update video
             if (isset($_POST["updateVideo"])) {
-                //hive user input data
                 $this->_f3->set('validVideoName', $_POST['videoName']);
                 $this->_f3->set('videoUrl', $_POST['videoUrl']);
-                if ($this->_val->validateNewVideo()) {
-                    if ($_POST['videoId'] == 0) {
-                        $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
-                        $this->_f3->set("success['addedVideo']", "New video has been added");
-                    }
-                } else {
-                    if ($this->_val->validateUserSelectedVideo($_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"])) {
-                        $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
-                    } else {
-                        $this->_f3->set("errors['id']", $_POST["videoId"]);
-                    }
-                    $this->_f3->set("errors['UnableToAddVideo']", "**Both fields are required**");
+                if ($this->_val->validateUserSelectedVideo($_POST['videoName'], $_POST['videoUrl'],$_POST['videoOrder'])) {
+                       $db->updateVideoById( $_POST['videoId'], $_POST['videoName'], $_POST['videoUrl'],$_POST['videoOrder']);
                 }
             }
+
+//            //updating video
+//            if (isset($_POST["updateVideo"])) {
+//                //hive user input data
+//                $this->_f3->set('validVideoName', $_POST['videoName']);
+//                $this->_f3->set('videoUrl', $_POST['videoUrl']);
+//                if ($this->_val->validateNewVideo()) {
+//                    if ($_POST['videoId'] == 0) {
+//                        $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+//                        $this->_f3->set("success['addedVideo']", "New video has been added");
+//                    }
+//                } else {
+//                    if ($this->_val->validateUserSelectedVideo($_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"])) {
+//                        $db->updateVideoById($_POST['videoId'], $_POST["videoName"], $_POST["videoUrl"], $_POST["videoOrder"]);
+//                    } else {
+//                        $this->_f3->set("errors['id']", $_POST["videoId"]);
+//                    }
+//                    $this->_f3->set("errors['UnableToAddVideo']", "**Both fields are required**");
+//                }
+//            }
             //removing video
             if (isset($_POST['removeVideo'])) {
                 $db->removeVideo($_POST['videoId']);
@@ -319,7 +320,6 @@ class Controller
         $this->_f3->set("project", $db->getProjectsById($param['id']));
         $view = new Template();
         echo $view->render('views/project_edit.html');
-
     }
 
     /**

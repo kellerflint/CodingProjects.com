@@ -77,13 +77,13 @@ class Validation
         global $f3;
         $isValidVideo = true;//flag
 
-        if (!$this->validVideoName($f3->get('validVideoName'))) {
+        if (!$this->validVideoName($f3->get('addValidName'))) {
             $isValidVideo = false;
             $f3->set("errors['validVideoName']", "Please enter Video Name");
         } else {
             $f3->clear("errors['validVideoName']");
         }
-        if (!$this->validUrl($f3->get('videoUrl'))) {
+        if (!$this->validUrl($f3->get('addValidUrl'))) {
             $isValidVideo = false;
             $f3->set("errors['videoUrl']", "Please insert valid URL ");
         } else {

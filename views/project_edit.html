@@ -86,7 +86,7 @@
                 <div class="form-group val-empty val-lessThan255">
                     <label for="title0">Video Name</label>
                     <input type="text" class="form-control input" id="title0" name="videoName"
-                           value="{{ @validVideoName }}">
+                           value="{{ @addValidName }}">
                     <check if="{{ @errors['validVideoName'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err text-danger">{{ @errors['validVideoName'] }}</span>
                     </check>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group val-empty val-lessThan255">
                     <label for="url0">Video URL</label>
-                    <input type="text" class="form-control input" id="url0" name="videoUrl" value="{{ @videoUrl }}">
+                    <input type="text" class="form-control input" id="url0" name="videoUrl" value="{{ @addValidUrl }}">
                     <check if="{{ @errors['videoUrl'] && @errors['id'] == @value['video_id'] }}">
                         <span class="err text-danger">{{ @errors['videoUrl'] }}</span>
                     </check>
@@ -105,7 +105,7 @@
                     <div class="errors text-danger"></div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success" name="addVideo" value="updateVideo">Add</button>
+                    <button type="submit" class="btn btn-success" name="addVideo" value="addVideo">Add</button>
                 </div>
             </form>
         </div>
