@@ -9,7 +9,7 @@
             <form action="#" method="post" enctype="multipart/form-data">
                 <div class="form-group val-empty val-lessThan255">
                     <label for="project-name">Project Title</label>
-                    <input value="{{@project['project_title']}}" name="projectName" id="project-name"
+                    <input value="{{@projectTitle}}" name="projectName" id="project-name"
                            class="form-control input">
                     <check if="{{ @errors['projectTitle'] }}">
                         <span class="err text-danger">{{ @errors['projectTitle'] }}</span>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group val-lessThan5000">
                     <label for="description">Description</label>
-                    <textarea name="projectDescription" id="description" class="form-control input">{{ @project['project_description'] }}</textarea>
+                    <textarea name="projectDescription" id="description" class="form-control input">{{ @projectDescription }}</textarea>
                     <check if="{{ @errors['projectDescription'] }}">
                         <span class="err text-danger">{{ @errors['projectDescription'] }}</span>
                     </check>

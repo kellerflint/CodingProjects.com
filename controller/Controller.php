@@ -273,7 +273,7 @@ class Controller
                 if ($this->_val->validateNewVideo()) {
                     //creating new project
                     $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
-                    $this->_f3->set("success['addedVideo']","Added video successfully.");
+                    $this->_f3->set("success['addedVideo']", "Added video successfully.");
                 }
             }
 
@@ -281,10 +281,26 @@ class Controller
             if (isset($_POST["updateVideo"])) {
                 $this->_f3->set('validVideoName', $_POST['videoName']);
                 $this->_f3->set('videoUrl', $_POST['videoUrl']);
-                if ($this->_val->validateUserSelectedVideo($_POST['videoName'], $_POST['videoUrl'],$_POST['videoOrder'])) {
-                       $db->updateVideoById( $_POST['videoId'], $_POST['videoName'], $_POST['videoUrl'],$_POST['videoOrder']);
+                if ($this->_val->validateUserSelectedVideo($_POST['videoName'], $_POST['videoUrl'], $_POST['videoOrder'])) {
+                    $db->updateVideoById($_POST['videoId'], $_POST['videoName'], $_POST['videoUrl'], $_POST['videoOrder']);
                 }
             }
+
+            //update/ create project
+            if (isset($_POST["updateProject"])) {
+                $this->_f3->set('projectTitle', $_POST['projectName']);
+                $this->_f3->set('projectDescription', $_POST['projectDescription']);
+                if ($this->_val->validateProjectPage()) {
+                    if ($_POST['projectId'] == 0) {
+                        $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                        $this->fileUpload($id);
+                    }
+                } else {
+                    $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
+                    $this->fileUpload($param["id"]);
+                }
+            }
+
 
 //            //updating video
 //            if (isset($_POST["updateVideo"])) {
@@ -381,7 +397,7 @@ class Controller
 
     /**
      * Uploading cover picture for project
-     * @param $param string takes project id
+     * @param $id
      */
     function fileUpload($id)
     {
