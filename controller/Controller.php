@@ -278,8 +278,10 @@ class Controller
                 $this->_f3->set('addValidUrl', $_POST['videoUrl']);
 
                 if ($this->_val->validateNewVideo()) {
+
                     //creating new project
-                    $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                    $maxOrder = $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
+                    $this->_f3->set("maxOrder", "$maxOrder");
                     $this->_f3->set("success['addedVideo']", "Added video successfully.");
                 }
             }
@@ -331,7 +333,7 @@ class Controller
         $this->_f3->set("project", $db->getProjectsById($param['id']));
         $view = new Template();
         echo $view->render('views/project_edit.html');
-        var_dump($_POST);
+//        var_dump($_POST);
     }
 
     /**

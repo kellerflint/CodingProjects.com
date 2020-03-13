@@ -382,6 +382,7 @@ class Database
         $sql = "INSERT INTO Video VALUES(DEFAULT ,?,?,?,?)";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$projectId, $videoTitle, $videoUrl, $max]);
+        return $max;
     }
 
     /**

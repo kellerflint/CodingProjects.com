@@ -41,7 +41,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="file" class="form-control-file"  name="fileToUpload">
+                    <input type="file" class="form-control-file" name="fileToUpload">
                 </div>
                 <div class="text-center mt-3">
                     <check if="{{ @project['project_id'] == 0}}">
@@ -139,9 +139,41 @@
                     </check>
                     <div class="form-group val-empty">
                         <label for="order{{ @value['video_id'] }}">Video Order</label>
-                        <input type="text" class="form-control input" id="order{{ @value['video_id'] }}"
+                        <input type="hidden" class="form-control input" id="order{{ @value['video_id'] }}"
                                name="videoOrder"
                                value="{{ @value['video_order'] }}">
+                        <div>
+                            <check if="{{ @value['video_order'] == 1 }}">
+                                <true>
+                                    <button type="submit" class="btn-secondary" name="movingDownButton"
+                                            value="MoveDown"> Move
+                                        Down
+                                    </button>
+                                </true>
+                                <false>
+                                    <check if="{{ @value['video_order'] }} == {{ sizeof(@videos) }}">
+                                        <true>
+                                            <button type="submit" class="btn-secondary" name="movingUpButton"
+                                                    value="moveUp">
+                                                Move
+                                                up
+                                            </button>
+                                        </true>
+                                        <false>
+                                            <button type="submit" class="btn-secondary" name="movingUpButton"
+                                                    value="moveUp">
+                                                Move
+                                                up
+                                            </button>
+                                            <button type="submit" class="btn-secondary" name="movingDownButton"
+                                                    value="MoveDown"> Move
+                                                Down
+                                            </button>
+                                        </false>
+                                    </check>
+                                </false>
+                            </check>
+                        </div>
                         <div class="errors text-danger"></div>
                     </div>
 
@@ -151,12 +183,6 @@
                         </button>
                         <button type="submit" class="btn btn-danger" name="removeVideo" value="removeVideo">Remove
                         </button>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success" name="movingUpButton" value="moveUp"> Move up</button>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-success" name="movingDownButton" value="MoveDown"> Move Down</button>
                     </div>
                 </form>
             </div>
