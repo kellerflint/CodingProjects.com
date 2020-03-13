@@ -43,6 +43,9 @@
                 <div class="form-group">
                     <input type="file" class="form-control-file" name="fileToUpload">
                 </div>
+                <div>
+                    <img src="../uploads/{{ @project['project_image'] }}" alt="project image">
+                </div>
                 <div class="text-center mt-3">
                     <check if="{{ @project['project_id'] == 0}}">
                         <true>
