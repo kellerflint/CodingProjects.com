@@ -9,22 +9,88 @@ class Validation
      * Validation for add new user
      * @return bool
      */
-    function ValidNewUser()
+    function validateUser($userName, $userNickName, $userPassword)
     {
         global $f3;
         $isValid = true;//flag
-        if (!$this->validUserName($f3->get('userName'))) {
+        $errors = [];
+
+        // username validation
+        if (empty(trim($userName))) {
             $isValid = false;
-            $f3->set("errors['userName']", "Please enter valid user name ");
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
         }
-        if (!$this->validNickName($f3->get('userNickName'))) {
+        if (strlen($userName) > 255) {
             $isValid = false;
-            $f3->set("errors['userNickName']", "Please enter nick name ");
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
         }
-        if (!$this->validPassword($f3->get('password'))) {
+        if ($this->hasWhiteSpace($userName)) {
             $isValid = false;
-            $f3->set("errors['password']", "Please enter valid password ");
+            array_push($errors, ["val-hasSpaces-error" => "Cannot contain whitespace."]);
         }
+        $f3->set("errors['userName']", $errors);
+        $errors = [];
+
+        // nickname validation
+        if (empty(trim($userNickName))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
+        }
+        if (strlen($userNickName) > 255) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
+        }
+        $f3->set("errors['userNickName']", $errors);
+        $errors = [];
+
+        // password validation
+        if (empty(trim($userPassword))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
+        }
+        if (strlen($userPassword) > 255) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
+        }
+        if ($this->hasWhiteSpace($userPassword)) {
+            $isValid = false;
+            array_push($errors, ["val-hasSpaces-error" => "Cannot contain whitespace."]);
+        }
+        $f3->set("errors['password']", $errors);
+        $errors = [];
+
+        return $isValid;
+    }
+
+    function validateSession($sessionTitle, $sessionDescription) {
+        global $f3;
+        $isValid = true;//flag
+        $errors = [];
+
+        // title validation
+        if (empty(trim($sessionTitle))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
+        }
+        if (strlen($sessionTitle) > 255) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
+        }
+        $f3->set("errors['sessionTitle']", $errors);
+        $errors = [];
+
+        // description validation
+        if (empty(trim($sessionDescription))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
+        }
+        if (strlen($sessionDescription) > 5000) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan5000-error" => "Cannot be longer than 5000 characters."]);
+        }
+        $f3->set("errors['sessionDescription']", $errors);
+        $errors = [];
+
         return $isValid;
     }
 
@@ -38,7 +104,7 @@ class Validation
         $isValidSession = true;//flag
         if (!$this->sessionUpdateTitle($f3->get('sessionTitle'))) {
             $isValidSession = false;
-            $f3->set("errors['sessionTitle']", ["val-empty-error"=>"Cannot be empty."]);
+            $f3->set("errors['sessionTitle']", ["val-empty-error" => "Cannot be empty."]);
         }
         if (!$this->sessionUpdateDescription($f3->get('sessionDescription'))) {
             $isValidSession = false;
@@ -103,38 +169,6 @@ class Validation
 
         return $isValidLogin;
 
-    }
-
-    /**
-     * validating user name
-     * @param $userName
-     * @return bool
-     */
-    function validUserName($userName)
-    {
-        $userName = trim($userName);
-        return !empty($userName) && !$this->hasWhiteSpace($userName) && (strlen($userName) <= 255);
-    }
-
-    /**
-     * Validating user nick name
-     * @param $nickName
-     * @return bool
-     */
-    function validNickName($nickName)
-    {
-        $nickName = trim($nickName);
-        return !empty($nickName);
-    }
-
-    /**
-     * Validating user input password
-     * @param $password
-     * @return bool
-     */
-    function validPassword($password)
-    {
-        return !empty($password) && !$this->hasWhiteSpace($password) && (strlen($password) <= 255);
     }
 
     /**
@@ -226,7 +260,15 @@ class Validation
      */
     function hasWhiteSpace($string)
     {
-        return strpos($string, ' ');
+        if (empty($string)) {
+            return false;
+        }
+
+        if (strpos($string, ' ') < 0 || strpos($string, ' ') === false) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

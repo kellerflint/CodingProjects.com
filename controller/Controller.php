@@ -176,7 +176,7 @@ class Controller
                 $this->_f3->set('sessionTitle', $_POST["title"]);
                 $this->_f3->set('sessionDescription', $_POST["description"]);
                 //calling validation function (if valid)
-                if ($this->_val->editSessionToUpdate()) {
+                if ($this->_val->validateSession($_POST["title"], $_POST["description"])) {
                     $db->updateSession($param['id'],
                         $_POST["title"], $_POST["description"]);//$pram[id] is session id
                     $this->_f3->set("success['sessionUpdate']", "Session has been updated");
@@ -206,7 +206,7 @@ class Controller
                 $this->_f3->set('password', $_POST['password']);
 
                 //if the data input by user are valid
-                if ($this->_val->ValidNewUser()) {
+                if ($this->_val->validateUser($_POST['name'], $_POST['nickName'], $_POST['password'])) {
                     // If user id is 0, create a new user instead of updating and existing one
                     if ($_POST['userId'] == "0") {
                         $_POST['userId'] = $db->createUser($param["id"], $_POST["name"], $_POST["nickName"], $_POST['password']);
