@@ -4,7 +4,7 @@ let project = $("#project-id").val();
 let videos = "";
 let index = 0;
 
-$.post("/ajax", {project_id : project}, function (result) {
+$.post("/ajax", {displayVideos : "true", project_id : project}, function (result) {
     videos = JSON.parse(result);
     console.log(videos);
     updatePage();

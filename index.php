@@ -36,27 +36,27 @@ $f3->route('GET|POST /sessions', function () {
 });
 
 // Define login route
-$f3->route('GET|POST /login', function() {
+$f3->route('GET|POST /login', function () {
     global $controller;
     $controller->loginPage();
 });
 
 // Define logout route
-$f3->route('GET|POST /logout', function() {
+$f3->route('GET|POST /logout', function () {
     global $controller;
     $controller->logout();
 });
 
 // Define session-edit route
-$f3->route('GET|POST /session-edit/@id', function($f3, $param) {
+$f3->route('GET|POST /session-edit/@id', function ($f3, $param) {
     global $controller;
     $controller->editSessionPage($param);
 });
-$f3->route('GET|POST /project-edit/@id', function($f3, $param) {
+$f3->route('GET|POST /project-edit/@id', function ($f3, $param) {
     global $controller;
     $controller->projectEditPage($param);
 });
-$f3->route('GET|POST /category-edit', function ($f3){
+$f3->route('GET|POST /category-edit', function ($f3) {
     global $controller;
     $controller->editCategory();
 });
@@ -65,12 +65,26 @@ $f3->route('POST /ajax', function ($f3) {
     global $db;
     global $controller;
 
-    if (isset($_POST['project_id'])) {
+    // Return video data for a project
+    if (isset($_POST['displayVideos'])) {
         echo json_encode($db->getVideos($_POST['project_id']));
     }
 
+    // Display projects
     if (isset($_POST["category_id"])) {
         echo $controller->displayProjects($_POST['category_id'], $_POST["user_id"]);
+    }
+
+    // remove a project from a user
+    if (isset($_POST["remove"])) {
+        $db->removeUserProject($_POST['user_id'], $_POST['project_id']);
+        echo $_POST['project_id'];
+    }
+
+    // give a project to a user
+    if (isset($_POST['give'])) {
+        $db->giveUserProject($_POST['user_id'], $_POST['project_id']);
+        echo $_POST['project_id'];
     }
 });
 

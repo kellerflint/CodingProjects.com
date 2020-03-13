@@ -19,12 +19,15 @@
                 <check if="{{ isset(@SESSION['user']) }}">
                     <check if="{{ @value['project_complete'] == 'true' }}">
                         <true>
-                            <button type="submit" class="btn btn-warning" name="remove" value="remove">
+                            <button type="submit" class="btn btn-warning btn-remove" name="remove" value="remove"
+                                    id="{{ @value['project_id'] }}">
                                 Remove
                             </button>
                         </true>
                         <false>
-                            <button type="submit" class="btn btn-success" name="give" value="give">Give
+                            <button type="submit" class="btn btn-success btn-give" name="give" value="give"
+                                    id="{{ @value['project_id'] }}">
+                                Give
                             </button>
                         </false>
                     </check>

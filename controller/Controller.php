@@ -33,17 +33,6 @@ class Controller
 
         $this->_f3->set("users", $db->getUsersBySession($_SESSION['session_id']));
 
-        //when sever request is post
-//        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-//            if (isset($_POST["remove"])) {
-//                $db->removeUserProject($_POST['selectedUser'], $_POST['selectedProject']);
-//
-//            }
-//            if (isset($_POST['give'])) {
-//                $db->giveUserProject($_POST['selectedUser'], $_POST['selectedProject']);
-//            }
-//        }
-
         $view = new Template();
         echo $view->render('views/home.html');
     }
