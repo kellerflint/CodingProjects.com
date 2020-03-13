@@ -143,35 +143,20 @@
                                name="videoOrder"
                                value="{{ @value['video_order'] }}">
                         <div>
-                            <check if="{{ @value['video_order'] == 1 }}">
-                                <true>
+                            <check if="{{ @minOrder != @maxOrder }}">
+                                <check if="@minOrder != @value['video_order']">
+                                    <button type="submit" class="btn-secondary" name="movingUpButton"
+                                            value="moveUp">
+                                        Move
+                                        up
+                                    </button>
+                                </check>
+                                <check if="@maxOrder != @value['video_order']">
                                     <button type="submit" class="btn-secondary" name="movingDownButton"
                                             value="MoveDown"> Move
                                         Down
                                     </button>
-                                </true>
-                                <false>
-                                    <check if="{{ @value['video_order'] }} == {{ sizeof(@videos) }}">
-                                        <true>
-                                            <button type="submit" class="btn-secondary" name="movingUpButton"
-                                                    value="moveUp">
-                                                Move
-                                                up
-                                            </button>
-                                        </true>
-                                        <false>
-                                            <button type="submit" class="btn-secondary" name="movingUpButton"
-                                                    value="moveUp">
-                                                Move
-                                                up
-                                            </button>
-                                            <button type="submit" class="btn-secondary" name="movingDownButton"
-                                                    value="MoveDown"> Move
-                                                Down
-                                            </button>
-                                        </false>
-                                    </check>
-                                </false>
+                                </check>
                             </check>
                         </div>
                         <div class="errors text-danger"></div>

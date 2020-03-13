@@ -506,8 +506,11 @@ class Database
         $currentVideo = $statement->fetch(PDO::FETCH_ASSOC);
 
         // get the info of the video above/below
-        $otherOrder = $currentVideo['video_order'];
-        ($change == "up") ? $otherOrder-- : $otherOrder++;
+        $operator = ($change == "up") ? "<" : ">";
+       $sql ="SELECT MAX(video_order) FROM Video WHERE project_id = ?  AND video_order $operator ?";
+       $statement = $this->_db->prepare($sql);
+       $statement->execute([$projectId,$currentVideo['video_order']]);
+       $otherOrder = $statement->fetch(PDO::FETCH_ASSOC)['MAX(video_order)'];
 
         $sql ="SELECT * FROM Video WHERE video_order = ? AND project_id = ?";
         $statement = $this->_db->prepare($sql);
@@ -521,4 +524,18 @@ class Database
         $statement->execute([$currentVideo['video_order'], $otherVideo['video_id']]);
 
     }
+    function getMaxOrder($projectId){
+        $sql = "SELECT MAX(video_order) FROM Video WHERE project_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId]);
+        return $statement->fetch(PDO::FETCH_ASSOC)['MAX(video_order)'];
+    }
+
+    function getMinOrder($projectId){
+        $sql = "SELECT MIN(video_order) FROM Video WHERE project_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$projectId]);
+        return $statement->fetch(PDO::FETCH_ASSOC)['MIN(video_order)'];
+    }
+
 }

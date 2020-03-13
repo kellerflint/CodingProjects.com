@@ -310,12 +310,12 @@ class Controller
                 }
             }
             //Change the projects order
-            if(isset($_POST['movingUpButton'])){
+            if (isset($_POST['movingUpButton'])) {
                 //should move the project one level up
-                $db->moveVideoUpOrDown($_POST['videoId'],"up",$param['id']);
+                $db->moveVideoUpOrDown($_POST['videoId'], "up", $param['id']);
             }
-            if(isset($_POST['movingDownButton'])){
-                $db->moveVideoUpOrDown($_POST['videoId'],"down",$param['id']);
+            if (isset($_POST['movingDownButton'])) {
+                $db->moveVideoUpOrDown($_POST['videoId'], "down", $param['id']);
 
             }
             //removing video
@@ -329,6 +329,8 @@ class Controller
             }
         }
         //hive the data videos and projects
+        $this->_f3->set("maxOrder", $db->getMaxOrder($param['id']));
+        $this->_f3->set("minOrder", $db->getMinOrder($param['id']));
         $this->_f3->set("videos", $db->getVideos($param['id']));
         $this->_f3->set("project", $db->getProjectsById($param['id']));
         $view = new Template();
@@ -420,10 +422,10 @@ class Controller
 
                 }
 
-               $randomFileName = $this->generateRandomString() . "." . explode("/" , $file['type'])[1];
+                $randomFileName = $this->generateRandomString() . "." . explode("/", $file['type'])[1];
 
                 //checking for duplicate
-                if (file_exists($dirName .$randomFileName)) {
+                if (file_exists($dirName . $randomFileName)) {
                     $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
 
                 } else {
@@ -441,13 +443,14 @@ class Controller
             }
         }
     }
+
     function generateRandomString()
     {
-        $characters= "0123456789abcdefghijklmnopqrstuvwxyz";
+        $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
         $charactersLength = strlen($characters);
         $randomString = '';
-        for($i = 0 ; $i < 10; $i++) {
-            $randomString .=$characters[rand(0, $charactersLength - 1)];
+        for ($i = 0; $i < 10; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
     }
