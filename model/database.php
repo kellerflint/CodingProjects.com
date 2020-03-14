@@ -424,9 +424,9 @@ class Database
      */
     function getCategoryById($categoryId)
     {
-        $sql="SELECT * FROM Category WHERE category_id=?";
-        $statement = $this-> _db->prepare($sql);
-        $statement -> execute([$categoryId]);
+        $sql = "SELECT * FROM Category WHERE category_id=?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$categoryId]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -436,12 +436,12 @@ class Database
      * @param $categoryTitle takes category title
      * @param $categoryDescription takes category description
      */
-    function  updateCategory($categoryId,$categoryTitle,$categoryDescription)
+    function updateCategory($categoryId, $categoryTitle, $categoryDescription)
     {
         $sql = "UPDATE Category SET category_title =?, category_description=?
                 WHERE category_id= ?";
-        $statement =$this->_db->prepare($sql);
-        $statement->execute([$categoryTitle,$categoryDescription,$categoryId]);
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$categoryTitle, $categoryDescription, $categoryId]);
     }
 
     /**
@@ -464,7 +464,7 @@ class Database
      * @param $categoryId takes category id
      * @return array
      */
-    function  getProjectByCategoryId($categoryId)
+    function getProjectByCategoryId($categoryId)
     {
         $sql = "SELECT * FROM Project WHERE category_id= ?";
         $statement = $this->_db->prepare($sql);
@@ -478,16 +478,16 @@ class Database
      * @param $categoryTitle takes user input category title
      * @param $categoryDescription takes user input category description
      */
-    function addCategory($categoryTitle,$categoryDescription)
+    function addCategory($categoryTitle, $categoryDescription)
     {
-       $sql =  "SELECT MAX(category_order) FROM Category";
+        $sql = "SELECT MAX(category_order) FROM Category";
         $statement = $this->_db->prepare($sql);
         $statement->execute();
-        $max = $statement->fetch(PDO::FETCH_ASSOC)["MAX(category_order)"]+1;
+        $max = $statement->fetch(PDO::FETCH_ASSOC)["MAX(category_order)"] + 1;
         //INSERTING INTO CATEGORY
         $sql = "INSERT INTO Category VALUES(DEFAULT ,? ,? ,?)";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$categoryTitle,$categoryDescription,$max]);
+        $statement->execute([$categoryTitle, $categoryDescription, $max]);
     }
 
     /**
@@ -496,7 +496,8 @@ class Database
      * @param $projectId takes project id
      */
 
-    function uploadProjectImage($filePath, $projectId) {
+    function uploadProjectImage($filePath, $projectId)
+    {
         $sql = "UPDATE Project SET project_image = ? WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$filePath, $projectId]);
@@ -517,15 +518,17 @@ class Database
         $currentVideo = $statement->fetch(PDO::FETCH_ASSOC);
 
         // get the info of the video above/below
-        $operator = ($change == "up") ? "<" : ">";
-       $sql ="SELECT MAX(video_order) FROM Video WHERE project_id = ?  AND video_order $operator ?";
-       $statement = $this->_db->prepare($sql);
-       $statement->execute([$projectId,$currentVideo['video_order']]);
-       $otherOrder = $statement->fetch(PDO::FETCH_ASSOC)['MAX(video_order)'];
+        $operator = $change == "up" ? "<" : ">";
+        $function = $change == "up" ? "MAX" : "MIN";
 
-        $sql ="SELECT * FROM Video WHERE video_order = ? AND project_id = ?";
+        $sql = "SELECT $function(video_order) FROM Video WHERE project_id = ?  AND video_order $operator ?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$otherOrder,  $projectId]);
+        $statement->execute([$projectId, $currentVideo['video_order']]);
+        $otherOrder = $statement->fetch(PDO::FETCH_ASSOC)["$function(video_order)"];
+
+        $sql = "SELECT * FROM Video WHERE video_order = ? AND project_id = ?";
+        $statement = $this->_db->prepare($sql);
+        $statement->execute([$otherOrder, $projectId]);
         $otherVideo = $statement->fetch(PDO::FETCH_ASSOC);
 
         // set the order of the current video to the order of the other video
@@ -541,7 +544,8 @@ class Database
      * @param $projectId
      * @return mixed
      */
-    function getMaxOrder($projectId){
+    function getMaxOrder($projectId)
+    {
         $sql = "SELECT MAX(video_order) FROM Video WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$projectId]);
@@ -553,7 +557,8 @@ class Database
      * @param $projectId
      * @return mixed
      */
-    function getMinOrder($projectId){
+    function getMinOrder($projectId)
+    {
         $sql = "SELECT MIN(video_order) FROM Video WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$projectId]);
