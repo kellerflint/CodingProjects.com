@@ -61,9 +61,8 @@ $f3->route('GET|POST /category-edit', function ($f3) {
     $controller->editCategory();
 });
 $f3->route('GET /help', function () {
-        $view = new Template();
-        echo $view->render('views/helper.html');
-
+    global $controller;
+    $controller->helper();
 });
 $f3->route('POST /ajax', function ($f3) {
     global $db;

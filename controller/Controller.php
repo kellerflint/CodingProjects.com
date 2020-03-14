@@ -395,7 +395,7 @@ class Controller
         global $db;
         if (isset($_FILES["fileToUpload"])) {
 
-            if(empty($_FILES['fileToUpload']["name"])) {
+            if (empty($_FILES['fileToUpload']["name"])) {
                 return;
             }
 
@@ -445,6 +445,12 @@ class Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    function helper()
+    {
+        $view = new Template();
+        echo $view->render('views/helper.html');
     }
 }
 

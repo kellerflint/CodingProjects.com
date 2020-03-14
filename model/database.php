@@ -367,10 +367,10 @@ class Database
     }
 
     /**
-     * Add video
      * @param $projectId takes project id
      * @param $videoTitle takes video title
      * @param $videoUrl takes video url
+     * @return int return int max order
      */
     function addVideo($projectId, $videoTitle, $videoUrl)
     {
