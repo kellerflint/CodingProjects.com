@@ -276,11 +276,14 @@ class Controller
 
             //update video
             if (isset($_POST["updateVideo"])) {
+
                 $this->_f3->set("errors['id']", $_POST['videoId']);
                 $this->_f3->set('videoName', $_POST['videoName']);
                 $this->_f3->set('videoUrl', $_POST['videoUrl']);
+
                 if ($this->_val->validateVideo($_POST['videoName'], $_POST['videoUrl'])) {
-                    $db->updateVideoById($_POST['videoId'], $_POST['videoName'], $_POST['videoUrl'], $_POST['videoOrder']);
+                    var_dump($_POST);
+                    $db->updateVideoById($_POST['videoId'], $_POST['videoName'], $_POST['videoUrl']);
                 }
             }
 

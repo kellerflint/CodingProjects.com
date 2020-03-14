@@ -340,11 +340,11 @@ class Database
      * @param $videoUrl takes video url
      * @param $videoOrder takes video order
      */
-    function updateVideoById($videoId, $videoTitle, $videoUrl, $videoOrder)
+    function updateVideoById($videoId, $videoTitle, $videoUrl)
     {
-        $sql = "UPDATE Video SET video_title = ? , video_url = ?, video_order = ? WHERE video_id=?";
+        $sql = "UPDATE Video SET video_title = ? , video_url = ? WHERE video_id=?";
         $statement = $this->_db->prepare($sql);
-        $statement->execute([$videoTitle, $videoUrl, $videoOrder, $videoId]);
+        $statement->execute([$videoTitle, $videoUrl, $videoId]);
     }
 
     /**
