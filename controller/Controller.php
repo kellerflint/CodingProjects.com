@@ -292,6 +292,7 @@ class Controller
                     if ($param["id"] == 0) {
                         $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
                         $this->fileUpload($id);
+                        $this->_f3->reroute("/project-edit/$id");
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
                         $this->fileUpload($param["id"]);
