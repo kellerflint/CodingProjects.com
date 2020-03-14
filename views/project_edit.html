@@ -34,7 +34,7 @@
                     <label for="category">Category</label>
                     <select name="categoryId" id="category" class="form-control">
                         <repeat group="{{ @categories }}" value="{{ @value }}">
-                            <check if="{{@value['category_id'] == @project['category_id']}}">
+                            <check if="{{ @value['category_id'] == @project['category_id'] }}">
                                 <true>
                                     <option value="{{ @value['category_id'] }}" selected>{{ @value['category_title'] }}
                                     </option>
@@ -53,7 +53,7 @@
                     <img src="../uploads/{{ @project['project_image'] }}" alt="project image">
                 </div>
                 <div class="text-center mt-3">
-                    <check if="{{ @project['project_id'] == 0}}">
+                    <check if="{{ @project['project_id'] == 0 }}">
                         <true>
                             <button type="submit" class="btn btn-success" name="updateProject" value="updateProject">
                                 Create

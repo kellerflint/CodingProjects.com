@@ -394,6 +394,11 @@ class Controller
         $dirName = 'uploads/';
         global $db;
         if (isset($_FILES["fileToUpload"])) {
+
+            if(empty($_FILES['fileToUpload']["name"])) {
+                return;
+            }
+
             $file = $_FILES['fileToUpload'];
 
             //defining the valid file type
@@ -407,8 +412,6 @@ class Controller
             elseif (in_array($file['type'], $validateType)) {
                 if ($file['error'] > 0) {
                     $this->_f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
-
-
                 }
 
                 $randomFileName = $this->generateRandomString() . "." . explode("/", $file['type'])[1];
@@ -428,7 +431,7 @@ class Controller
                     $db->uploadProjectImage($randomFileName, $id);
                 }
             } else {
-                $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg,.jpg,.gif and .png images");
+                $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg, .jpg, .gif and .png images");
             }
         }
     }
