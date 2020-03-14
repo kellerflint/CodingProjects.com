@@ -245,7 +245,7 @@ class Controller
      * Project edit
      * Let the user to update the project
      * let the user delete the project
-     * @param $param takes project_id
+     * @param $param int takes project_id
      */
     function projectEditPage($param)
     {
@@ -266,8 +266,7 @@ class Controller
                 $this->_f3->set('addValidName', $_POST['videoName']);
                 $this->_f3->set('addValidUrl', $_POST['videoUrl']);
 
-                if ($this->_val->validateNewVideo()) {
-
+                if ($this->_val->validateVideo($_POST['videoName'], $_POST['videoUrl'])) {
                     //creating new project
                     $maxOrder = $db->addVideo($param['id'], $_POST['videoName'], $_POST['videoUrl']);
                     $this->_f3->set("maxOrder", "$maxOrder");
@@ -277,9 +276,10 @@ class Controller
 
             //update video
             if (isset($_POST["updateVideo"])) {
-                $this->_f3->set('validVideoName', $_POST['videoName']);
+                $this->_f3->set("errors['id']", $_POST['videoId']);
+                $this->_f3->set('videoName', $_POST['videoName']);
                 $this->_f3->set('videoUrl', $_POST['videoUrl']);
-                if ($this->_val->validateUserSelectedVideo($_POST['videoName'], $_POST['videoUrl'], $_POST['videoOrder'])) {
+                if ($this->_val->validateVideo($_POST['videoName'], $_POST['videoUrl'])) {
                     $db->updateVideoById($_POST['videoId'], $_POST['videoName'], $_POST['videoUrl'], $_POST['videoOrder']);
                 }
             }
@@ -288,7 +288,7 @@ class Controller
             if (isset($_POST["updateProject"])) {
                 $this->_f3->set('projectTitle', $_POST['projectName']);
                 $this->_f3->set('projectDescription', $_POST['projectDescription']);
-                if ($this->_val->validateProjectPage()) {
+                if ($this->_val->validateProject($_POST['projectName'], $_POST['projectDescription'])) {
                     if ($param["id"] == 0) {
                         $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
                         $this->fileUpload($id);

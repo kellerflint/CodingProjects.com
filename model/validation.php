@@ -62,7 +62,8 @@ class Validation
         return $isValid;
     }
 
-    function validateSession($sessionTitle, $sessionDescription) {
+    function validateSession($sessionTitle, $sessionDescription)
+    {
         global $f3;
         $isValid = true;//flag
         $errors = [];
@@ -95,134 +96,84 @@ class Validation
     }
 
     /**
-     * Validation for editing session page
-     * @return bool
-     */
-    function editSessionToUpdate()
-    {
-        global $f3;
-        $isValidSession = true;//flag
-        if (!$this->sessionUpdateTitle($f3->get('sessionTitle'))) {
-            $isValidSession = false;
-            $f3->set("errors['sessionTitle']", ["val-empty-error" => "Cannot be empty."]);
-        }
-        if (!$this->sessionUpdateDescription($f3->get('sessionDescription'))) {
-            $isValidSession = false;
-            $f3->set("errors['sessionDescription']", "Invalid Entry. Cannot be empty or greater than 5000 characters.");
-
-        }
-        return $isValidSession;
-    }
-
-    /**
      * Validation for editing project
      * @return bool
      */
-    function validateProjectPage()
+    function validateProject($projectTitle, $projectDescription)
     {
         global $f3;
-        $isValidProject = true;//flag
-        if (!$this->projectTitle($f3->get('projectTitle'))) {
-            $isValidProject = false;
-            $f3->set("errors['projectTitle']", "Please enter Project title ");
+        $isValid = true;//flag
+        $errors = [];
+
+        // title validation
+        if (empty(trim($projectTitle))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
         }
-        if (!$this->projectDescription($f3->get('projectDescription'))) {
-            $isValidProject = false;
-            $f3->set("errors['projectDescription']", "Please enter Project Description ");
+        if (strlen($projectTitle) > 255) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
         }
-        return $isValidProject;
+        $f3->set("errors['projectTitle']", $errors);
+        $errors = [];
+
+        // description validation
+        if (empty(trim($projectDescription))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
+        }
+        if (strlen($projectDescription) > 5000) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan5000-error" => "Cannot be longer than 5000 characters."]);
+        }
+        $f3->set("errors['projectDescription']", $errors);
+        $errors = [];
+
+        return $isValid;
     }
 
     /**
      * Validation for adding new videos
      * @return bool
      */
-    function validateNewVideo()
+    function validateVideo($videoName, $videoURL)
     {
         global $f3;
-        $isValidVideo = true;//flag
+        $isValid = true;//flag
+        $errors = [];
 
-        if (!$this->validVideoName($f3->get('addValidName'))) {
-            $isValidVideo = false;
-            $f3->set("errors['validVideoName']", "Please enter Video Name");
-        } else {
-            $f3->clear("errors['validVideoName']");
+        // title validation
+        if (empty(trim($videoName))) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Cannot be empty."]);
         }
-        if (!$this->validUrl($f3->get('addValidUrl'))) {
-            $isValidVideo = false;
-            $f3->set("errors['videoUrl']", "Please insert valid URL ");
-        } else {
-            $f3->clear("errors['videoUrl']");
+        if (strlen($videoName) > 255) {
+            $isValid = false;
+            array_push($errors, ["val-lessThan255-error" => "Cannot be longer than 255 characters."]);
         }
-        return $isValidVideo;
+        $f3->set("errors['videoName']", $errors);
+        $errors = [];
 
+        // URL validation
+        if (!$this->validUrl($videoURL)) {
+            $isValid = false;
+            array_push($errors, ["val-empty-error" => "Must be valid URL."]);
+        }
+        $f3->set("errors['videoUrl']", $errors);
+        $errors = [];
+
+        return $isValid;
     }
 
     function validateLoginCredentials()
     {
         global $f3;
-        $isValidLogin = true;//flag
+        $isValid = true;//flag
         if (!$this->validateUserLogIn($f3->get('userNameLogin'), $f3->get('userPassword'))) {
             $isValidLogin = false;
             $f3->set("errors['invalid']", "Enter valid credentials ");
         }
-
-        return $isValidLogin;
-
-    }
-
-    /**
-     * Validating user input session title
-     * @param $sessionTitle
-     * @return bool
-     */
-    function sessionUpdateTitle($sessionTitle)
-    {
-        $sessionTitle = trim($sessionTitle);
-        return !empty($sessionTitle);
-    }
-
-    /**
-     * Validating user input session description
-     * @param $sessionDescription
-     * @return bool
-     */
-    function sessionUpdateDescription($sessionDescription)
-    {
-        $sessionDescription = trim($sessionDescription);
-        return !empty($sessionDescription);
-    }
-
-    /**
-     * Validating user input project title
-     * @param $projectTitle
-     * @return bool
-     */
-    function projectTitle($projectTitle)
-    {
-        $projectTitle = trim($projectTitle);
-        return !empty($projectTitle);
-    }
-
-    /**
-     * validating user input project description
-     * @param $projectDescription
-     * @return bool
-     */
-    function projectDescription($projectDescription)
-    {
-        return !empty($projectDescription);
-    }
-
-    /**
-     * Validation for user input video name for add new video
-     * @param $videoName
-     * @return bool
-     */
-    function validVideoName($videoName)
-    {
-        $videoName = trim($videoName);
-        return !empty($videoName);
+        return $isValid;
     }
 
     /**
@@ -234,23 +185,6 @@ class Validation
     {
         $url = trim($url);
         return !empty($url) && (filter_var($url, FILTER_VALIDATE_URL));
-    }
-
-    /**
-     * validate the user input videos
-     * @param $videoName
-     * @param $videoUrl
-     * @param $videoOrder
-     * @return bool
-     */
-    function validateUserSelectedVideo($videoName, $videoUrl, $videoOrder)
-    {
-        if (!empty($videoName) && !empty($videoUrl)
-            && !empty($videoOrder)
-            && ctype_digit($videoOrder)
-            && (filter_var($videoUrl, FILTER_VALIDATE_URL))) {
-            return true;
-        }
     }
 
     /**
