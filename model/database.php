@@ -490,11 +490,24 @@ class Database
         $statement->execute([$categoryTitle,$categoryDescription,$max]);
     }
 
+    /**
+     * Update image in the database
+     * @param $filePath takes files path
+     * @param $projectId takes project id
+     */
+
     function uploadProjectImage($filePath, $projectId) {
         $sql = "UPDATE Project SET project_image = ? WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$filePath, $projectId]);
     }
+
+    /**
+     * Change the order of the video in the database
+     * @param $videoId takes video Id
+     * @param $change takes string
+     * @param $projectId takes project id
+     */
     function moveVideoUpOrDown($videoId, $change, $projectId)
     {
         // get the info of the current video
@@ -522,6 +535,12 @@ class Database
         $statement->execute([$currentVideo['video_order'], $otherVideo['video_id']]);
 
     }
+
+    /**
+     * Get the max order of the videos form the database
+     * @param $projectId
+     * @return mixed
+     */
     function getMaxOrder($projectId){
         $sql = "SELECT MAX(video_order) FROM Video WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
@@ -529,6 +548,11 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC)['MAX(video_order)'];
     }
 
+    /**
+     * Get the min order of the videos form the database
+     * @param $projectId
+     * @return mixed
+     */
     function getMinOrder($projectId){
         $sql = "SELECT MIN(video_order) FROM Video WHERE project_id = ?";
         $statement = $this->_db->prepare($sql);
