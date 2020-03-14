@@ -84,6 +84,9 @@
             <check if="{{ @success['uploadSuccessfully'] }}">
                 <span class="err text-success">{{ @success['uploadSuccessfully'] }}</span>
             </check>
+            <check if="{{ @success['updatedProject']}}">
+                <span class="err text-success">{{ @success['updatedProject'] }}</span>
+            </check>
         </div>
     </div>
     <div class="col-6">

@@ -296,6 +296,7 @@ class Controller
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
                         $this->fileUpload($param["id"]);
+                        $this->_f3->set("success['updatedProject']", "Project has been updated successfully");
                     }
                 }
             }
@@ -437,6 +438,10 @@ class Controller
         }
     }
 
+    /**
+     * Generte random name for input images
+     * @return string randomly generated name
+     */
     function generateRandomString()
     {
         $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -448,6 +453,10 @@ class Controller
         return $randomString;
     }
 
+    /**
+     * Helper page
+     * view for helper page
+     */
     function helper()
     {
         $view = new Template();

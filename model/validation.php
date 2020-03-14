@@ -134,6 +134,8 @@ class Validation
 
     /**
      * Validation for adding new videos
+     * @param $videoName
+     * @param $videoURL
      * @return bool
      */
     function validateVideo($videoName, $videoURL)
