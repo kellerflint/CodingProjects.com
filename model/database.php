@@ -274,12 +274,11 @@ class Database
      */
     function giveUserProject($userId, $projectId)
     {
-        $sql = "UPDATE User_Project 
-        SET user_project_date_complete = NOW() WHERE user_id = ? AND project_id = ?";
+        $sql = "UPDATE User_Project SET user_project_date_complete = NOW() WHERE user_id = ? AND project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$userId, $projectId]);
 
-        $sql = "INSERT INTO User_Project VALUES(?, ? ,1, NOW())";
+        $sql = "INSERT INTO User_Project VALUES(?, ? , NULL, NOW())";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$userId, $projectId]);
     }
@@ -291,8 +290,7 @@ class Database
      */
     function removeUserProject($userId, $projectId)
     {
-        $sql = "UPDATE User_Project 
-        SET user_project_date_complete = NULL WHERE user_id = ? AND project_id = ?";
+        $sql = "UPDATE User_Project SET user_project_date_complete = NULL WHERE user_id = ? AND project_id = ?";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$userId, $projectId]);
     }
