@@ -168,6 +168,10 @@ class Controller
         if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
             $this->_f3->reroute("/sessions");
         }
+
+        $this->_f3->set('sessionTitle', $db->getSessionById($param["id"])["session_title"]);
+        $this->_f3->set('sessionDescription', $db->getSessionById($param["id"])["session_description"]);
+
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //update the session
