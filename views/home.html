@@ -1,5 +1,5 @@
 <include href="views/header.html"/>
-
+<input type="hidden" id="currentId" value="{{ @SESSION['user']->getUserId() }}">
 <div class="row">
     <check if="{{ @SESSION['session_permission'] == 'admin' }}">
         <div class="col-3">
@@ -9,7 +9,7 @@
                 <div class="user-list mb-2 mt-2">
                     <repeat group="{{ @users }}" value="{{ @value }}">
                         <button type="submit" class="user-button btn btn-secondary mt-1 mb-1" value="{{ @value['user_id'] }}">
-                            {{@value['user_nickname']}}
+                            {{ @value['user_nickname'] }}
                         </button>
                     </repeat>
                 </div>
@@ -21,7 +21,7 @@
         <!-- Displaying Categories -->
         <select class="form-control form-control-lg categories d-inline mt-4" id="category">
             <repeat group="{{ @categories }}" value="{{ @category }}">
-                <option value="{{ @category['category_id'] }}"> {{@category['category_title']}}</option>
+                <option value="{{ @category['category_id'] }}"> {{ @category['category_title'] }}</option>
             </repeat>
         </select>
 

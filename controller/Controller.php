@@ -303,13 +303,17 @@ class Controller
                 if ($this->_val->validateProject($_POST['projectName'], $_POST['projectDescription'], $_FILES['fileToUpload'], $randomFileName)) {
                     if ($param["id"] == 0) {
                         $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
-                        $db->uploadProjectImage($randomFileName, $id);
+                        if (!empty($_FILES['fileToUpload']['name'])) {
+                            move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
+                            $db->uploadProjectImage($randomFileName, $id);
+                        }
                         $this->_f3->reroute("/project-edit/$id");
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
-                        $db->uploadProjectImage($randomFileName, $param["id"]);
+                        if (!empty($_FILES['fileToUpload']['name'])) {
+                            move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
+                            $db->uploadProjectImage($randomFileName, $param['id']);
+                        }
                         $this->_f3->set("success['updatedProject']", "Project has been updated successfully");
                     }
                 }

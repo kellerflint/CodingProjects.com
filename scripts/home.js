@@ -2,10 +2,14 @@ console.log("loaded home js");
 
 // Assigns default category and user
 let category = $("#category").val();
-let user = $(".user-button").get(0);
+user = $(".user-button").get(0);
 $(user).removeClass("btn-secondary");
 $(user).addClass("btn-primary");
+
 let userId = $(user).val();
+if ($(user).val() === undefined) {
+    userId = $("#currentId").val();
+}
 
 updateProjects();
 

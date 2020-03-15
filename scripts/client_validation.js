@@ -1,5 +1,8 @@
 console.log("loaded client validation");
 
+// fade success messages
+$(".text-success").fadeIn(3000).delay(2000).fadeOut("slow");
+
 // classes to be validated
 let validations = [
     ["val-empty", isEmpty],
