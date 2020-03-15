@@ -34,13 +34,15 @@
                 </div>
             </true>
             <false>
-                <check if="{{ @value['project_complete'] == 'true' }}">
-                    <true>
-                        <img class="check mt-2 mb-2" src="../images/check.png" alt="true">
-                    </true>
-                    <false>
-                        <img class="check mt-2 mb-2" src="../images/false.png" alt="false">
-                    </false>
+                <check if="isset(@SESSION['user']) == true">
+                    <check if="{{ @value['project_complete'] == 'true' }}">
+                        <true>
+                            <img class="check mt-2 mb-2" src="../images/check.png" alt="true">
+                        </true>
+                        <false>
+                            <img class="check mt-2 mb-2" src="../images/false.png" alt="false">
+                        </false>
+                    </check>
                 </check>
             </false>
         </check>

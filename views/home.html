@@ -1,5 +1,7 @@
 <include href="views/header.html"/>
-<input type="hidden" id="currentId" value="{{ @SESSION['user']->getUserId() }}">
+<check if="isset(@SESSION['user']) == true">
+    <input type="hidden" id="currentId" value="{{ @SESSION['user']->getUserId() }}">
+</check>
 <div class="row">
     <check if="{{ @SESSION['session_permission'] == 'admin' }}">
         <div class="col-3">
@@ -8,7 +10,8 @@
             <check if="{{ @SESSION['session_permission'] =='admin' }}">
                 <div class="user-list mb-2 mt-2">
                     <repeat group="{{ @users }}" value="{{ @value }}">
-                        <button type="submit" class="user-button btn btn-secondary mt-1 mb-1" value="{{ @value['user_id'] }}">
+                        <button type="submit" class="user-button btn btn-secondary mt-1 mb-1"
+                                value="{{ @value['user_id'] }}">
                             {{ @value['user_nickname'] }}
                         </button>
                     </repeat>
