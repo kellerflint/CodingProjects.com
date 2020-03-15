@@ -24,7 +24,6 @@ class Database
 
     /**
      * Gets all the projects.
-     *
      * @return array Projects associate arrays.
      */
     function getProjects()
@@ -40,7 +39,6 @@ class Database
 
     /**
      * Get the videos at the given project id
-     *
      * @param $project_id int Id of the project
      * @return array Videos associate arrays for the given project id
      */
@@ -57,7 +55,6 @@ class Database
 
     /**
      * Get all of the sessions for a specific user.
-     *
      * @param $userId
      * @return array The session associative arrays for the given user.
      */
@@ -82,7 +79,6 @@ class Database
 
     /**
      * Get session information for a specific session id.
-     *
      * @param $id int The id of the session.
      * @return array Associative array of session data.
      */
@@ -99,7 +95,6 @@ class Database
 
     /**
      * Get a user by their login info.
-     *
      * @param $userName string The user name.
      * @param $password string The user password.
      * @return array The associative array of user data.
@@ -116,7 +111,6 @@ class Database
 
     /**
      * Update session data.
-     *
      * @param $id int The id of the session to update.
      * @param $title string The new title for the session.
      * @param $description string The new description for the session.
@@ -134,7 +128,6 @@ class Database
 
     /**
      * Get users by the session id
-     *
      * @param $session_id int The id of the session.
      * @return array The user associative arrays.
      */
@@ -149,7 +142,6 @@ class Database
 
     /**
      * Get user data by the user's id
-     *
      * @param $user_id int THe user's id.
      * @return array The associative array of user data.
      */
@@ -163,7 +155,6 @@ class Database
 
     /**
      * Update a user's info by their id.
-     *
      * @param $id int The user's id.
      * @param $name string The new user name.
      * @param $nickName string The new user nickname.
@@ -180,7 +171,6 @@ class Database
 
     /**
      * Delete a session.
-     *
      * @param $id int The session's id.
      */
     function deleteSession($id)
@@ -196,7 +186,6 @@ class Database
 
     /**
      * Delete a user.
-     *
      * @param $id int The user's id.
      */
     function deleteUser($id)
@@ -216,7 +205,6 @@ class Database
 
     /**
      * Create a new user and add them to a session.
-     *
      * @param $sessionId int The id of the session.
      * @param $name string The user name of the user.
      * @param $nickName string The nickname of the user.
@@ -238,7 +226,6 @@ class Database
 
     /**
      * Get a user's permission level for a session.
-     *
      * @param $user_id int The user id.
      * @param $session_id int The session id.
      * @return string The user's permission level for the session.
@@ -338,7 +325,6 @@ class Database
      * @param $videoId takes video id
      * @param $videoTitle takes video title
      * @param $videoUrl takes video url
-     * @param $videoOrder takes video order
      */
     function updateVideoById($videoId, $videoTitle, $videoUrl)
     {

@@ -2,11 +2,15 @@
 
 /**
  * Class Validation
+ * validate all the user input data before inserting them into database
  */
 class Validation
 {
     /**
      * Validation for add new user
+     * @param $userName
+     * @param $userNickName
+     * @param $userPassword
      * @return bool
      */
     function validateUser($userName, $userNickName, $userPassword)
@@ -62,6 +66,12 @@ class Validation
         return $isValid;
     }
 
+    /**
+     * Validation for sessions
+     * @param $sessionTitle
+     * @param $sessionDescription
+     * @return bool
+     */
     function validateSession($sessionTitle, $sessionDescription)
     {
         global $f3;
@@ -176,12 +186,16 @@ class Validation
         return $isValid;
     }
 
+    /**
+     * Login credentials validation
+     * @return bool
+     */
     function validateLoginCredentials()
     {
         global $f3;
         $isValid = true;//flag
         if (!$this->validateUserLogIn($f3->get('userNameLogin'), $f3->get('userPassword'))) {
-            $isValidLogin = false;
+            $isValid = false;
             $f3->set("errors['invalid']", "Enter valid credentials ");
         }
         return $isValid;
@@ -208,11 +222,9 @@ class Validation
         if (empty($string)) {
             return false;
         }
-
         if (strpos($string, ' ') < 0 || strpos($string, ' ') === false) {
             return false;
         }
-
         return true;
     }
 
@@ -244,7 +256,9 @@ class Validation
 
     /**
      * Uploading cover picture for project
-     * @param $id
+     * @param $file
+     * @param $newName
+     * @return bool
      */
     function validateFileUpload($file, $newName)
     {
@@ -252,7 +266,6 @@ class Validation
         global $f3;
 
         $isValid = true;
-
         //defining the valid file type
         $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
 
