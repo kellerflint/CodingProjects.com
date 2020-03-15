@@ -1,0 +1,18 @@
+.text-success {
+    opacity: 0;
+    animation: fadeOut 3s;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
