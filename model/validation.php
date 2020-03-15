@@ -99,7 +99,7 @@ class Validation
      * Validation for editing project
      * @return bool
      */
-    function validateProject($projectTitle, $projectDescription)
+    function validateProject($projectTitle, $projectDescription, $file, $newName)
     {
         global $f3;
         $isValid = true;//flag
@@ -128,6 +128,15 @@ class Validation
         }
         $f3->set("errors['projectDescription']", $errors);
         $errors = [];
+
+        // validate image
+        if (isset($file)) {
+            if (!empty($file["name"])) {
+                if (!$this->validateFileUpload($file, $newName)) {
+                    $isValid = false;
+                }
+            }
+        }
 
         return $isValid;
     }
@@ -231,5 +240,44 @@ class Validation
     {
         $categoryTitle = trim($categoryTitle);
         return !empty($categoryTitle);
+    }
+
+    /**
+     * Uploading cover picture for project
+     * @param $id
+     */
+    function validateFileUpload($file, $newName)
+    {
+        global $dirName;
+        global $f3;
+
+        $isValid = true;
+
+        //defining the valid file type
+        $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
+
+        //checking the file size 2MB-maximum
+        if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
+            $f3->set("errors['largeImg", "Sorry! file size too large Maximum file size is 3 MB ");
+            $isValid = false;
+        } //check the file type
+        elseif (in_array($file['type'], $validateType)) {
+            if ($file['error'] > 0) {
+                $f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
+                $isValid = false;
+            }
+
+            //checking for duplicate
+            if (file_exists($dirName . $newName)) {
+                $f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
+                $isValid = false;
+            } else {
+                $f3->set("success['uploadSuccessfully']", "Updated successfully");
+            }
+        } else {
+            $f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg, .jpg, .gif and .png images");
+            $isValid = false;
+        }
+        return $isValid;
     }
 }

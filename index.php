@@ -16,6 +16,7 @@ $f3 = Base::instance();
 
 $db = new Database();
 $controller = new Controller($f3);
+$dirName = 'uploads/';
 
 // Define a default route
 $f3->route('GET|POST /', function () {

@@ -250,6 +250,8 @@ class Controller
     function projectEditPage($param)
     {
         global $db;
+        global $dirName;
+
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
         //setting the category in hive
@@ -291,14 +293,19 @@ class Controller
             if (isset($_POST["updateProject"])) {
                 $this->_f3->set('projectTitle', $_POST['projectName']);
                 $this->_f3->set('projectDescription', $_POST['projectDescription']);
-                if ($this->_val->validateProject($_POST['projectName'], $_POST['projectDescription'])) {
+
+                $randomFileName = $this->generateRandomString() . "." . explode("/", $_FILES['fileToUpload']['type'])[1];
+
+                if ($this->_val->validateProject($_POST['projectName'], $_POST['projectDescription'], $_FILES['fileToUpload'], $randomFileName)) {
                     if ($param["id"] == 0) {
                         $id = $db->createProject($_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        $this->fileUpload($id);
+                        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
+                        $db->uploadProjectImage($randomFileName, $id);
                         $this->_f3->reroute("/project-edit/$id");
                     } else {
                         $db->updateProject($param["id"], $_POST["projectName"], $_POST["projectDescription"], $_POST["categoryId"]);
-                        $this->fileUpload($param["id"]);
+                        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $dirName . $randomFileName);
+                        $db->uploadProjectImage($randomFileName, $param["id"]);
                         $this->_f3->set("success['updatedProject']", "Project has been updated successfully");
                     }
                 }
@@ -388,57 +395,6 @@ class Controller
         $this->_f3->set("category", $db->getCategoryById($_POST['category']));
         $view = new Template();
         echo $view->render('views/category_edit.html');
-    }
-
-    /**
-     * Uploading cover picture for project
-     * @param $id
-     */
-    function fileUpload($id)
-    {
-        $dirName = 'uploads/';
-        global $db;
-        if (isset($_FILES["fileToUpload"])) {
-
-            if (empty($_FILES['fileToUpload']["name"])) {
-                return;
-            }
-
-            $file = $_FILES['fileToUpload'];
-
-            //defining the valid file type
-            $validateType = array('image/gif', 'image/jpeg', 'image/jpg', 'image/png');
-
-            //checking the file size 2MB-maximum
-            if ($_SERVER['CONTENT_LENGTH'] > 3000000) {
-                $this->_f3->set("errors['largeImg", "Sorry! file size too large Maximum file size is 3 MB ");
-
-            } //check the file type
-            elseif (in_array($file['type'], $validateType)) {
-                if ($file['error'] > 0) {
-                    $this->_f3->set("errors['returnCode']", "Sorry! file could not be uploaded Try again");
-                }
-
-                $randomFileName = $this->generateRandomString() . "." . explode("/", $file['type'])[1];
-
-                //checking for duplicate
-                if (file_exists($dirName . $randomFileName)) {
-                    $this->_f3->set("errors['duplicatedImage']", "Sorry! This image is already exist choose another one");
-
-                } else {
-                    //move file to the upload directory
-                    move_uploaded_file($file['tmp_name'], $dirName . $randomFileName);
-                    //generate random string of 8 character for file name
-
-                    $this->_f3->set("success['uploadSuccessfully']", "Updated successfully");
-
-                    // store the file name in the database
-                    $db->uploadProjectImage($randomFileName, $id);
-                }
-            } else {
-                $this->_f3->set("errors['wrongFileType']", "Sorry! Only supports .jpeg, .jpg, .gif and .png images");
-            }
-        }
     }
 
     /**
