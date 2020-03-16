@@ -438,6 +438,36 @@ class Controller
         $view = new Template();
         echo $view->render('views/helper.html');
     }
+
+    /**
+     * Controller for all ajax requests.
+     */
+    function ajax() {
+
+        global $db;
+
+        // Return video data for a project
+        if (isset($_POST['displayVideos'])) {
+            return json_encode($db->getVideos($_POST['project_id']));
+        }
+
+        // Display projects
+        if (isset($_POST["category_id"])) {
+            return $this->displayProjects($_POST['category_id'], $_POST["user_id"]);
+        }
+
+        // remove a project from a user
+        if (isset($_POST["remove"])) {
+            $db->removeUserProject($_POST['user_id'], $_POST['project_id']);
+            return $_POST['project_id'];
+        }
+
+        // give a project to a user
+        if (isset($_POST['give'])) {
+            $db->giveUserProject($_POST['user_id'], $_POST['project_id']);
+            return $_POST['project_id'];
+        }
+    }
 }
 
 

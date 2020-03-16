@@ -66,30 +66,8 @@ $f3->route('GET /help', function () {
     $controller->helper();
 });
 $f3->route('POST /ajax', function ($f3) {
-    global $db;
     global $controller;
-
-    // Return video data for a project
-    if (isset($_POST['displayVideos'])) {
-        echo json_encode($db->getVideos($_POST['project_id']));
-    }
-
-    // Display projects
-    if (isset($_POST["category_id"])) {
-        echo $controller->displayProjects($_POST['category_id'], $_POST["user_id"]);
-    }
-
-    // remove a project from a user
-    if (isset($_POST["remove"])) {
-        $db->removeUserProject($_POST['user_id'], $_POST['project_id']);
-        echo $_POST['project_id'];
-    }
-
-    // give a project to a user
-    if (isset($_POST['give'])) {
-        $db->giveUserProject($_POST['user_id'], $_POST['project_id']);
-        echo $_POST['project_id'];
-    }
+    echo $controller->ajax();
 });
 
 //run fat free
