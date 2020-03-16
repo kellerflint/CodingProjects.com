@@ -24,3 +24,4 @@ Built With
 •	 Database: Database layer using PDO and prepared statements.
 •	OOP has been used to defines multiple classes, including inheritance relationship.
 
+![](images/diagram.PNG)
