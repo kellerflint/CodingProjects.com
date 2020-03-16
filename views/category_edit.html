@@ -48,7 +48,15 @@
                 <span class="err text-danger">{{ @errors['unableToRemoveCategory'] }}</span>
             </check>
             <div class="text-center mt-3">
-                <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
+                <check if="{{ @selectedCategory == 0 }}">
+                    <true>
+                        <button type="submit" name="categoryUpdate" class="btn btn-success">Create</button>
+                    </true>
+                    <false>
+                        <button type="submit" name="categoryUpdate" class="btn btn-success">Update</button>
+                    </false>
+                </check>
+
                 <button type="submit" name="categoryRemove" class="btn btn-danger">Remove</button>
             </div>
         </form>

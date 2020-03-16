@@ -105,7 +105,16 @@
                 <span class="err text-danger">{{ @errors['unableToRemove'] }}</span>
             </check>
             <div class="text-center">
-                <button type="submit" class="btn btn-success" name="userUpdate" value="userUpdate">Update</button>
+                <check if="{{ @userId == 0 }}">
+                    <true>
+                        <button type="submit" class="btn btn-success" name="userUpdate" value="userUpdate">Create
+                        </button>
+                    </true>
+                    <false>
+                        <button type="submit" class="btn btn-success" name="userUpdate" value="userUpdate">Update
+                        </button>
+                    </false>
+                </check>
                 <button type="button" class="btn btn-info" id="copy-info">Copy</button>
                 <button type="submit" class="btn btn-danger" name="userDelete" value="userDelete">Delete</button>
             </div>
