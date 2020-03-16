@@ -25,6 +25,7 @@ Built With
 •	OOP has been used to defines multiple classes, including inheritance relationship.
 
 ![](images/diagram.PNG)
-![](images/UML.PNG)
+
+![](images/UML.png)
 
 
