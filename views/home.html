@@ -28,7 +28,7 @@
             </repeat>
         </select>
 
-        <check if="{{ @SESSION['session_permission'] == 'admin' }}">
+        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
             <a href="/category-edit">
                 <button class="btn btn-info">Edit Categories</button>
             </a>
@@ -36,7 +36,7 @@
 
         <!-- Displaying Projects -->
         <div class="mb-4 mt-4">
-            <check if="{{ @SESSION['session_permission'] == 'admin' }}">
+            <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
                 <a href="/project-edit/0">
                     <button type="button" class="btn btn-success">Create New Project</button>
                 </a>

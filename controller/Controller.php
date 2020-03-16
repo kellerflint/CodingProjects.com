@@ -256,6 +256,10 @@ class Controller
         global $db;
         global $dirName;
 
+        if (get_class($_SESSION['user']) != 'UserAdmin') {
+            $this->_f3->reroute('/');
+        }
+
         $this->_f3->set("stylesheets", array("styles/project_edit.css"));
 
         //setting the category in hive
@@ -355,6 +359,11 @@ class Controller
     function editCategory()
     {
         global $db;
+
+        if (get_class($_SESSION['user']) != 'UserAdmin') {
+            $this->_f3->reroute('/');
+        }
+
         $this->_f3->set("stylesheets", array("styles/category_edit.css"));
         $this->_f3->set("scripts", array("scripts/category_select.js"));
 
