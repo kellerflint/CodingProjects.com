@@ -1,17 +1,21 @@
 <?php
 
 /**
- * Class Validation
- * validate all the user input data before inserting them into database
+ * Class Validation contains functions to validate all the user input data before inserting them into database.
+ *
+ * @author Keller Flint
+ * @author Laxmi Kandel
  */
+
 class Validation
 {
     /**
-     * Validation for add new user
-     * @param $userName
-     * @param $userNickName
-     * @param $userPassword
-     * @return bool
+     * Validation new user information
+     *
+     * @param $userName String The username
+     * @param $userNickName String The nickname
+     * @param $userPassword String The password
+     * @return bool true if valid
      */
     function validateUser($userName, $userNickName, $userPassword)
     {
@@ -68,9 +72,9 @@ class Validation
 
     /**
      * Validation for sessions
-     * @param $sessionTitle
-     * @param $sessionDescription
-     * @return bool
+     * @param $sessionTitle String The title
+     * @param $sessionDescription String The description
+     * @return bool true if valid
      */
     function validateSession($sessionTitle, $sessionDescription)
     {
@@ -106,8 +110,13 @@ class Validation
     }
 
     /**
-     * Validation for editing project
-     * @return bool
+     * Validation for project data
+     *
+     * @param $projectTitle String title
+     * @param $projectDescription string description
+     * @param $file array file upload information from $_FILE super global
+     * @param $newName string the name of the file as it will be stored on the server
+     * @return bool true if valid
      */
     function validateProject($projectTitle, $projectDescription, $file, $newName)
     {
@@ -153,9 +162,10 @@ class Validation
 
     /**
      * Validation for adding new videos
-     * @param $videoName
-     * @param $videoURL
-     * @return bool
+     *
+     * @param $videoName String name
+     * @param $videoURL String URL
+     * @return bool true if valid
      */
     function validateVideo($videoName, $videoURL)
     {
@@ -188,7 +198,8 @@ class Validation
 
     /**
      * Login credentials validation
-     * @return bool
+     *
+     * @return bool true if login credentials are valid
      */
     function validateLoginCredentials()
     {
@@ -203,8 +214,9 @@ class Validation
 
     /**
      * Validating user input url
-     * @param $url
-     * @return bool
+     *
+     * @param $url String URL
+     * @return bool true if valid
      */
     function validUrl($url)
     {
@@ -214,8 +226,9 @@ class Validation
 
     /**
      * Check to see if a string has white space
-     * @param $string
-     * @return false|int
+     *
+     * @param $string String input string
+     * @return bool true if the string contains no whitespace
      */
     function hasWhiteSpace($string)
     {
@@ -230,9 +243,10 @@ class Validation
 
     /**
      * Validate login credentials
-     * @param $userName
-     * @param $password
-     * @return bool
+     *
+     * @param $userName String username
+     * @param $password String password
+     * @return bool returns true if user and password combination exists
      */
     function validateUserLogIn($userName, $password)
     {
@@ -245,8 +259,9 @@ class Validation
 
     /**
      * Validate category title
-     * @param $categoryTitle
-     * @return bool
+     *
+     * @param $categoryTitle String title
+     * @return bool true if valid
      */
     function validCategory($categoryTitle)
     {
@@ -256,9 +271,10 @@ class Validation
 
     /**
      * Uploading cover picture for project
-     * @param $file
-     * @param $newName
-     * @return bool
+     *
+     * @param $file array information about the uploaded file from the $_FILE super global
+     * @param $newName String the name the file will have on the server
+     * @return bool true if valid
      */
     function validateFileUpload($file, $newName)
     {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Fat free instantiation and routing.
+ *
+ * @author Keller Flint
+ * @author Laxmi Kandel
+ */
+
 //require the autoload file
 require_once('vendor/autoload.php');
 require_once('model/validation.php');
@@ -53,18 +60,26 @@ $f3->route('GET|POST /session-edit/@id', function ($f3, $param) {
     global $controller;
     $controller->editSessionPage($param);
 });
+
+// Define project-edit route
 $f3->route('GET|POST /project-edit/@id', function ($f3, $param) {
     global $controller;
     $controller->projectEditPage($param);
 });
+
+// Define category-edit route
 $f3->route('GET|POST /category-edit', function ($f3) {
     global $controller;
     $controller->editCategory();
 });
+
+// Define help route
 $f3->route('GET /help', function () {
     global $controller;
     $controller->helper();
 });
+
+// Define ajax route (where all ajax requests are sent)
 $f3->route('POST /ajax', function ($f3) {
     global $controller;
     echo $controller->ajax();

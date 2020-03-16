@@ -1,8 +1,12 @@
 <?php
 
 /**
- * Class Controller
+ * Controller logic for viewing pages and using the site.
+ *
+ * @author Keller Flint
+ * @author Laxmi Kandel
  */
+
 class Controller
 {
     private $_f3;//router
@@ -10,7 +14,7 @@ class Controller
 
     /**
      * Controller constructor.
-     * @param $f3
+     * @param $f3 Object The fat free instance
      */
     function __construct($f3)
     {
@@ -19,8 +23,7 @@ class Controller
     }
 
     /**
-     * ProjectPage
-     * creating a view for project by getting projects form database
+     * Renders the home/project Page.
      */
     function homePage()
     {
@@ -37,6 +40,13 @@ class Controller
         echo $view->render('views/home.html');
     }
 
+    /**
+     * Renders projects for a particular category and user
+     *
+     * @param $category_id int The category id
+     * @param $user_id int The user id
+     * @return string The rendered html template.
+     */
     function displayProjects($category_id, $user_id)
     {
         global $db;
@@ -59,9 +69,9 @@ class Controller
     }
 
     /**
-     * Video player
-     * creating a view for video player by getting videos form database
-     * @param $param
+     * Renders the Video Player page for the given project.
+     *
+     * @param $param array The assoc array of URL parameters
      */
     function videoPlayer($param)
     {
@@ -74,8 +84,8 @@ class Controller
     }
 
     /**
-     * Session page
-     * creating a view for session page by getting sessions form database
+     * Renders the Session page for the logged in user.
+     * Connects user to different sessions.
      */
     function sessionsPage()
     {
@@ -97,7 +107,7 @@ class Controller
     }
 
     /**
-     * Login page
+     * Renders the Login page
      * if user is set reroute to home page
      * if user is not empty create new a object of user class
      */
@@ -151,11 +161,11 @@ class Controller
     }
 
     /**
-     * Edit Session page
-     * Edit user
-     * Edit session
-     * Delete session and user
-     * @param $param
+     * Renders the Edit Session page
+     * Allows Admins to edit users
+     * Allows Admins to Edit the session
+     * Allows Admins to delete the session and users
+     * @param $param array The assoc array of URL parameters
      */
     function editSessionPage($param)
     {
@@ -246,10 +256,10 @@ class Controller
     }
 
     /**
-     * Project edit
-     * Let the user to update the project
-     * let the user delete the project
-     * @param $param int takes project_id
+     * Renders the Project edit page
+     * Let the admin update the project
+     * let the admin delete the project
+     * @param $param array The assoc array of URL parameters
      */
     function projectEditPage($param)
     {
@@ -265,8 +275,8 @@ class Controller
         //setting the category in hive
         $this->_f3->set("categories", $db->getCategory());
 
-        $this->_f3->set('projectTitle', $db->getProjectsById($param["id"])["project_title"]);
-        $this->_f3->set('projectDescription', $db->getProjectsById($param["id"])["project_description"]);
+        $this->_f3->set('projectTitle', $db->getProjectById($param["id"])["project_title"]);
+        $this->_f3->set('projectDescription', $db->getProjectById($param["id"])["project_description"]);
 
         //when sever request is post
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -345,16 +355,15 @@ class Controller
         $this->_f3->set("maxOrder", $db->getMaxOrder($param['id']));
         $this->_f3->set("minOrder", $db->getMinOrder($param['id']));
         $this->_f3->set("videos", $db->getVideos($param['id']));
-        $this->_f3->set("project", $db->getProjectsById($param['id']));
+        $this->_f3->set("project", $db->getProjectById($param['id']));
         $view = new Template();
         echo $view->render('views/project_edit.html');
-//        var_dump($_POST);
     }
 
     /**
      * Edit Category
-     * let the user update category
-     * let the user remove category
+     * let the admin update category
+     * let the admin remove category
      */
     function editCategory()
     {
@@ -415,7 +424,7 @@ class Controller
     }
 
     /**
-     * Generte random name for input images
+     * Generates random name for input images
      * @return string randomly generated name
      */
     function generateRandomString()
@@ -430,8 +439,7 @@ class Controller
     }
 
     /**
-     * Helper page
-     * view for helper page
+     * Renders Helper page
      */
     function helper()
     {
@@ -440,7 +448,7 @@ class Controller
     }
 
     /**
-     * Controller for all ajax requests.
+     * Logic for all ajax requests.
      */
     function ajax() {
 

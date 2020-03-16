@@ -3,7 +3,11 @@ require_once "config.php";
 
 /**
  * Class Database containing functions to create, read, update and delete data from database.
+ *
+ * @author Keller Flint
+ * @author Laxmi Kandel
  */
+
 class Database
 {
     private $_db;
@@ -24,6 +28,7 @@ class Database
 
     /**
      * Gets all the projects.
+     *
      * @return array Projects associate arrays.
      */
     function getProjects()
@@ -39,6 +44,7 @@ class Database
 
     /**
      * Get the videos at the given project id
+     *
      * @param $project_id int Id of the project
      * @return array Videos associate arrays for the given project id
      */
@@ -55,7 +61,8 @@ class Database
 
     /**
      * Get all of the sessions for a specific user.
-     * @param $userId
+     *
+     * @param $userId int The user id
      * @return array The session associative arrays for the given user.
      */
     function getSession($userId)
@@ -79,6 +86,7 @@ class Database
 
     /**
      * Get session information for a specific session id.
+     *
      * @param $id int The id of the session.
      * @return array Associative array of session data.
      */
@@ -95,6 +103,7 @@ class Database
 
     /**
      * Get a user by their login info.
+     *
      * @param $userName string The user name.
      * @param $password string The user password.
      * @return array The associative array of user data.
@@ -111,6 +120,7 @@ class Database
 
     /**
      * Update session data.
+     *
      * @param $id int The id of the session to update.
      * @param $title string The new title for the session.
      * @param $description string The new description for the session.
@@ -128,6 +138,7 @@ class Database
 
     /**
      * Get users by the session id
+     *
      * @param $session_id int The id of the session.
      * @return array The user associative arrays.
      */
@@ -142,6 +153,7 @@ class Database
 
     /**
      * Get user data by the user's id
+     *
      * @param $user_id int THe user's id.
      * @return array The associative array of user data.
      */
@@ -155,6 +167,7 @@ class Database
 
     /**
      * Update a user's info by their id.
+     *
      * @param $id int The user's id.
      * @param $name string The new user name.
      * @param $nickName string The new user nickname.
@@ -171,6 +184,7 @@ class Database
 
     /**
      * Delete a session.
+     *
      * @param $id int The session's id.
      */
     function deleteSession($id)
@@ -186,6 +200,7 @@ class Database
 
     /**
      * Delete a user.
+     *
      * @param $id int The user's id.
      */
     function deleteUser($id)
@@ -205,6 +220,7 @@ class Database
 
     /**
      * Create a new user and add them to a session.
+     *
      * @param $sessionId int The id of the session.
      * @param $name string The user name of the user.
      * @param $nickName string The nickname of the user.
@@ -226,6 +242,7 @@ class Database
 
     /**
      * Get a user's permission level for a session.
+     *
      * @param $user_id int The user id.
      * @param $session_id int The session id.
      * @return string The user's permission level for the session.
@@ -240,9 +257,10 @@ class Database
 
     /**
      * Get users projects complete date
+     *
      * @param $userId int The user id
      * @param $projectId int the project id
-     * @return DATETIME
+     * @return DATETIME the date a project was completed
      */
 
     function getUserProjectDate($userId, $projectId)
@@ -256,8 +274,9 @@ class Database
 
     /**
      * Update the project with user input data
-     * @param $userId takes user's id
-     * @param $projectId takes project's id
+     *
+     * @param $userId int user's id
+     * @param $projectId int project's id
      */
     function giveUserProject($userId, $projectId)
     {
@@ -272,8 +291,9 @@ class Database
 
     /**
      * Remove the project
-     * @param $userId takes user's id
-     * @param $projectId takes project's id
+     *
+     * @param $userId int user's id
+     * @param $projectId int project's id
      */
     function removeUserProject($userId, $projectId)
     {
@@ -284,10 +304,11 @@ class Database
 
     /**
      * Get all the project by its id
-     * @param $project_id takes project's id
-     * @return mixed all the projects of the specified project id
+     *
+     * @param $project_id int project's id
+     * @return mixed all the project data for the specified project id
      */
-    function getProjectsById($project_id)
+    function getProjectById($project_id)
     {
         $sql = "SELECT *FROM Project WHERE project_id=?";
         $statement = $this->_db->prepare($sql);
@@ -298,10 +319,11 @@ class Database
 
     /**
      * Update project with user input data
-     * @param $project_id takes project id  (user selected)
-     * @param $project_title takes project title (user input)
-     * @param $project_description takes project description (user input)
-     * @param $categoryId takes category id (user selected)
+     *
+     * @param $project_id int project id  (user selected)
+     * @param $project_title String project title (user input)
+     * @param $project_description String project description (user input)
+     * @param $categoryId int category id (user selected)
      */
     function updateProject($project_id, $project_title, $project_description, $categoryId)
     {
@@ -312,6 +334,14 @@ class Database
         $statement->execute([$project_title, $project_description, $categoryId, $project_id]);
     }
 
+    /**
+     * Create a new project
+     *
+     * @param $projectTitle String project title
+     * @param $projectDescription String project description
+     * @param $categoryId int the category of the project
+     * @return int The new project id
+     */
     function createProject($projectTitle, $projectDescription, $categoryId)
     {
         $sql = "INSERT INTO Project values (DEFAULT,?,'test.png',?,?)";
@@ -322,9 +352,10 @@ class Database
 
     /**
      * Update video
-     * @param $videoId takes video id
-     * @param $videoTitle takes video title
-     * @param $videoUrl takes video url
+     *
+     * @param $videoId int video id
+     * @param $videoTitle String video title
+     * @param $videoUrl String video url
      */
     function updateVideoById($videoId, $videoTitle, $videoUrl)
     {
@@ -335,7 +366,8 @@ class Database
 
     /**
      * Remove video
-     * @param $videoId
+     *
+     * @param $videoId int video id
      */
     function removeVideo($videoId)
     {
@@ -351,9 +383,11 @@ class Database
     }
 
     /**
-     * @param $projectId takes project id
-     * @param $videoTitle takes video title
-     * @param $videoUrl takes video url
+     * Adds a new video to the project
+     *
+     * @param $projectId int project id
+     * @param $videoTitle String video title
+     * @param $videoUrl String video url
      * @return int return int max order
      */
     function addVideo($projectId, $videoTitle, $videoUrl)
@@ -371,7 +405,8 @@ class Database
 
     /**
      * Remove project
-     * @param $projectId takes project id
+     *
+     * @param $projectId int project id
      */
     function removeProject($projectId)
     {
@@ -392,7 +427,8 @@ class Database
 
     /**
      * Get all the category
-     * @return array
+     *
+     * @return array all category data
      */
     function getCategory()
     {
@@ -405,8 +441,9 @@ class Database
 
     /**
      * Get the category by the category id
-     * @param $categoryId takes category id
-     * @return mixed
+     *
+     * @param $categoryId int category id
+     * @return mixed all data for the category
      */
     function getCategoryById($categoryId)
     {
@@ -418,9 +455,10 @@ class Database
 
     /**
      * Update category
-     * @param $categoryId takes category id
-     * @param $categoryTitle takes category title
-     * @param $categoryDescription takes category description
+     *
+     * @param $categoryId int category id
+     * @param $categoryTitle String category title
+     * @param $categoryDescription String category description
      */
     function updateCategory($categoryId, $categoryTitle, $categoryDescription)
     {
@@ -432,7 +470,8 @@ class Database
 
     /**
      * Remove specified category
-     * @param $categoryId takes category id
+     *
+     * @param $categoryId int category id
      */
     function removeCategory($categoryId)
     {
@@ -447,8 +486,9 @@ class Database
 
     /**
      * Get all the project of specified category id
-     * @param $categoryId takes category id
-     * @return array
+     *
+     * @param $categoryId int category id
+     * @return array All projects for a category
      */
     function getProjectByCategoryId($categoryId)
     {
@@ -461,8 +501,9 @@ class Database
 
     /**
      * Add new category
-     * @param $categoryTitle takes user input category title
-     * @param $categoryDescription takes user input category description
+     *
+     * @param $categoryTitle String user input category title
+     * @param $categoryDescription String user input category description
      */
     function addCategory($categoryTitle, $categoryDescription)
     {
@@ -478,8 +519,9 @@ class Database
 
     /**
      * Update image in the database
-     * @param $filePath takes files path
-     * @param $projectId takes project id
+     *
+     * @param $filePath String files path
+     * @param $projectId int project id
      */
 
     function uploadProjectImage($filePath, $projectId)
@@ -490,10 +532,11 @@ class Database
     }
 
     /**
-     * Change the order of the video in the database
-     * @param $videoId takes video Id
-     * @param $change takes string
-     * @param $projectId takes project id
+     * Changes the order of the video
+     *
+     * @param $videoId int video Id
+     * @param $change String Direction the video is moving (either "up" or "down")
+     * @param $projectId int project id
      */
     function moveVideoUpOrDown($videoId, $change, $projectId)
     {
@@ -526,9 +569,10 @@ class Database
     }
 
     /**
-     * Get the max order of the videos form the database
-     * @param $projectId
-     * @return mixed
+     * Get the max order of the video
+     *
+     * @param $projectId int the project id
+     * @return int The id of the highest order video
      */
     function getMaxOrder($projectId)
     {
@@ -539,9 +583,10 @@ class Database
     }
 
     /**
-     * Get the min order of the videos form the database
-     * @param $projectId
-     * @return mixed
+     * Get the min order of the videos
+     *
+     * @param $projectId int The project id
+     * @return int The id of the lowest order video
      */
     function getMinOrder($projectId)
     {
