@@ -22,7 +22,7 @@ CREATE TABLE Session
 CREATE TABLE Category
 (
     category_id int NOT NULL AUTO_INCREMENT,
-    category_title varchar(255) NOT NULL,
+    category_title varchar(255) UNIQUE NOT NULL,
     category_description varchar(5000) NULL,
     category_order int NOT NULL,
 
@@ -32,7 +32,7 @@ CREATE TABLE Category
 CREATE TABLE Project
 (
     project_id int NOT NULL AUTO_INCREMENT,
-    project_title varchar(255) NOT NULL,
+    project_title varchar(255) UNIQUE NOT NULL,
     project_image varchar(255) NULL,
     project_description varchar(5000) NOT NULL,
     category_id int,

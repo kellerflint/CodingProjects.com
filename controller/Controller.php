@@ -162,7 +162,7 @@ class Controller
         global $db;
 
         $this->_f3->set("stylesheets", ["styles/session_edit.css"]);
-        $this->_f3->set("scripts", ["scripts/user_select.js"]);
+        $this->_f3->set("scripts", ["scripts/user_select.js", "scripts/session_edit.js"]);
 
         // check user permission level before update, redirect to /sessions if user has invalid credentials
         if ($db->getUserSessionPermission($_SESSION["user"]->getUserId(), $param["id"]) != "admin") {
