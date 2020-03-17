@@ -27,21 +27,22 @@
                 <option value="{{ @category['category_id'] }}"> {{ @category['category_title'] }}</option>
             </repeat>
         </select>
-
-        <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-            <a href="/category-edit">
-                <button class="btn btn-info">Edit Categories</button>
-            </a>
-        </check>
-
-        <!-- Displaying Projects -->
-        <div class="mb-4 mt-4">
+        <check if="isset(@SESSION['user']) == true">
             <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
-                <a href="/project-edit/0">
-                    <button type="button" class="btn btn-success">Create New Project</button>
+                <a href="/category-edit">
+                    <button class="btn btn-info">Edit Categories</button>
                 </a>
             </check>
-        </div>
+
+            <!-- Displaying Projects -->
+            <div class="mb-4 mt-4">
+                <check if="{{ get_class($SESSION['user']) == 'UserAdmin' }}">
+                    <a href="/project-edit/0">
+                        <button type="button" class="btn btn-success">Create New Project</button>
+                    </a>
+                </check>
+            </div>
+        </check>
         <div id="projects"></div>
     </div>
 </div>
