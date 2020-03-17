@@ -393,8 +393,9 @@ class Controller
                     $this->_f3->set("categoryTitle", $_POST['categoryTitle']);
                     $this->_f3->set("categoryDescription", $_POST['categoryDescription']);
                     if ($_POST['category'] == "0") {
-                        $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
+                        $id = $db->addCategory($_POST['categoryTitle'], $_POST['categoryDescription']);
                         $this->_f3->set("success['categoryAdded']", "New category has been added");
+                        $this->_f3->set("selectedCategory", $id);
                     } else {
                         $db->updateCategory($_POST['category'], $_POST['categoryTitle'], $_POST['categoryDescription']);
                         $this->_f3->set("success['categoryUpdated']", "Existing category has been updated");

@@ -515,6 +515,8 @@ class Database
         $sql = "INSERT INTO Category VALUES(DEFAULT ,? ,? ,?)";
         $statement = $this->_db->prepare($sql);
         $statement->execute([$categoryTitle, $categoryDescription, $max]);
+
+        return $this->_db->lastInsertId();
     }
 
     /**
