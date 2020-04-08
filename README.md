@@ -14,6 +14,8 @@ To enable routing for the docker container
 * Run the command ```docker exec -it app_name bash``` to open a terminal inside the running docker app container
 * Run the command ```a2enmod rewrite``` and then ```service apache2 restart```. This will terminate the web_app container so you'll need to restart it with ```docker-compose up```
 
+Permission for uploads folder on server ```chmod 777 uploads```
+
 Coding Projects
 --------------------------------------
 Coding projects is a web app designed for students to introduce 
